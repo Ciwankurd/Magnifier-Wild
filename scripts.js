@@ -3,6 +3,31 @@ const canvas = document.getElementById("canvas-output");
 const canvas_image = document.getElementById("cap-image");
 const pros_image = document.getElementById("pros-image");
 const snap = document.getElementById("snap");
+
+let imgElement = document.getElementById('imageSrc');
+let inputElement = document.getElementById('fileInput');
+
+inputElement.addEventListener('change', (e) => {
+    imgElement.src = URL.createObjectURL(e.target.files[0]);
+}, false);
+imgElement.onload = function() {
+    let src = cv.imread(imgElement);
+    let dst = new cv.Mat();
+    cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
+// You can try more different parameters
+    cv.medianBlur(src, dst, 5);
+    cv.adaptiveThreshold(src, dst, 200, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 3, 2);
+    cv.imshow('canvasOutput', dst);
+    src.delete();
+    dst.delete();
+};
+var Module = {
+    // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
+    onRuntimeInitialized() {
+        document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+    }
+};
+
 function callback() {
 let track1 = document.getElementById('tracke1Value');
 let trackbar1 = document.getElementById('trackbar1');
@@ -60,10 +85,12 @@ track1.setAttribute('value', trackbar1.value);
     const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: false,
+        facingMode: 'environment'
     });
 
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let cap = new cv.VideoCapture(video);
+
 
     if (!stream) {
         src.delete();

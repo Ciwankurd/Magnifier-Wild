@@ -85,7 +85,42 @@ track1.setAttribute('value', trackbar1.value);
     const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: false,
-        facingMode: 'environment'
+        facingMode: {
+            exact: 'environment'
+        },
+        aspectRatio: true,
+        autoGainControl: true,
+        brightness: true,
+        channelCount: true,
+        colorTemperature: true,
+        contrast: true,
+        deviceId: true,
+        echoCancellation: true,
+        exposureCompensation: true,
+        exposureMode: true,
+        exposureTime: true,
+        facingMode: true,
+        focusDistance: true,
+        focusMode: true,
+        frameRate: true,
+        groupId: true,
+        height: true,
+        iso: true,
+        latency: true,
+        noiseSuppression: true,
+        pointsOfInterest: true,
+        resizeMode: true,
+        sampleRate: true,
+        sampleSize: true,
+        saturation: true,
+        sharpness: true,
+        torch: true,
+        whiteBalanceMode: true,
+        width: true,
+        zoom: true,
+        videoKind: true,
+        pan: true,
+        tilt: true
     });
 
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);

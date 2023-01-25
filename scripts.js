@@ -151,7 +151,8 @@ var Module = {
             cv.morphologyEx(transformedIm, transformedIm, cv.MORPH_OPEN, M, anchor, 1,
                 cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
 
-            cv.imshow('canvasOutput', transformedIm);
+            //cv.imshow('canvasOutput', transformedIm);
+            cv.imshow('pros-image', transformedIm);
              transformedIm.delete(); dst.delete(); p.delete(); m.delete(); result.delete();
 
 

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="nnnn">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="dddd">
+      <change afterPath="$PROJECT_DIR$/AutoPerspectiveCorrection.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/SortContours.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,7 +74,8 @@
       <option name="presentableId" value="Default" />
       <updated>1673187565939</updated>
       <workItem from="1673187567844" duration="23676000" />
-      <workItem from="1673442125498" duration="69113000" />
+      <workItem from="1673442125498" duration="74189000" />
+      <workItem from="1674508181877" duration="40239000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -107,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674335370665</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="dddd">
+      <created>1674336992339</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674336992339</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -130,7 +142,8 @@
     <MESSAGE value="sds" />
     <MESSAGE value="new cha" />
     <MESSAGE value="nnnn" />
-    <option name="LAST_COMMIT_MESSAGE" value="nnnn" />
+    <MESSAGE value="dddd" />
+    <option name="LAST_COMMIT_MESSAGE" value="dddd" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

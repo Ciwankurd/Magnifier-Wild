@@ -32,7 +32,9 @@
 <p id="status">OpenCV.js is loading...</p>
 <div>
     <div class="inputoutput">
-        <img id="imageSrc" alt="No Image"/>
+        <img id="imageSrc" alt="No Image" width="600" height="800"/>
+        <img id="oIm" hidden="hidden" />
+
         <div class="caption">imageSrc <input type="file" id="fileInput" name="file" /></div>
     </div>
     <div class="inputoutput">
@@ -47,14 +49,14 @@
 
 
 <label>Input CAM</label></br>
-<video id="video-input" width="480px" height="320px"></video> </br>
+<video id="video-input" width="800px" height="1050px"></video> </br>
 <button id="snap">Capture</button> </br>
 <label>Image</label></br>
 track-Max : <input type="range" id="trackbar1" value="50" min="0" max="100" step="1" oninput="callback()">
 <input type="text" id="tracke1Value" size="3" value="50"/>
 track-Min : <input type="range" id="trackbar2" value="50" min="0" max="100" step="1" oninput="callback()">
 <input type="text" id="tracke2Value" size="3" value="50"/></br>
-<canvas id="cap-image" width="450" height="350"></canvas></br>
+<canvas id="cap-image" width="800" height="1050"></canvas></br>
 <label>Image-Processing</label></br>
 <canvas id="pros-image" width="450" height="350"></canvas></br>
 <label>Output OpenCV</label>

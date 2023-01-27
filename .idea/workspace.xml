@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="newwdd">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="newwddwww">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
@@ -73,7 +73,7 @@
       <workItem from="1673187567844" duration="23676000" />
       <workItem from="1673442125498" duration="74189000" />
       <workItem from="1674508181877" duration="40239000" />
-      <workItem from="1674680947470" duration="1115000" />
+      <workItem from="1674680947470" duration="29360000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -124,7 +124,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674681185474</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="newwddwww">
+      <created>1674682152437</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1674682152437</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,7 +157,8 @@
     <MESSAGE value="dddd" />
     <MESSAGE value="neww" />
     <MESSAGE value="newwdd" />
-    <option name="LAST_COMMIT_MESSAGE" value="newwdd" />
+    <MESSAGE value="newwddwww" />
+    <option name="LAST_COMMIT_MESSAGE" value="newwddwww" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

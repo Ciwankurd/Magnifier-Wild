@@ -11,7 +11,8 @@ let inputElement = document.getElementById('fileInput');
 let MIN_CONTOURS_SCALE= 20; // Minimum original image ratio
 let THRESHOLD= 128; // Monochrome threshold
 let origIm=document.getElementById('oIm');
-let ratio;
+let max_width, max_height, ratio,antallKanter, modifyTall_v,modifyTall_h;
+
 inputElement.addEventListener('change', (e) => {
 
     origIm.src = URL.createObjectURL(e.target.files[0]);
@@ -136,8 +137,8 @@ function transform() {
         // imageBlackWhite(transformedIm)
 
         let dst = new cv.Mat();
-        let dsize = new cv.Size(550, 800);
-        cv.resize(transformedIm,transformedIm, dsize, 0, 0, cv.INTER_AREA);
+       let dsize = new cv.Size(550, 800);
+       cv.resize(transformedIm,transformedIm, dsize, 0, 0, cv.INTER_AREA);
         //cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
         //let p = cv.pyrDown(cv.pyrDown(transformedIm, dst, new cv.Size(0, 0), cv.BORDER_DEFAULT));
         // cv.medianBlur(transformedIm, transformedIm, 1);
@@ -158,7 +159,9 @@ function transform() {
         //cv.imshow('pros-image', transformedIm);
         //pdfDown(transformedIm)
         //const documentArrayBuffer = transformedIm.exportPDF();
+
         processPageCallback(transformedIm,1,1);
+
         transformedIm.delete(); dst.delete();
 
 
@@ -214,7 +217,7 @@ function getContoursPoints (im) {
     //cv.erode(threshold_im, threshold_im, k, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
     // let dsize = new cv.Size(400, 800);
     //cv.resize(threshold_im,threshold_im, dsize, 0, 0, cv.INTER_AREA);
-    cv.imshow('pros-image', threshold_im);
+
 
     // Contours
     let contours = new cv.MatVector();
@@ -241,10 +244,13 @@ function getContoursPoints (im) {
                 cv.approxPolyDP(cnt, approx, epsilon, true);
                 maxCnt = cnt;
                 maxCntArea = cntArea;
-                //console.log(approx.size().height)
+
+                //  console.log(approx.size().height)
 
                 if (approx.size().height === 4) {// Keep if it is a rectangle
-                    console.log(approx.size().height)
+                    antallKanter = approx.size().height;
+                    modifyTall_v = 20;
+                    modifyTall_h = 35;
                     maxCntArea = cntArea;
                     pts = approx // Coordinates of the rectangle to be cut out (4 points)
                     // cv.circle(pts.,(447,63), 63, (0,0,255), -1)
@@ -296,17 +302,30 @@ function getContoursPoints (im) {
             let rotatedRect = cv.minAreaRect(maxCnt);
             vertices = cv.RotatedRect.points(rotatedRect);
 
+            modifyTall_v = 35;
+            modifyTall_h = 45;
             // let features = new cv.Mat();
             //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
             //features.convertTo(features,cv.CV_32FC2);
             //console.log(features.data32F);
 
+            console.log(vertices)
+
             for (let i = 0; i < 4; i++) {
-                vertices[(i + 1) % 4];
-                vertices[i].x= parseInt(vertices[i].x) - 45;
-                vertices[i].y= parseInt(vertices[i].y)  - 45;
+                vertices[i].x= parseInt(vertices[i].x);
+               vertices[i].y= parseInt(vertices[i].y);
+               vertices[(i + 1) % 4];
             }
 
+            //  sort by y  coordinates to know which corner has been scanned first
+            vertices.sort(function(a, b) {
+
+                return  a.y - b.y;
+            });
+
+
+
+            console.log(vertices)
 
             let rectangleColor = new cv.Scalar(255, 0, 0);
             for (let i = 0; i < 4; i++) {
@@ -314,12 +333,23 @@ function getContoursPoints (im) {
             }
 
 
-            console.log(vertices)
-            // cv.imshow('canvasOutput', threshold_im);
 
-        return cv.matFromArray(4, 1, cv.CV_32FC2, [
-            vertices[3].x, vertices[3].y, vertices[2].x,vertices[2].y,vertices[1].x, vertices[1].y, vertices[0].x, vertices[0].y
-        ]);
+            cv.imshow('pros-image', threshold_im);
+
+           let recPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
+               vertices[0].x, vertices[0].y,vertices[1].x,vertices[1].y,vertices[2].x, vertices[2].y,vertices[3].x, vertices[3].y
+            ]);
+
+
+            console.log(recPts.data32F)
+            checkshape(recPts);
+            console.log(ratio)
+
+
+
+
+
+           return  modifyCorners(recPts);
 
         }
 
@@ -336,161 +366,40 @@ function getContoursPoints (im) {
         pts.data32F[i]= approx.data32F[i] - 15;
     }
 */
-    console.log(pts.data32F)
-    let newpoint = [];
-    for (let i = 0; i < pts.data32F.length; i++) {
-        newpoint.push(pts.data32F[i]);
-    }
+    //  sort by y  coordinates to know which corner has been scanned first
 
-    let ss = newpoint.sort((a,b)=>b-a)
-    console.log(ss)
+    console.log(pts.data32F)
+
  //let sortPts= pts.sort((a,b)=>b-a);
  //console.log(sortPts.data32F);
-    // Modify corner coordinates
-    let wt ,wb,hl,hr;
-
-     wt = getDistance(pts.data32F[0],pts.data32F[1],pts.data32F[2],pts.data32F[3])
-
-    if(pts.data32F[0] < pts.data32F[3]) {
-        if (pts.data32F[4] > pts.data32F[6] ) {
-            hl = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[6], pts.data32F[7]);
-            hr = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[4], pts.data32F[5]);
-        }
-        else {
-            hl = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[4], pts.data32F[5]);
-            hr = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[6], pts.data32F[7]);
-        }
+    let sortPots = [];
+    for (let i = 0; i < 8; i+=2) {
+       sortPots.push({x:pts.data32F[i] ,y:pts.data32F[i+1]})
     }
-    else
-        {
-            if (pts.data32F[4] < pts.data32F[6] ) {
-            hr = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[6], pts.data32F[7]);
-            hl = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[4], pts.data32F[5]);
-        }
-        else {
-            hr = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[4], pts.data32F[5]);
-            hl = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[6], pts.data32F[7]);
-        }
+    //  sort by y  coordinates to know which corner has been scanned first
+    sortPots.sort(function(a, b) {
 
-        }
-        wb = getDistance(pts.data32F[4],pts.data32F[5],pts.data32F[6],pts.data32F[7])
-    console.log(wt,wb,hl,hr)
-    let max_width = Math.max(wt,wb);
-    let max_height = Math.max(hl,hr);
-    ratio = max_height/max_width;  // for  å sjekke retning til rectangle om den er horizental eller vertikal
-    console.log(ratio)
+        return  a.y - b.y;
+    });
 
-   let max_sum = pts.data32F[0]+pts.data32F[1];
-   let min_sum = pts.data32F[0]+pts.data32F[1];
-   let max_diff = pts.data32F[0]-pts.data32F[1];
-   let min_diff = pts.data32F[0]-pts.data32F[1];
-   let rect = [];
-    for (let i = 0; i < pts.data32F.length; i+=2){
-         let new_sum = pts.data32F[i]+pts.data32F[i+1];
-         let new_diff = pts.data32F[i]-pts.data32F[i+1];
-        if(new_sum >= max_sum){
-            max_sum = new_sum;
-            // Top left point
-            rect[6] = pts.data32F[i]
-            rect[7] = pts.data32F[i+1]
-        }
-        if(new_sum <= min_sum){
-            min_sum = new_sum;
-            // bottom right point
-            rect[0] = pts.data32F[i]
-            rect[1] = pts.data32F[i+1]
-        }
-        if(new_diff >= max_diff){
-            max_diff = new_diff;
-            // bottom left point
-            if(ratio >= 1) {
-                rect[4] = pts.data32F[i]
-                rect[5] = pts.data32F[i + 1]
-            }
-            else{
-                rect[2] = pts.data32F[i]
-                rect[3] = pts.data32F[i+1]
-                console.log('h bilde')
-            }
-        }
-        if(new_diff <= min_diff){
-            min_diff = new_diff;
-            //Top right point
-            if(ratio >= 1) {
-                rect[2] = pts.data32F[i]
-                rect[3] = pts.data32F[i + 1]
-            }
-            else{
-                rect[4] = pts.data32F[i]
-                rect[5] = pts.data32F[i+1]
-                console.log('h bilde')
-            }
-        }
-    }
-
-
-    for (let i = 0; i < rect.length; i++){
-
-        pts.data32F[i]=rect[i];
-    }
-    if(ratio <1) {
-        pts.data32F[0] += 35;
-        pts.data32F[1] += 35;
-        pts.data32F[2] -= 35;
-        pts.data32F[3] += 35;
-        pts.data32F[4] += 35;
-        pts.data32F[5] -= 35;
-        pts.data32F[6] -= 35;
-        pts.data32F[7] -= 35;
-    }
-    if(ratio > 1) {
-        pts.data32F[0] += 20;
-        pts.data32F[1] += 20;
-        pts.data32F[2] += 20;
-        pts.data32F[3] -= 20;
-        pts.data32F[4] -= 20;
-        pts.data32F[5] += 20;
-        pts.data32F[6] -= 20;
-        pts.data32F[7] -= 20;
-    }
-/*
-    let a = pts.data32F[6]+pts.data32F[7];
-
-    let b = newpoint[0]+newpoint[2];
-    let c = newpoint[1]+newpoint[2];
-
-    for (let i = 0; i < pts.rows/2; i++) {
-            pts.data32F[i] += 10;pts.data32F[i + 1] += 10;
-    }
-    if(a<b){
-        console.log('a<b')
-        pts.data32F[4] += 30;
-        pts.data32F[4 + 1] -= 30;
-    }
-    if (a == c){
-
-        console.log('a ==c')
-        pts.data32F[6] -= 30;
-        pts.data32F[6 + 1] -= 30;
-    }
-*/
-
+    console.log(sortPots)
+    let recPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
+        sortPots[0].x, sortPots[0].y,sortPots[1].x,sortPots[1].y,sortPots[2].x, sortPots[2].y,sortPots[3].x, sortPots[3].y
+    ]);
+    checkshape(recPts)
     // cv.imshow('canvasOutput', threshold_im);
 
     contours.delete();
     im_gray.delete();
     threshold_im.delete();
     hierarchy.delete();
-    return pts;
+
+    // Modify corner coordinates
+    console.log(pts.data32F)
+    return modifyCorners(recPts);
 
 }
 
-function getDistance(x1, y1, x2, y2){
-    let y = Math.abs(x2 - x1);
-    let x = Math.abs(y2 - y1);
-
-    return Math.sqrt(x * x + y * y);
-}
 
     function getTransformedImage(im, fromPts) {
 
@@ -746,4 +655,156 @@ function pdfDown(im){
     var doc = new jsPDF();
     doc.addImage(im,10,10);
     doc.save('ImgToPDF.pdf')
+}
+
+// Renge avstand mellom to punkter
+
+function getDistance(x1, y1, x2, y2){
+    let y = Math.abs(x2 - x1);
+    let x = Math.abs(y2 - y1);
+
+    return Math.sqrt(x * x + y * y);
+}
+
+// sjekk om bildet er horizental eller virtikal
+
+function checkshape(pts){
+
+    let wt ,wb,hl,hr;
+
+    // Alle points ordnet by Y coordinates when we scanned contours.
+    wt = getDistance(pts.data32F[0],pts.data32F[1],pts.data32F[2],pts.data32F[3])
+
+
+    if(pts.data32F[0] < pts.data32F[2]) {                   // check position to x for first and second point
+        if (pts.data32F[4] > pts.data32F[6] ) {             // check position to x for third and point forth point
+            hl = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[6], pts.data32F[7]);
+            hr = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[4], pts.data32F[5]);
+        }
+        else {
+            hl = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[4], pts.data32F[5]);
+            hr = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[6], pts.data32F[7]);
+        }
+    }
+    else
+    {
+        if (pts.data32F[4] < pts.data32F[6] ) {
+            hr = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[6], pts.data32F[7]);
+            hl = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[4], pts.data32F[5]);
+        }
+        else {
+            hr = getDistance(pts.data32F[0], pts.data32F[1], pts.data32F[4], pts.data32F[5]);
+            hl = getDistance(pts.data32F[2], pts.data32F[3], pts.data32F[6], pts.data32F[7]);
+        }
+
+    }
+    wb = getDistance(pts.data32F[4],pts.data32F[5],pts.data32F[6],pts.data32F[7])
+    console.log(wt,wb,hl,hr)
+    max_width = Math.max(wt,wb);
+    max_height = Math.max(hl,hr);
+    ratio = max_height/max_width;  // for  å sjekke retning til rectangle om den er horizental eller vertikal
+    console.log(ratio)
+}
+
+// Modify corner coordinates
+
+function modifyCorners(pts){
+
+
+    let max_sum = pts.data32F[0]+pts.data32F[1];
+    let min_sum = pts.data32F[0]+pts.data32F[1];
+    let max_diff = pts.data32F[0]-pts.data32F[1];
+    let min_diff = pts.data32F[0]-pts.data32F[1];
+    let rect = [];
+    for (let i = 0; i < pts.data32F.length; i+=2){
+        let new_sum = pts.data32F[i]+pts.data32F[i+1];
+        let new_diff = pts.data32F[i]-pts.data32F[i+1];
+        if(new_sum >= max_sum){
+            max_sum = new_sum;
+            // Top left point
+            rect[6] = pts.data32F[i]
+            rect[7] = pts.data32F[i+1]
+        }
+        if(new_sum <= min_sum){
+            min_sum = new_sum;
+            // bottom right point
+            rect[0] = pts.data32F[i]
+            rect[1] = pts.data32F[i+1]
+        }
+        if(new_diff >= max_diff){
+            max_diff = new_diff;
+            // bottom left point
+            if(ratio >= 1) {
+                rect[4] = pts.data32F[i]
+                rect[5] = pts.data32F[i + 1]
+            }
+            else{
+                rect[2] = pts.data32F[i]
+                rect[3] = pts.data32F[i+1]
+                console.log('h bilde')
+            }
+        }
+        if(new_diff <= min_diff){
+            min_diff = new_diff;
+            //Top right point
+            if(ratio >= 1) {
+                rect[2] = pts.data32F[i]
+                rect[3] = pts.data32F[i + 1]
+            }
+            else{
+                rect[4] = pts.data32F[i]
+                rect[5] = pts.data32F[i+1]
+                console.log('h bilde')
+            }
+        }
+    }
+
+
+    for (let i = 0; i < rect.length; i++){
+
+        pts.data32F[i]=rect[i];
+    }
+    if(ratio <1) {
+        pts.data32F[0] += modifyTall_h;
+        pts.data32F[1] += modifyTall_h;
+        pts.data32F[2] -= modifyTall_h;
+        pts.data32F[3] += modifyTall_h;
+        pts.data32F[4] += modifyTall_h;
+        pts.data32F[5] -= modifyTall_h;
+        pts.data32F[6] -= modifyTall_h;
+        pts.data32F[7] -= modifyTall_h;
+    }
+    if(ratio > 1) {
+        pts.data32F[0] += modifyTall_v;
+        pts.data32F[1] += modifyTall_v;
+        pts.data32F[2] += modifyTall_v;
+        pts.data32F[3] -= modifyTall_v;
+        pts.data32F[4] -= modifyTall_v;
+        pts.data32F[5] += modifyTall_v;
+        pts.data32F[6] -= modifyTall_v;
+        pts.data32F[7] -= modifyTall_v;
+    }
+    /*
+        let a = pts.data32F[6]+pts.data32F[7];
+
+        let b = newpoint[0]+newpoint[2];
+        let c = newpoint[1]+newpoint[2];
+
+        for (let i = 0; i < pts.rows/2; i++) {
+                pts.data32F[i] += 10;pts.data32F[i + 1] += 10;
+        }
+        if(a<b){
+            console.log('a<b')
+            pts.data32F[4] += 30;
+            pts.data32F[4 + 1] -= 30;
+        }
+        if (a == c){
+
+            console.log('a ==c')
+            pts.data32F[6] -= 30;
+            pts.data32F[6 + 1] -= 30;
+        }
+    */
+    console.log(pts.data32F)
+    return pts;
 }

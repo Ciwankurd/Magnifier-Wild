@@ -11,7 +11,7 @@ let inputElement = document.getElementById('fileInput');
 let MIN_CONTOURS_SCALE= 20; // Minimum original image ratio
 let THRESHOLD= 128; // Monochrome threshold
 let origIm=document.getElementById('oIm');
-let max_width, max_height, ratio,antallKanter, modifyTall_v,modifyTall_h;
+let max_width, max_height, ratio,antallKanter, modifyTall_v,modifyTall_h, frompoint,Im_Ratio, min_width,min_height;
 
 inputElement.addEventListener('change', (e) => {
 
@@ -20,6 +20,7 @@ inputElement.addEventListener('change', (e) => {
 
 }, false);
 imgElement.onload = function() {
+    frompoint = new cv.Mat();
     transform()
     /*  let src = cv.imread(imgElement);
      let dsize = new cv.Size(50, 100);
@@ -128,17 +129,18 @@ function transform() {
 
     const im = cv.imread(origIm);
 
-     const pts = this.getContoursPoints(im);
-
-
+    const pts = this.getContoursPoints(im);
+    console.log(pts.data32F)
     if(pts) {
 
         const transformedIm = this.getTransformedImage(im, pts);
+
+
         // imageBlackWhite(transformedIm)
 
         let dst = new cv.Mat();
-       let dsize = new cv.Size(550, 800);
-       cv.resize(transformedIm,transformedIm, dsize, 0, 0, cv.INTER_AREA);
+        let dsize = new cv.Size(550, 800);
+        cv.resize(transformedIm,transformedIm, dsize, 0, 0, cv.INTER_AREA);
         //cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
         //let p = cv.pyrDown(cv.pyrDown(transformedIm, dst, new cv.Size(0, 0), cv.BORDER_DEFAULT));
         // cv.medianBlur(transformedIm, transformedIm, 1);
@@ -160,7 +162,7 @@ function transform() {
         //pdfDown(transformedIm)
         //const documentArrayBuffer = transformedIm.exportPDF();
 
-        processPageCallback(transformedIm,1,1);
+       // processPageCallback(transformedIm,1,1);
 
         transformedIm.delete(); dst.delete();
 
@@ -174,18 +176,7 @@ function transform() {
     im.delete();
 
 }
-function  imageBlackWhite(im){
-    let src = cv.imread(im);
-    cv.imshow('pros-image', im);
-    let dst = new cv.Mat();
-    //let p = cv.pyrDown(cv.pyrDown(src, dst, new cv.Size(0, 0), cv.BORDER_DEFAULT));
-    //let m = cv.medianBlur(src, dst, 51);
-    //let result = 255 - cv.absdiff(m,p);
-    //cv.adaptiveThreshold(src, dst, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2);
 
-
-    src.delete(); dst.delete(); //p.delete(); m.delete(); result.delete();
-}
 function getContoursPoints (im) {
     // Image area
     const imRectArea = im.cols * im.rows //
@@ -208,16 +199,15 @@ function getContoursPoints (im) {
     cv.threshold(cany_im, threshold_im, THRESHOLD, 200, cv.THRESH_BINARY);
     //cv.threshold(threshold_im, threshold_im,THRESHOLD, 255, cv.THRESH_BINARY);
     let M = cv.Mat.ones(5, 5, cv.CV_8U);
-// You can try more different parameters
     cv.morphologyEx(threshold_im, threshold_im, cv.MORPH_GRADIENT, M);
     //let anchor = new cv.Point(-1, -1);
-// You can try more different parameters
     //cv.dilate(threshold_im, threshold_im, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
     //let k = cv.Mat.ones(3, 3, cv.CV_8U);
     //cv.erode(threshold_im, threshold_im, k, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
     // let dsize = new cv.Size(400, 800);
     //cv.resize(threshold_im,threshold_im, dsize, 0, 0, cv.INTER_AREA);
 
+    //cv.imshow('pros-image', threshold_im);
 
     // Contours
     let contours = new cv.MatVector();
@@ -236,9 +226,8 @@ function getContoursPoints (im) {
         const maxRectScale = parseInt(cntArea / imRectArea * 100) // How big is it compared to the original image (%)
         console.log(maxRectScale)
         if (maxRectScale >= MIN_CONTOURS_SCALE) {// Filter by ratio to original image
-            console.log(22)
-            if (cntArea > maxCntArea) {// Keep larger
 
+            if (cntArea > maxCntArea) {
 
                 const epsilon = 0.02 * cv.arcLength(cnt, true)
                 cv.approxPolyDP(cnt, approx, epsilon, true);
@@ -248,8 +237,8 @@ function getContoursPoints (im) {
                 //  console.log(approx.size().height)
 
                 if (approx.size().height === 4) {// Keep if it is a rectangle
-                    antallKanter = approx.size().height;
-                    modifyTall_v = 20;
+                   // antallKanter = approx.size().height;
+                    modifyTall_v = 35;
                     modifyTall_h = 35;
                     maxCntArea = cntArea;
                     pts = approx // Coordinates of the rectangle to be cut out (4 points)
@@ -258,123 +247,87 @@ function getContoursPoints (im) {
                     //cv.drawContours(imgElement, contours, i, color, 5, cv.LINE_8)
 
                 }
-                /*
-                else {
-                    // maxCntArea = cntArea;
-                    // pts = approx
-                    // Convex hull
-                    //pts= parseInt(cv.goodFeaturesToTrack(im_gray,4,0.05,50))
-                    //console.log(pts);
-                    /*
-                    let hull = new cv.MatVector();
-
-                        var item = new cv.Mat();
-                        cv.convexHull(cnt, item, false, true);
-                        hull.push_back(item);
-                        item.delete();
-                        pts= hull;
-
-
-
-                    //let points = cv.BoxPoints(vertices);
-
-
-
-
-                    }
-
-                 */
-
-                }
 
             }
 
         }
-        /*
-    let dst = cv.Mat.zeros(im.rows, im.cols, cv.CV_8UC3);
-    let color = new cv.Scalar(255, 0, 0)
-        cv.drawContours(dst,maxCnt,0 , color, 1, cv.LINE_8, hierarchy, 100)
-    console.log(maxCnt.data)
-    cv.imshow('canvasOutput',dst);
-    */
 
-        if (approx.size().height !== 4) {
-            let rotatedRect = cv.minAreaRect(maxCnt);
-            vertices = cv.RotatedRect.points(rotatedRect);
-
-            modifyTall_v = 35;
-            modifyTall_h = 45;
-            // let features = new cv.Mat();
-            //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
-            //features.convertTo(features,cv.CV_32FC2);
-            //console.log(features.data32F);
-
-            console.log(vertices)
-
-            for (let i = 0; i < 4; i++) {
-                vertices[i].x= parseInt(vertices[i].x);
-               vertices[i].y= parseInt(vertices[i].y);
-               vertices[(i + 1) % 4];
-            }
-
-            //  sort by y  coordinates to know which corner has been scanned first
-            vertices.sort(function(a, b) {
-
-                return  a.y - b.y;
-            });
-
-
-
-            console.log(vertices)
-
-            let rectangleColor = new cv.Scalar(255, 0, 0);
-            for (let i = 0; i < 4; i++) {
-                cv.line(threshold_im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
-            }
-
-
-
-            cv.imshow('pros-image', threshold_im);
-
-           let recPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
-               vertices[0].x, vertices[0].y,vertices[1].x,vertices[1].y,vertices[2].x, vertices[2].y,vertices[3].x, vertices[3].y
-            ]);
-
-
-            console.log(recPts.data32F)
-            checkshape(recPts);
-            console.log(ratio)
-
-
-
-
-
-           return  modifyCorners(recPts);
-
-        }
-
-
-        //console.log(pts);
-        //approx.convertTo(approx,cv.CV_32FC2);
-        //console.log(approx.data32F);
-        pts.convertTo(pts, cv.CV_32FC2);
-
-        //console.log(pts)
-        //cv.circle(img,(447,63), 63, (0,0,255), -1)
-/*
-    for (let i = 0; i < 8; i++) {
-        pts.data32F[i]= approx.data32F[i] - 15;
     }
-*/
+
+
+    if (approx.size().height !== 4) {
+        let rotatedRect = cv.minAreaRect(maxCnt);
+        vertices = cv.RotatedRect.points(rotatedRect);
+
+        modifyTall_v = 55;
+        modifyTall_h = 35;
+        // let features = new cv.Mat();
+        //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
+        //features.convertTo(features,cv.CV_32FC2);
+        //console.log(features.data32F);
+        let rectangleColor = new cv.Scalar(255, 0, 0);
+        for (let i = 0; i < 4; i++) {
+            cv.line(threshold_im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
+        }
+        cv.imshow('pros-image', threshold_im);
+        console.log(vertices)
+
+        for (let i = 0; i < 4; i++) {
+            vertices[i].x= parseInt(vertices[i].x);
+            vertices[i].y= parseInt(vertices[i].y);
+            vertices[(i + 1) % 4];
+        }
+
+        //  sort by y  coordinates to know which corner has been scanned first
+        vertices.sort(function(a, b) {
+
+            return  a.y - b.y;
+        });
+
+        console.log(vertices)
+
+
+
+        let recPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
+            vertices[0].x, vertices[0].y,vertices[1].x,vertices[1].y,vertices[2].x, vertices[2].y,vertices[3].x, vertices[3].y
+        ]);
+
+
+        console.log(recPts.data32F)
+        checkshape(recPts);
+        console.log(ratio)
+
+
+
+
+
+       // frompoint=  modifyCorners(recPts);
+        //console.log(frompoint)
+        return modifyCorners(recPts);
+    }
+
+
+    //console.log(pts);
+    //approx.convertTo(approx,cv.CV_32FC2);
+    //console.log(approx.data32F);
+    pts.convertTo(pts, cv.CV_32FC2);
+
+    //console.log(pts)
+    //cv.circle(img,(447,63), 63, (0,0,255), -1)
+    /*
+        for (let i = 0; i < 8; i++) {
+            pts.data32F[i]= approx.data32F[i] - 15;
+        }
+    */
     //  sort by y  coordinates to know which corner has been scanned first
 
     console.log(pts.data32F)
 
- //let sortPts= pts.sort((a,b)=>b-a);
- //console.log(sortPts.data32F);
+    //let sortPts= pts.sort((a,b)=>b-a);
+    //console.log(sortPts.data32F);
     let sortPots = [];
     for (let i = 0; i < 8; i+=2) {
-       sortPots.push({x:pts.data32F[i] ,y:pts.data32F[i+1]})
+        sortPots.push({x:pts.data32F[i] ,y:pts.data32F[i+1]})
     }
     //  sort by y  coordinates to know which corner has been scanned first
     sortPots.sort(function(a, b) {
@@ -396,265 +349,63 @@ function getContoursPoints (im) {
 
     // Modify corner coordinates
     console.log(pts.data32F)
-    return modifyCorners(recPts);
+    frompoint=  modifyCorners(recPts);
+    console.log(frompoint)
+    return frompoint;
 
 }
 
 
-    function getTransformedImage(im, fromPts) {
+function getTransformedImage(im, fromPts) {
 
-        // Grayscale
-        let im_gray = new cv.Mat();
-        cv.cvtColor(im, im_gray, cv.COLOR_RGBA2GRAY, 0);
-
-        // Threshold
-        let threshold_im = new cv.Mat();
-        cv.threshold(im_gray, threshold_im, THRESHOLD, 255, cv.THRESH_BINARY);
-
-
-        let transformedIm = new cv.Mat();
-        const rows = im.rows;
-        console.log(rows)
-        const cols = im.cols;
-        console.log(cols)
-        let dsize = new cv.Size(cols, rows);
-        let toPts;
-        if(ratio >= 1){
-            toPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
-                0, 0, 0, rows, cols, 0, cols, rows
-            ]);
-        }
-         else {
-            toPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
-                cols, 0,cols, rows, 0, 0,0, rows
-            ]);
-        }
-
-
-        console.log(toPts.data32F)
-        const M = cv.getPerspectiveTransform(fromPts, toPts); // Matrix of transformations
-        cv.warpPerspective(im, transformedIm, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
-
-
-        cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
-        cv.adaptiveThreshold(transformedIm, transformedIm, 248, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 77, 7);
-        cv.threshold(transformedIm, transformedIm,THRESHOLD, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
-
-        fromPts.delete();
-        toPts.delete();
-        M.delete();
-        // dst.delete(); p.delete(); m.delete(); result.delete();
-        return transformedIm;
-
-    }
-
-
-    function callback() {
-        let track1 = document.getElementById('tracke1Value');
-        let trackbar1 = document.getElementById('trackbar1');
-        track1.setAttribute('value', trackbar1.value);
-
-        let track2 = document.getElementById('tracke2Value');
-        let trackbar2 = document.getElementById('trackbar2');
-        track2.setAttribute('value', trackbar2.value);
-        let max = parseInt(trackbar1.value);
-        let min = parseInt(trackbar2.value);
-        console.log(max, min);
-        let src = cv.imread(canvas_image);
-        let dst = new cv.Mat();
-        cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0)
-
-        // cv.medianBlur(src, dst, (5,5));
-        //let M = cv.Mat.eye(3, 3, cv.CV_32FC1);
-        //let anchor = new cv.Point(0, -1);
-        //cv.filter2D(src, dst, cv.CV_8U, M, anchor, 0, cv.BORDER_DEFAULT);
-        //cv.bilateralFilter(src, dst, 9, 75, 75, cv.BORDER_DEFAULT);
-        // let ksize = new cv.Size(3, 3);
-        // cv.GaussianBlur(src, dst, ksize, 0, 0, cv.BORDER_DEFAULT);
-
-
-        // cv.adaptiveThreshold(src, dst, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 11, 2);
-
-        cv.Canny(src, dst, min, max, 3, false);
-
-
-        cv.imshow('pros-image', dst);
-        im.delete();
-        dst.delete();
-    }
-
-
-/*
-
-export class SortableContour {
-    perimiterSize: number;
-    areaSize: number;
-    contour: any;
-
-    constructor(fields: Partial<SortableContour>) {
-        Object.assign(this, fields);
-    }
-}
-*/
-
-// hough funksjon
-/*
-function houghP(im){
-
-    let src = cv.imread(im);
-    let dst = cv.Mat.zeros(src.rows, src.cols, cv.CV_8UC3);
-    let lines = new cv.Mat();
-    let color = new cv.Scalar(255, 0, 0);
-    cv.cvtColor(src, src, cv.COLOR_RGBA2GRAY, 0);
-    cv.Canny(src, src, 50, 200, 3);
-// You can try more different parameters
-    cv.HoughLinesP(src, lines, 1, Math.PI / 180, 2, 0, 0);
-// draw lines
-    for (let i = 0; i < lines.rows; ++i) {
-        let startPoint = new cv.Point(lines.data32S[i * 4], lines.data32S[i * 4 + 1]);
-        let endPoint = new cv.Point(lines.data32S[i * 4 + 2], lines.data32S[i * 4 + 3]);
-        cv.line(dst, startPoint, endPoint, color);
-    }
-    //cv.imshow('canvasOutput', dst);
-    src.delete(); dst.delete(); lines.delete();
-}
-
-function hough(){
-    let im = cv.imread(origIm);
-
+    // Grayscale
     let im_gray = new cv.Mat();
-    cv.cvtColor(im, im_gray, cv.COLOR_RGBA2GRAY,0);
+    cv.cvtColor(im, im_gray, cv.COLOR_RGBA2GRAY, 0);
 
-
-
-
-
-    let medianBlur_im = new cv.Mat();
-    cv.medianBlur(im_gray, medianBlur_im, 13);
-
-    let cany_im = new cv.Mat();
-
-    cv.Canny(medianBlur_im, cany_im, 30, 120, 3, false);
     // Threshold
     let threshold_im = new cv.Mat();
-    //cv.adaptiveThreshold(im_gray, threshold_im, 255, cv.THRESH_BINARY, 81, 3);
-    cv.threshold(cany_im, threshold_im,THRESHOLD, 200, cv.THRESH_BINARY);
-    //cv.threshold(threshold_im, threshold_im,THRESHOLD, 255, cv.THRESH_BINARY);
-    let M = cv.Mat.ones(5, 5, cv.CV_8U);
-// You can try more different parameters
-    cv.morphologyEx(threshold_im, threshold_im, cv.MORPH_GRADIENT, M);
+    cv.threshold(im_gray, threshold_im, THRESHOLD, 255, cv.THRESH_BINARY);
 
-    let dst = cv.Mat.zeros(im.rows, im.cols, cv.CV_8UC3);
-    let lines = new cv.Mat();
-    cv.cvtColor(im, im, cv.COLOR_RGBA2GRAY, 0);
-    cv.Canny(im, im, 50, 130, 3);
-// You can try more different parameters
-    cv.HoughLines(im, lines, 1, Math.PI / 180,
-        60, 0, 0, 0, Math.PI);
-// draw lines
-    for (let i = 0; i < lines.rows; ++i) {
-        let rho = lines.data32F[i * 2];
-        let theta = lines.data32F[i * 2 + 1];
-        let a = Math.cos(theta);
-        let b = Math.sin(theta);
-        let x0 = a * rho;
-        let y0 = b * rho;
-        let startPoint = {x: x0 - 1000 * b, y: y0 + 1000 * a};
-        let endPoint = {x: x0 + 1000 * b, y: y0 - 1000 * a};
-        cv.line(dst, startPoint, endPoint, [255, 0, 0, 255]);
+
+    let transformedIm = new cv.Mat();
+    const rows = im.rows;
+    console.log(rows)
+    const cols = im.cols;
+    console.log(cols)
+    let dsize = new cv.Size(cols, rows);
+    let toPts;
+    // 0, 0, 0, rows, cols, 0, cols, rows
+    // 0, 0, 0, min_height, min_width, 0, min_width, min_height
+    //   0, 0, frompoint.data32F[2],frompoint.data32F[3], frompoint.data32F[4],frompoint.data32F[5], frompoint.data32F[6], frompoint.data32F[7]
+    console.log(frompoint)
+    if(ratio >= 1){
+        toPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
+            0, 0, 0, rows, cols, 0, cols, rows
+        ]);
     }
-    //cv.imshow('canvasOutput', im);
-    //cv.imshow('canvasOutput', dst);
-    im.delete(); dst.delete(); lines.delete();
-    return dst;
-}
-
-
-let srcMat, dstMat, color;
-
-async function onOpenCvReady() {
-    srcMat = await cv.imread(origIm);
-    cv.cvtColor(srcMat, srcMat, cv.COLOR_RGBA2GRAY);
-    dstMat = cv.Mat.zeros(srcMat.rows, srcMat.cols, cv.CV_8UC1);
-    color = new cv.Scalar(255, 0, 0);
-
-    let lines = new cv.Mat();
-    cv.Canny(srcMat, dstMat, 50, 150, 3, false);
-    cv.HoughLines(dstMat, lines, 1, Math.PI / 180, 150, 0, 0, 0, Math.PI);
-
-    for (let i = 0; i < lines.rows; ++i) {
-        let rho = lines.data32F[i * 2],
-            theta = lines.data32F[i * 2 + 1];
-        let a = Math.cos(theta), b = Math.sin(theta);
-        let x0 = a * rho, y0 = b * rho;
-        let pt1 = new cv.Point(x0 + 1000 * (-b), y0 + 1000 * (a));
-        let pt2 = new cv.Point(x0 - 1000 * (-b), y0 - 1000 * (a));
-        cv.line(srcMat, pt1, pt2, color, 1, cv.LINE_AA, 0);
+    else {
+        toPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
+            cols, 0,cols, rows, 0, 0,0, rows
+        ]);
     }
 
-    let corners = [];
-    for (let i = 0; i < lines.rows; ++i) {
-        for (let j = i + 1; j < lines.rows; ++j) {
-            let theta1 = lines.data32F[i * 2 + 1], theta2 = lines.data32F[j * 2 + 1];
-            if (Math.abs(theta1 - theta2) < Math.PI / 6) {
-                continue;
-            }
 
-            let rho1 = lines.data32F[i * 2], rho2 = lines.data32F[j * 2];
-            let a1 = Math.cos(theta1), b1 = Math.sin(theta1),
-                a2 = Math.cos(theta2), b2 = Math.sin(theta2);
-
-            let x = (b2 * rho1 - b1 * rho2) / (a1 * b2 - a2 * b1);
-            let y = (a1 * rho2 - a2 * rho1) / (a1 * b2 - a2 * b1);
-
-            if (x >= 0 && x < srcMat.cols && y >= 0 && y < srcMat.rows) {
-                corners.push({
-                    x: x,
-                    y: y
-                });
-            }
-        }
-    }
-
-        for (let i = 0; i < corners.length; ++i) {
-            cv.circle(srcMat, new cv.Point(corners[i].x, corners[i].y), 5, color, -1, cv.LINE_AA, 0);
-        }
-
-        cv.imshow('canvasOutput', srcMat);
-        srcMat.delete();
-        dstMat.delete();
-
-}
+    console.log(toPts.data32F)
+    const M = cv.getPerspectiveTransform(fromPts, toPts); // Matrix of transformations
+    cv.warpPerspective(im, transformedIm, M, dsize, cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar());
 
 
-function houghpp(){
+   cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
+    cv.adaptiveThreshold(transformedIm, transformedIm, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 77, 7);
+    cv.threshold(transformedIm, transformedIm,THRESHOLD, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
 
-    // Load the image
-    let img = cv.imread(imgElement);
 
-// Convert the image to grayscale
-    let gray = img.cvtColor(cv.COLOR_BGR2GRAY);
+    fromPts.delete();
+    toPts.delete();
+    M.delete();
+    // dst.delete(); p.delete(); m.delete(); result.delete();
+    return transformedIm;
 
-// Apply Canny edge detection
-    let edges = gray.canny(50, 150);
-
-// Define HoughLinesP parameters
-    let lines = edges.houghLinesP(1, Math.PI/180, 50, 20, 10);
-
-// Draw the lines on the image
-    for (let i = 0; i < lines.length; i++) {
-        let startPoint = new cv.Point(lines[i].x1, lines[i].y1);
-        let endPoint = new cv.Point(lines[i].x2, lines[i].y2);
-        img.drawLine(startPoint, endPoint, new cv.Vec(0, 0, 255), 2);
-    }
-
-}
-*/
-function pdfDown(im){
-    window.jsPDF = window.jspdf.jsPDF;
-    var doc = new jsPDF();
-    doc.addImage(im,10,10);
-    doc.save('ImgToPDF.pdf')
 }
 
 // Renge avstand mellom to punkter
@@ -702,8 +453,12 @@ function checkshape(pts){
     console.log(wt,wb,hl,hr)
     max_width = Math.max(wt,wb);
     max_height = Math.max(hl,hr);
+
+    min_width = Math.min(wt,wb);
+    min_height = Math.min(hl,hr);
     ratio = max_height/max_width;  // for  å sjekke retning til rectangle om den er horizental eller vertikal
-    console.log(ratio)
+   // Im_Ratio = max_height/im.cols;
+    //console.log(ratio,Im_Ratio)
 }
 
 // Modify corner coordinates
@@ -764,6 +519,7 @@ function modifyCorners(pts){
 
         pts.data32F[i]=rect[i];
     }
+    console.log(Im_Ratio,rect,pts.data32F)
     if(ratio <1) {
         pts.data32F[0] += modifyTall_h;
         pts.data32F[1] += modifyTall_h;

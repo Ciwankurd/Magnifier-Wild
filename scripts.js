@@ -134,13 +134,28 @@ function transform() {
     if(pts) {
 
         const transformedIm = this.getTransformedImage(im, pts);
+/*
+        let red = new cv.Scalar(255, 0, 0)
+        let green = new cv.Scalar(0, 255, 0)
+        let blue = new cv.Scalar(0, 0, 255)
+        let black = new cv.Scalar(0, 0, 0)
+        let color = [red,green,blue,black]
 
 
+
+            cv.circle(transformedIm, (200,63), 20 , (255, 0, 0), -1)
+*/
         // imageBlackWhite(transformedIm)
 
         let dst = new cv.Mat();
         let dsize = new cv.Size(550, 800);
         cv.resize(transformedIm,transformedIm, dsize, 0, 0, cv.INTER_AREA);
+        let point1 = new cv.Point(0,0);
+        let point2 = new cv.Point(550, 800);
+        let contoursColor = new cv.Scalar(255, 255, 255);
+
+        cv.rectangle(transformedIm, point1, point2, contoursColor, 35, cv.LINE_AA, 0);
+
         //cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
         //let p = cv.pyrDown(cv.pyrDown(transformedIm, dst, new cv.Size(0, 0), cv.BORDER_DEFAULT));
         // cv.medianBlur(transformedIm, transformedIm, 1);
@@ -162,7 +177,7 @@ function transform() {
         //pdfDown(transformedIm)
         //const documentArrayBuffer = transformedIm.exportPDF();
 
-       // processPageCallback(transformedIm,1,1);
+        processPageCallback(transformedIm,1,1);
 
         transformedIm.delete(); dst.delete();
 
@@ -238,7 +253,7 @@ function getContoursPoints (im) {
 
                 if (approx.size().height === 4) {// Keep if it is a rectangle
                    // antallKanter = approx.size().height;
-                    modifyTall_v = 35;
+                    modifyTall_v = 0;
                     modifyTall_h = 35;
                     maxCntArea = cntArea;
                     pts = approx // Coordinates of the rectangle to be cut out (4 points)
@@ -256,11 +271,18 @@ function getContoursPoints (im) {
 
 
     if (approx.size().height !== 4) {
+
+        let rotatedMaxContour = cv.fitEllipse(maxCnt);
+         let angle = rotatedMaxContour.angle;
+
         let rotatedRect = cv.minAreaRect(maxCnt);
+       //let d = rotatedRect.angle - angle;
+       //rotatedRect.angle = angle;
+        console.log(rotatedRect)
         vertices = cv.RotatedRect.points(rotatedRect);
 
-        modifyTall_v = 55;
-        modifyTall_h = 35;
+        modifyTall_v =0;
+        modifyTall_h = 0;
         // let features = new cv.Mat();
         //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
         //features.convertTo(features,cv.CV_32FC2);
@@ -396,7 +418,7 @@ function getTransformedImage(im, fromPts) {
 
 
    cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
-    cv.adaptiveThreshold(transformedIm, transformedIm, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 77, 7);
+   cv.adaptiveThreshold(transformedIm, transformedIm, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 77, 7);
     cv.threshold(transformedIm, transformedIm,THRESHOLD, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
 
 
@@ -404,6 +426,7 @@ function getTransformedImage(im, fromPts) {
     toPts.delete();
     M.delete();
     // dst.delete(); p.delete(); m.delete(); result.delete();
+
     return transformedIm;
 
 }
@@ -411,8 +434,8 @@ function getTransformedImage(im, fromPts) {
 // Renge avstand mellom to punkter
 
 function getDistance(x1, y1, x2, y2){
-    let y = Math.abs(x2 - x1);
-    let x = Math.abs(y2 - y1);
+    let x = x2 - x1;
+    let y = y2 - y1;
 
     return Math.sqrt(x * x + y * y);
 }

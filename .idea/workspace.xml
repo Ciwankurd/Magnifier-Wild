@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="bruker hvitt kanter etter prossering">
-      <change afterPath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/extract-pdf.mjs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/flip.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/images/flipcam.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pdf.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/words-from-pixels.mjs" afterDir="false" />
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="bruker hvitt kanter etter Camera layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AutoPerspectiveCorrection.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Magnifier-Wild.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Magnifier-Wild.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SortContours.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.mjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +92,7 @@
       <workItem from="1675251342379" duration="167839000" />
       <workItem from="1675898797027" duration="37052000" />
       <workItem from="1676060285874" duration="2688000" />
-      <workItem from="1676065043038" duration="88470000" />
+      <workItem from="1676065043038" duration="113503000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -195,7 +185,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676038502159</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="bruker hvitt kanter etter Camera layout">
+      <created>1676369152066</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1676369152066</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -228,7 +225,8 @@
     <MESSAGE value="siste endringer" />
     <MESSAGE value="orgnisere kode" />
     <MESSAGE value="bruker hvitt kanter etter prossering" />
-    <option name="LAST_COMMIT_MESSAGE" value="bruker hvitt kanter etter prossering" />
+    <MESSAGE value="bruker hvitt kanter etter Camera layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="bruker hvitt kanter etter Camera layout" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

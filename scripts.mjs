@@ -62,8 +62,8 @@ function openCvReady() {
         audio: false,
         video: {
             facingMode:  front? "user": "environment",
-            height: { ideal: 1280 },
-            width: { ideal: 720 }
+            height: { ideal: 4032 },
+            width: { ideal: 1908 }
         }
         /*
              video: {
@@ -79,12 +79,25 @@ function openCvReady() {
             // always check for errors at the end.
             console.error(`${err.name}: ${err.message}`);
         });
+    //let videocopy = video.copy();
     video.srcObject = stream;
-    video.width=550;
-    video.height =700;
+
     video.play();
+    var context = cap_image.getContext('2d');
+    snap.addEventListener("click",function (){
+        context.drawImage(video,0,0);
+        transform();
+        //callback();
+        //transform()
+        // video.pause();
+        //video.stop();
+        //stream.stop()
+    });
+    video.width=600;
+    video.height=740;
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let cap = new cv.VideoCapture(video);
+
 
     if (!stream) {
         src.delete();
@@ -95,16 +108,6 @@ function openCvReady() {
 
 
 
-    var context = cap_image.getContext('2d');
-    snap.addEventListener("click",function (){
-        context.drawImage(video,0,0, video.width,video.height);
-        transform();
-        //callback();
-        //transform()
-       // video.pause();
-        //video.stop();
-        //stream.stop()
-    });
 
 
 

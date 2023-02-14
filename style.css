@@ -3,27 +3,31 @@
     --border-style: 6px solid yellow;
     --border-space: 50px;
     position: absolute;
-    margin: auto;
-    left: 40%;
-    right: 40%;
+
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-    width: 560px;
-    height: 710px;
+    width: 340px;
+    height: 720px;
 
 }
-#canvas-output{
-    margin-left: 40%;
-    margin-right: 40%;
+@media screen and (max-width: 580px){
+    .overlay {
 
+
+    }
+}
+#canvas-output{
+
+    width: 340px;
+    height: 720px;
 
 }
 
 
 .overlay-element {
-    padding: 20px;
-    width: 80px;
-    height: 60px;
+    padding: 10px;
+    width: 50px;
+    height: 30px;
     position: absolute;
 }
 
@@ -34,7 +38,7 @@
     border-top: var(--border-style);
     top: var(--border-space);
     left: var(--border-space);
-    text-align: left;
+
 }
 
 .overlay .top-right {
@@ -42,7 +46,6 @@
     border-top: var(--border-style);
     top: var(--border-space);
     right: var(--border-space);
-    text-align: right;
 }
 
 .overlay .bottom-left {
@@ -50,7 +53,6 @@
     border-bottom: var(--border-style);
     bottom: var(--border-space);
     left: var(--border-space);
-    text-align: left;
 }
 
 .overlay .bottom-right {
@@ -58,32 +60,31 @@
     border-bottom: var(--border-style);
     bottom: var(--border-space);
     right: var(--border-space);
-    text-align: right;
 }
 #snap{
-    height: 80px;
-    width: 80px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
     cursor:pointer;
     font-family:'Courier New','monospace';
     text-align: center;
     background:red;
-    margin-left: 45%;
-    margin-top: 98%;
-    font-size: 1em;
+    margin-left: 43%;
+    margin-top: 575px;
+    font-size: 0.5em;
 
 
 }
 #flip-button{
     position: absolute;
-   margin-left: 75%;
-   margin-top: -9%;
+    margin-left: 67%;
+    margin-top: -15%;
 
 }
 #content, html, body {
     height: 100%;
     font-family: Sans-Serif;
-    margin: 0%;
+
 }
 
 form

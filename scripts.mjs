@@ -2,8 +2,8 @@
 //import {processPageCallback} from "./document-magnifier.mjs";
 
 const video = document.getElementById("video-input");
-const canvas = document.getElementById("canvas-output");
-const canvas_image = document.getElementById("cap-image");
+let cap_video = document.getElementById("canvas-output");
+const cap_image = document.getElementById("cap-image");
 const pros_image = document.getElementById("pros-image");
 const snap = document.getElementById("snap");
 let imgElement = document.getElementById('imageSrc');
@@ -11,7 +11,7 @@ let inputElement = document.getElementById('fileInput');
 let MIN_CONTOURS_SCALE= 20; // Minimum original image ratio
 let THRESHOLD= 128; // Monochrome threshold
 let origIm=document.getElementById('oIm');
-let max_width, max_height, ratio,antallKanter, modifyTall_v,modifyTall_h, frompoint,Im_Ratio, min_width,min_height;
+let max_width, max_height, ratio, modifyTall_v,modifyTall_h, frompoint,Im_Ratio, min_width,min_height;
 
 inputElement.addEventListener('change', (e) => {
 
@@ -40,30 +40,51 @@ imgElement.onload = function() {
 
       */
 };
-var Module = {
+function openCvReady() {
     // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
-    onRuntimeInitialized() {
+    cv['onRuntimeInitialized']=() => {
         document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
     }
-};
+}
 
 (async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({
-        audio:false,
-        video:true
+    let front = false;
+    let mode = "user"
+
+    document.getElementById("flip-button").onclick = () => {
+        front = !front;
+    };
+
+
+
+    // Prefer camera resolution nearest to 1280x720.
+    const constraints = {
+        audio: false,
+        video: {
+            facingMode:  front? "user": "environment",
+            height: { ideal: 1280 },
+            width: { ideal: 720 }
+        }
         /*
-                video: {
-                    facingMode: {
-                        exact: "environment"
-                                }
-                        }
+             video: {
+                 facingMode: {
+                     exact: "environment"
+                             }
+                     }
 
-        */
-    });
-
+     */
+    };
+    const stream = await navigator.mediaDevices.getUserMedia(constraints)
+        .catch((err) => {
+            // always check for errors at the end.
+            console.error(`${err.name}: ${err.message}`);
+        });
+    video.srcObject = stream;
+    video.width=550;
+    video.height =700;
+    video.play();
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let cap = new cv.VideoCapture(video);
-
 
     if (!stream) {
         src.delete();
@@ -71,63 +92,109 @@ var Module = {
         return;
     }
 
-    video.srcObject = stream;
-    video.play();
 
-    var context = canvas_image.getContext('2d');
+
+
+    var context = cap_image.getContext('2d');
     snap.addEventListener("click",function (){
-        context.drawImage(video,0,0,450,600);
+        context.drawImage(video,0,0, video.width,video.height);
+        transform();
         //callback();
-        transform()
+        //transform()
+       // video.pause();
+        //video.stop();
+        //stream.stop()
     });
 
-    /*
+
 
         const FPS = 30;
         function processVideo() {
             let begin = Date.now();
-            cap.read(src);
+            try {
 
-            // start processing.
-            let gray = new cv.Mat();
-            cv.cvtColor(src, gray, cv.COLOR_RGBA2GRAY);
+                // start processing.
+                cap.read(src);
 
-            let thresh = new cv.Mat();
-            cv.threshold(gray, thresh, 90, 255, cv.THRESH_OTSU);
+                // Image area
+                let imRectArea = src.cols * src.rows //
 
-            let hierarchy = new cv.Mat();
-            let contours = new cv.MatVector();
 
-            cv.findContours(
-                thresh,
-                contours,
-                hierarchy,
-                cv.RETR_CCOMP,
-                cv.CHAIN_APPROX_SIMPLE
-            );
+                // Grayscale
+                let im_gray = new cv.Mat();
+                cv.cvtColor(src, im_gray, cv.COLOR_RGBA2GRAY, 0);
 
-            for (let i = 0; i < contours.size(); ++i) {
-                let color = new cv.Scalar(255, 0, 0);
-                cv.drawContours(src, contours, i, color, 1, cv.LINE_8, hierarchy, 100);
+
+                let medianBlur_im = new cv.Mat();
+                cv.medianBlur(im_gray, medianBlur_im, 13);
+
+                let cany_im = new cv.Mat();
+
+                cv.Canny(medianBlur_im, cany_im, 30, 120, 3, false);
+                // Threshold
+                let threshold_im = new cv.Mat();
+                cv.threshold(cany_im, threshold_im, THRESHOLD, 200, cv.THRESH_BINARY);
+                let M = cv.Mat.ones(5, 5, cv.CV_8U);
+                cv.morphologyEx(threshold_im, threshold_im, cv.MORPH_GRADIENT, M);
+
+                // Contours
+                let contours = new cv.MatVector();
+                let hierarchy = new cv.Mat();
+                cv.findContours(threshold_im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+                let maxCntArea = 0
+                let maxCnt = new cv.MatVector();
+                for (let i = 0; i < contours.size(); ++i) {
+
+                    let cnt = contours.get(i);
+                    const cntArea = cv.contourArea(cnt)
+
+                    const maxRectScale = parseInt(cntArea / imRectArea * 100) // How big is it compared to the original image (%)
+                    if (maxRectScale >= MIN_CONTOURS_SCALE) {// Filter by ratio to original image
+
+                        if (cntArea > maxCntArea) {
+
+                            maxCnt = cnt;
+                            maxCntArea = cntArea;
+                        }
+                    }
+                }
+                    //let color = new cv.Scalar(255, 0, 0);
+                    //cv.drawContours(src,maxCnt, 3, color, 2, cv.LINE_8, hierarchy, 100);
+                let vertices, rotatedRect,rectangleColor
+                if(maxCntArea !=0) {
+                         rotatedRect = cv.minAreaRect(maxCnt);
+                         vertices = cv.RotatedRect.points(rotatedRect);
+                         rectangleColor = new cv.Scalar(255, 0, 0);
+                        for (let j = 0; j < 4; j++) {
+                            cv.line(src, vertices[j], vertices[(j + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
+                        }
+
+                    }
+                cv.imshow("canvas-output", src);
+                im_gray.delete(); medianBlur_im.delete(); maxCntArea.delete(); threshold_im.delete();
+                maxCnt.delete(); contours.delete();  vertices.delete(); imRectArea.delete();
+                src.delete(); cany_im.delete(); rectangleColor.delete(); hierarchy.delete();
+            } catch (err) {
+               // utils.printError(err);
+                //location.reload();
+                console.log(err)
+
             }
-
-            cv.imshow("canvas-output", src);
-
             // schedule the next one.
-            let delay = 1000 / FPS - (Date.now() - begin);
+            let delay = 1000/FPS - (Date.now() - begin);
             setTimeout(processVideo, delay);
         }
 
        setTimeout(processVideo, 0);
 
-     */
+
 })();
 
 
 // opencv
-function transform() {
+ function transform () {
 
-    const im = cv.imread(origIm);
+    const im = cv.imread(cap_image);
 
     const pts = this.getContoursPoints(im);
     console.log(pts.data32F)
@@ -154,7 +221,7 @@ function transform() {
         let point2 = new cv.Point(550, 800);
         let contoursColor = new cv.Scalar(255, 255, 255);
 
-        cv.rectangle(transformedIm, point1, point2, contoursColor, 35, cv.LINE_AA, 0);
+        cv.rectangle(transformedIm, point1, point2, contoursColor, 15, cv.LINE_AA, 0);
 
         //cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
         //let p = cv.pyrDown(cv.pyrDown(transformedIm, dst, new cv.Size(0, 0), cv.BORDER_DEFAULT));
@@ -177,10 +244,10 @@ function transform() {
         //pdfDown(transformedIm)
         //const documentArrayBuffer = transformedIm.exportPDF();
 
-        processPageCallback(transformedIm,1,1);
+        //processPageCallback(transformedIm, 1, 1);
 
         transformedIm.delete(); dst.delete();
-
+        return transformedIm;
 
     } else {
 
@@ -248,13 +315,13 @@ function getContoursPoints (im) {
                 cv.approxPolyDP(cnt, approx, epsilon, true);
                 maxCnt = cnt;
                 maxCntArea = cntArea;
-
+                Index_MaxCnt = i;
                 //  console.log(approx.size().height)
 
                 if (approx.size().height === 4) {// Keep if it is a rectangle
                    // antallKanter = approx.size().height;
                     modifyTall_v = 0;
-                    modifyTall_h = 35;
+                    modifyTall_h = 0;
                     maxCntArea = cntArea;
                     pts = approx // Coordinates of the rectangle to be cut out (4 points)
                     // cv.circle(pts.,(447,63), 63, (0,0,255), -1)
@@ -277,12 +344,12 @@ function getContoursPoints (im) {
 
         let rotatedRect = cv.minAreaRect(maxCnt);
        //let d = rotatedRect.angle - angle;
-       //rotatedRect.angle = angle;
+      // rotatedRect.angle = angle;
         console.log(rotatedRect)
         vertices = cv.RotatedRect.points(rotatedRect);
 
-        modifyTall_v =0;
-        modifyTall_h = 0;
+        modifyTall_v =45;
+        modifyTall_h = 45;
         // let features = new cv.Mat();
         //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
         //features.convertTo(features,cv.CV_32FC2);
@@ -320,10 +387,7 @@ function getContoursPoints (im) {
         console.log(ratio)
 
 
-
-
-
-       // frompoint=  modifyCorners(recPts);
+        // frompoint=  modifyCorners(recPts);
         //console.log(frompoint)
         return modifyCorners(recPts);
     }

@@ -6,7 +6,7 @@
 
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-    width: 370px;
+    width: 375px;
     height: 620px;
 
 }
@@ -18,7 +18,7 @@
 }
 #canvas-output{
 
-    width: 370px;
+    width: 375px;
     height: 620px;
 
 }

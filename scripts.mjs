@@ -62,6 +62,8 @@ function openCvReady() {
         audio: false,
         video: {
             facingMode:  front? "user": "environment",
+            width: { min: 1280, ideal: 1920, max: 1908 },
+            height: { min: 720, ideal: 1080, max: 4023 }
         }
         /*
              video: {
@@ -82,8 +84,8 @@ function openCvReady() {
 
     video.play();
 
-    video.width=600;
-    video.height=900;
+    video.width=1908;
+    video.height=4023;
     var context = cap_image.getContext('2d');
     snap.addEventListener("click",function (){
         context.drawImage(video,0,0,video.width, video.height);

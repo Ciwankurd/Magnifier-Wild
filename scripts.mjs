@@ -62,8 +62,6 @@ function openCvReady() {
         audio: false,
         video: {
             facingMode:  front? "user": "environment",
-            height: { ideal: 4032 },
-            width: { ideal: 1908 }
         }
         /*
              video: {
@@ -83,9 +81,12 @@ function openCvReady() {
     video.srcObject = stream;
 
     video.play();
+
+    video.width=600;
+    video.height=900;
     var context = cap_image.getContext('2d');
     snap.addEventListener("click",function (){
-        context.drawImage(video,0,0);
+        context.drawImage(video,0,0,video.width, video.height);
         transform();
         //callback();
         //transform()
@@ -93,8 +94,6 @@ function openCvReady() {
         //video.stop();
         //stream.stop()
     });
-    video.width=600;
-    video.height=740;
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let cap = new cv.VideoCapture(video);
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="bruker hvitt kanter etter Camera layout">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="styling camera layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.mjs" afterDir="false" />
@@ -92,7 +92,7 @@
       <workItem from="1675251342379" duration="167839000" />
       <workItem from="1675898797027" duration="37052000" />
       <workItem from="1676060285874" duration="2688000" />
-      <workItem from="1676065043038" duration="113503000" />
+      <workItem from="1676065043038" duration="116248000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -192,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676369152066</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="styling camera layout">
+      <created>1676418438061</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1676418438061</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -226,7 +233,8 @@
     <MESSAGE value="orgnisere kode" />
     <MESSAGE value="bruker hvitt kanter etter prossering" />
     <MESSAGE value="bruker hvitt kanter etter Camera layout" />
-    <option name="LAST_COMMIT_MESSAGE" value="bruker hvitt kanter etter Camera layout" />
+    <MESSAGE value="styling camera layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="styling camera layout" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

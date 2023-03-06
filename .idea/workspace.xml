@@ -7,10 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="endre in project version">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="video d">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -148,7 +147,7 @@
       <workItem from="1677803074984" duration="2380000" />
       <workItem from="1677844441116" duration="282000" />
       <workItem from="1677880609750" duration="65055000" />
-      <workItem from="1678118226207" duration="8149000" />
+      <workItem from="1678118226207" duration="9441000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -276,7 +275,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678099110425</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="video dimention">
+      <created>1678142072408</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1678142072408</updated>
+    </task>
+    <task id="LOCAL-00020" summary="video d">
+      <created>1678142790966</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1678142790966</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -312,7 +325,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="tew" />
     <MESSAGE value="new" />
     <MESSAGE value="sds" />
     <MESSAGE value="new cha" />
@@ -336,7 +348,9 @@
     <MESSAGE value="endre in projection codess" />
     <MESSAGE value="endre in projection" />
     <MESSAGE value="endre in project version" />
-    <option name="LAST_COMMIT_MESSAGE" value="endre in project version" />
+    <MESSAGE value="video dimention" />
+    <MESSAGE value="video d" />
+    <option name="LAST_COMMIT_MESSAGE" value="video d" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -365,12 +379,6 @@
           <url>file://$PROJECT_DIR$/scripts.js</url>
           <line>738</line>
           <option name="timeStamp" value="63" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>94</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="66" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

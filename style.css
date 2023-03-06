@@ -6,8 +6,8 @@
 
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-    width: 375px;
-    height: 620px;
+    width: 675px;
+    height: 920px;
 
 }
 @media screen and (max-width: 580px){
@@ -18,8 +18,8 @@
 }
 #canvas-output{
 
-    width: 375px;
-    height: 620px;
+    width: 675px;
+    height: 920px;
 
 }
 
@@ -69,106 +69,69 @@
     font-family:'Courier New','monospace';
     text-align: center;
     background:red;
-    margin-left: 43%;
-    margin-top: 500px;
+    margin-left: 50%;
+    margin-top: 750px;
     font-size: 0.5em;
 
 
 }
 #flip-button{
     position: absolute;
-    margin-left: 67%;
-    margin-top: -15%;
-
-}
-#content, html, body {
-    height: 100%;
-    font-family: Sans-Serif;
+    margin-left: 80%;
+    margin-top:-5%;
 
 }
 
-form
+ #result:has(canvas[name="clipWord"]){
+     padding: 5px;
+     width:700px;
+    border: 6px solid green;
+    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
+}
+
+#result > canvas[name="clipWord"]{
+    zoom: var(--scale-zoom);
+   margin: 5px;
+}
+#result > canvas[name="clipWord"]:hover{
+    transform: scale(1.5);
+    border: 4px solid greenyellow;
+}
 {
-    margin: 2vw;
+    --scale-zoom:1;
+}
+#result:has(canvas[name="clipWord"]) #zoom-inn-icon{
+font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
+    padding: 4px;  position:relative;margin-right:3%;
+    zoom: var(--scale-zoom);
+
+}
+#result:has(canvas[name="clipWord"]) #zoom-out-icon{
+    font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
+    padding: 4px;  position: relative; margin-right:3%;
+    zoom: var(--scale-zoom);
+
+}
+#result:has(canvas[name="clipWord"]) #zoom-reset-icon{
+    font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 30%; padding: 4px;
+    position: absolute;margin-right:12%; margin-top:15px;
+    zoom: var(--scale-zoom);
+
+}
+#zoom-out-icon:hover,#zoom-reset-icon:hover,#zoom-inn-icon:hover {
+    background: #eef;
 }
 
-#left {
-    float: left;
-    width: 80%;
-    height: 100%;
-    overflow: scroll;
-    scroll-behavior: smooth;
-}
-
-#right {
-    float: left;
-    width: 20%;
-    background: gray;
+#canvasOutput{
+    background: white;
     color: white;
-    height: 100%;
-    overflow: scroll;
-    scroll-behavior: smooth;
-    font-size: 2vw;  /* using viewport width ensure the size do not change with zoom*/
-    text-align: center;
-}
+    background-color: white;
+    margin-left: 0px;
 
-#rightHighlighter {
-    position: absolute;
-    right: 5vw; /*so it is on the right side*/
-    top: -10vw; /* initially out of view */
-    width: 3vw;
-    height: 3vw;
-    border-radius: 100%;
-    background: rgba(255,255,0,0.5);
-    z-index: 10;
 }
-
-.highlight
-{
-    background: yellow;
-}
-
-/* Defining the spacing between words*/
-canvas {
-    border-style:solid;
-    border-color:transparent;
-    border-width:5px;
-}
-
-/* the marker for beginning of page */
-.pageMarker {
-    font-size: 2em;
+#LabcanvasOutput{
+    background: white;
     color: white;
-    background: gray;
-    text-align: center;
-}
+    background-color: white;
 
-/* the marker separating regions on page */
-.regionMarker {
-    background: gray;
-    color: yellow;
-    text-align: center;
-}
-
-/* the progress bar */
-progress {
-    width: 90vw;
-    height: 5vw;
-}
-
-/* set page preview according to viewport to prevent zooming. A4 default page ratio*/
-.pagePreview
-{
-    width: 16vw;
-    aspect-ratio: 1/1.4142;
-}
-.landscape
-{
-    aspect-ratio: 1.4142/1;
-}
-.pagePreviewCanvas
-{
-    width: 90%;
-    height: 90%;
-    border-width:1vw 1vw;
 }

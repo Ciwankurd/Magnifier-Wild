@@ -5,25 +5,26 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magnifier-Wild</title>
-    <script async src="opencv.js" type="text/javascript" onload="openCvReady()"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.2.228/pdf.min.js"></script>
-    <script type ="module" src="document-magnifier.mjs" defer></script>
+    <script async src="opencv.js" type="text/javascript" defer onload="openCvReady()"></script>
     <link rel="stylesheet" type="text/css" href="style.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
 </head>
 <body>
-<div class="container">
+<div class="container" >
 <h2>Magnifier-Wild</h2>
 <p id="status">OpenCV.js is loading...</p>
 <div>
     <div class="inputoutput">
-        <img id="imageSrc" alt="No Image" width="800" height="800"/>
-        <img id="oIm" hidden="hidden" />
+        <img id="imageSrc" alt="No Image" width="600" height="800"/>
+        <img alt="original image"  id="oIm" hidden="hidden" />
 
-        <div class="caption">imageSrc <input type="file" id="fileInput" name="file" accept='.png, .jpg, .jpeg' /></div>
+        <div class="caption">imageSrc <input type="file" id="fileInput" name="file" multiple="multiple" accept='image/*,.pdf, .png'  capture="environment"/></div>
     </div>
+    </br></br></br></br>
     <div class="inputoutput">
-        <canvas id="canvasOutput" ></canvas>
+        <canvas id="canvasOutput"></canvas> </br></br>
+        <canvas id="LabcanvasOutput"></canvas>
         <div class="caption">canvasOutput</div>
     </div>
 </div>
@@ -31,11 +32,14 @@
 </br>
 </br>
 
-
+    <div  class="image-viewer-container">
+        <div id="result"></div>
+    </div>
+    </br>
+    </br>
 
 <label>Input CAM</label></br>
-<video id="video-input" hidden="hidden"></video> </br>
-<label>Output OpenCV</label>
+<label>Output OpenCV</label></br></br>
 <div id="content" >
     <div class="overlay">
         <div  class="overlay-helper">
@@ -44,19 +48,21 @@
             <div class="overlay-element bottom-left"></div>
             <div class="overlay-element bottom-right"></div>
             <div><button id="snap">Capture</button></div>
-            <img type="button" src="images/flipcam.png" id="flip-button"/>
+            <img alt="flip button" type="button" src="images/flipcam.png" id="flip-button"/>
 
         </div>
 
     </div>
-
-   <canvas  id="canvas-output"  ></canvas>
-    </div>
+    <video id="video-input"></video>
 </div>
 
-<canvas id="cap-image" height="4023" width="1908" ></canvas></br>
+<canvas  id="canvas-output"  ></canvas>
+<canvas id="ImProcess" ></canvas>
+<canvas id="cap-image" height="1280" width="720" ></canvas></br>
 <label>Image-Processing</label></br>
 <canvas id="pros-image" ></canvas></br>
+
+
 
 
 
@@ -75,17 +81,18 @@
         <input type="checkbox" id="negative" name="negative" value="negative">
         <label for="negative">Negative</label><br>
     </p>
-    <!--
     <h2>Select pdf file</h2>
     <label for="file-selector"><span>Select the pdf file</span></label>
-    <input type="file" id="file-selector" accept=".png, .jpg, .pdf, .jpeg">
-    <script type="module">
-        import {loadBinaryFile} from './extract-pdf.mjs';
-        loadBinaryFile();   // handle for uploading the binary file content to the browser
+    <input type="file" id="file-selector" accept="image/*,.pdf">
+    <button onClick="test()"> test</button>
+    <button onClick="loadBinaryFile()">kurd</button>
+    <script>
     </script>
--->
+
+
 </form>
-<script  src="scripts.mjs"> </script>
+<script src="frode.js" defer></script>
+<script src="scripts.js" > </script>
 </div>
 </body>
 </html>

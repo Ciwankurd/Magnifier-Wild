@@ -7,21 +7,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="endre in projection">
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="endre in project version">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Copyscript.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backup.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/canvas-pixel-manipulation.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/document-magnifier.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/extract-pdf.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pdf.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts.mjs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/words-from-pixels.mjs" beforeDir="false" afterPath="$PROJECT_DIR$/frode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -158,7 +146,7 @@
       <workItem from="1677596886020" duration="77457000" />
       <workItem from="1677803074984" duration="2380000" />
       <workItem from="1677844441116" duration="282000" />
-      <workItem from="1677880609750" duration="61448000" />
+      <workItem from="1677880609750" duration="65055000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -279,7 +267,14 @@
       <option name="project" value="LOCAL" />
       <updated>1676423018812</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="endre in project version">
+      <created>1678099110425</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1678099110425</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,44 +333,39 @@
     <MESSAGE value="endre in projection codes" />
     <MESSAGE value="endre in projection codess" />
     <MESSAGE value="endre in projection" />
-    <option name="LAST_COMMIT_MESSAGE" value="endre in projection" />
+    <MESSAGE value="endre in project version" />
+    <option name="LAST_COMMIT_MESSAGE" value="endre in project version" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>213</line>
+          <line>231</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="50" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>809</line>
+          <line>827</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>799</line>
+          <line>817</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="60" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>827</line>
+          <line>845</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>274</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="62" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>713</line>
+          <line>731</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="63" />
         </line-breakpoint>

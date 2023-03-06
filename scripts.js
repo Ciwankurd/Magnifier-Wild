@@ -47,10 +47,12 @@ function openCvReady() {
         audio: false,
         video: {
             facingMode:  front? "user": "environment",
-            zoom: {ideal:50},
-            aspectRatio: { ideal: 1.7777777778 },
-            width: { ideal: 1280 },
-            height: { ideal: 720 }
+            resizeMode: 'none',
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
+            focusMode: true,
+            frameRate:  60,
+
         }
         /*
              video: {
@@ -68,7 +70,23 @@ function openCvReady() {
         });
     //await new Promise(resolve => setTimeout(resolve, 2000));
     //let videocopy = video.copy();
-    stream.getVideoTracks()[1];
+    let [track] = stream.getVideoTracks();
+    let {width, height, aspectRatio} = track.getSettings();
+
+    // Constraints are in landscape, while settings may be rotated (portrait)
+    if (width < height) {
+        [width, height] = [height, width];
+        aspectRatio = 1 / aspectRatio;
+    }
+
+    await track.applyConstraints({
+        resizeMode: 'crop-and-scale',
+        width: {exact: width},
+        height: {exact: height},
+        frameRate: {exact: 10},
+        aspectRatio,
+    });
+
     video.srcObject = stream;
 
     video.play();
@@ -82,6 +100,7 @@ function openCvReady() {
         context.drawImage(video,0,0,600, 800);
         transform(cap_image);
     });
+    /*
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);
     let cap = new cv.VideoCapture(video);
@@ -89,7 +108,6 @@ function openCvReady() {
     let imRectArea, contours, hierarchy,maxCntArea,cnt,cntArea,
         maxRectScale,vertices,rectangleColor, rect, point1,point2,M;
 
-/*
          const FPS = 30;
          let count = 0;
         function processVideo() {

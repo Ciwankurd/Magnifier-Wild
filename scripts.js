@@ -1,5 +1,6 @@
 //"use strict";
 const video = document.getElementById("video-input");
+let original_Video = document.getElementById('Original-video-input');
 let cap_video = document.getElementById("canvas-output");
 const cap_image = document.getElementById("cap-image");
 const pros_image = document.getElementById("pros-image");
@@ -47,12 +48,11 @@ function openCvReady() {
         audio: false,
         video: {
             facingMode:  front? "user": "environment",
-            resizeMode: 'none',
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
-            focusMode: true,
-            frameRate:  60,
-
+            //resizeMode: 'none',
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            //focusMode: true,
+           // aspectRatio: 16/9,
         }
         /*
              video: {
@@ -63,43 +63,50 @@ function openCvReady() {
 
      */
     };
-    const stream = await navigator.mediaDevices.getUserMedia(constraints)
+    await navigator.mediaDevices.getUserMedia(constraints)
+        .then( stream => {
+            // Granted. Store deviceIds for next time
+            localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
+            //await new Promise(resolve => setTimeout(resolve, 2000));
+            //let videocopy = video.copy();
+            let [track] = stream.getVideoTracks();
+            let {width, height, aspectRatio} = track.getSettings();
+
+            // Constraints are in landscape, while settings may be rotated (portrait)
+            if (width < height) {
+                [width, height] = [height, width];
+                aspectRatio = 1 / aspectRatio;
+            }
+
+            track.applyConstraints({
+                resizeMode: 'crop-and-scale',
+                width: {exact: width},
+                height: {exact: height},
+                //frameRate: {exact: 10},
+                //aspectRatio: 16/9,
+            });
+           // original_Video.srcObject = stream;
+            video.srcObject = stream;
+            //original_Video.play();
+            video.play();
+
+            let context = cap_image.getContext('2d');
+            snap.addEventListener("click",function (){
+                context.drawImage(video,0,0,video.videoWidth, video.videoHeight);
+                transform(cap_image);
+            });
+        })
         .catch((err) => {
             // always check for errors at the end.
             console.error(`${err.name}: ${err.message}`);
         });
-    //await new Promise(resolve => setTimeout(resolve, 2000));
-    //let videocopy = video.copy();
-    let [track] = stream.getVideoTracks();
-    let {width, height, aspectRatio} = track.getSettings();
 
-    // Constraints are in landscape, while settings may be rotated (portrait)
-    if (width < height) {
-        [width, height] = [height, width];
-        aspectRatio = 1 / aspectRatio;
-    }
-
-    await track.applyConstraints({
-        resizeMode: 'crop-and-scale',
-        width: {exact: width},
-        height: {exact: height},
-        frameRate: {exact: 10},
-        aspectRatio,
-    });
-
-    video.srcObject = stream;
-
-    video.play();
 
     //video.width=720;
     //video.height=1280;
 
 
-    var context = cap_image.getContext('2d');
-    snap.addEventListener("click",function (){
-        context.drawImage(video,0,0,600, 800);
-        transform(cap_image);
-    });
+
     /*
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
     let dst = new cv.Mat(video.height, video.width, cv.CV_8UC1);

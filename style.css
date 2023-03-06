@@ -6,8 +6,8 @@
 
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-    width: 675px;
-    height: 920px;
+    width: 560px;
+    height: 850px;
 
 }
 @media screen and (max-width: 580px){

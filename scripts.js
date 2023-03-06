@@ -51,8 +51,8 @@ function openCvReady() {
             //resizeMode: 'none',
             width: { ideal: 1280 },
             height: { ideal: 720 },
-            //focusMode: true,
-           // aspectRatio: 16/9,
+            focusMode: true,
+            aspectRatio: 16/9,
         }
         /*
              video: {
@@ -83,7 +83,7 @@ function openCvReady() {
                 width: {exact: width},
                 height: {exact: height},
                 //frameRate: {exact: 10},
-                //aspectRatio: 16/9,
+                aspectRatio: 16/9,
             });
            // original_Video.srcObject = stream;
             video.srcObject = stream;

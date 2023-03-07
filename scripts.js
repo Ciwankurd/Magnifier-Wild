@@ -47,11 +47,12 @@ function openCvReady() {
     const constraints = {
         audio: false,
         video: {
-            facingMode:  front? "user": "environment",
+           facingMode:  front? "user": "environment",
             //resizeMode: 'none',
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
+           // width: { ideal: 1280 },
+           // height: { ideal: 720 },
             focusMode: true,
+            zoom: 50 ,
             aspectRatio: 16/9,
         }
         /*
@@ -63,6 +64,9 @@ function openCvReady() {
 
      */
     };
+    await navigator.mediaDevices.enumerateDevices().then (devices =>{
+        console.log(devices)
+    })
     await navigator.mediaDevices.getUserMedia(constraints)
         .then( stream => {
             // Granted. Store deviceIds for next time
@@ -71,12 +75,15 @@ function openCvReady() {
             //let videocopy = video.copy();
             let [track] = stream.getVideoTracks();
             let {width, height, aspectRatio} = track.getSettings();
-
+            console.log("Got stream with constraints:", constraints);
+            console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
+
             if (width < height) {
                 [width, height] = [height, width];
                 aspectRatio = 1 / aspectRatio;
             }
+
 
             track.applyConstraints({
                 resizeMode: 'crop-and-scale',
@@ -85,7 +92,12 @@ function openCvReady() {
                 //frameRate: {exact: 10},
                 aspectRatio: 16/9,
             });
-           // original_Video.srcObject = stream;
+           // let x = (video.width -video.offsetWidth)/2+"px";
+           // let y = (video.height -video.offsetHeight)/2+"px";
+           //let ratio = video.offsetWidth/video.width;
+           // console.log(x,y,ratio)
+           //video.style.transform = 'translate (${x},${y}) scale(${ratio})'
+            // original_Video.srcObject = stream;
             video.srcObject = stream;
             //original_Video.play();
             video.play();
@@ -99,6 +111,17 @@ function openCvReady() {
         .catch((err) => {
             // always check for errors at the end.
             console.error(`${err.name}: ${err.message}`);
+            if (error.name === "ConstraintNotSatisfiedError") {
+                console.error(
+                    `The resolution ${constraints.video.width.exact}x${constraints.video.height.exact} px is not supported by your device.`
+                );
+            } else if (error.name === "PermissionDeniedError") {
+                console.error(
+                    "You need to grant this page permission to access your camera and microphone."
+                );
+            } else {
+                console.error(`getUserMedia error: ${error.name}`, error);
+            }
         });
 
 

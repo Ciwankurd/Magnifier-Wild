@@ -41,19 +41,20 @@ function openCvReady() {
         front = !front;
     };
 
-
+   let devices = await navigator.mediaDevices.enumerateDevices();
 
     // Prefer camera resolution nearest to 1280x720.
     const constraints = {
         audio: false,
         video: {
-           facingMode:  front? "user": "environment",
+          // facingMode:  front? "user": "environment",
             //resizeMode: 'none',
            // width: { ideal: 1280 },
            // height: { ideal: 720 },
             focusMode: true,
             zoom: 50 ,
             aspectRatio: 16/9,
+            deviceId: {exact: devices[2].deviceId}
         }
         /*
              video: {
@@ -64,9 +65,7 @@ function openCvReady() {
 
      */
     };
-    await navigator.mediaDevices.enumerateDevices().then (devices =>{
-        console.log(devices)
-    })
+
     await navigator.mediaDevices.getUserMedia(constraints)
         .then( stream => {
             // Granted. Store deviceIds for next time

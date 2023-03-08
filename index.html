@@ -12,14 +12,24 @@
 </head>
 <body>
 <div class="container" >
-<h2>Magnifier-Wild</h2>
+<h1>Magnifier-Wild</h1>
+    <br><br><br>
 <p id="status">OpenCV.js is loading...</p>
+    <br><br>
 <div>
     <div class="inputoutput">
-        <img id="imageSrc" alt="No Image" width="600" height="800"/>
+        <!--
+        <span id="boot-icon" class="bi bi-image" style="font-size: 200px; color: rgb(59, 154, 201); opacity: 0.8; -webkit-text-stroke-width: 0px; text-shadow: rgb(4, 43, 62) 8.2px -4.2px 2.9px;"></span>
+        -->
+        <img id="imageSrc" class="img-fluid" alt="No Image" width="450" height="600"/>
         <img alt="original image"  id="oIm" hidden="hidden" />
+        <br><br><br>
+        <div class="col-sm-6 mx-auto">
+            <label for="fileInput" class="form-label">Velg Bilde fra Camera eller Studio</label>
+            <input class="form-control" type="file" id="fileInput" name="file" accept='image/*,.pdf, .png'  capture="environment">
+        </div>
 
-        <div class="caption">imageSrc <input type="file" id="fileInput" name="file" multiple="multiple" accept='image/*,.pdf, .png'  capture="environment"/></div>
+
     </div>
     </br></br></br></br>
     <div class="inputoutput">
@@ -53,7 +63,7 @@
         </div>
 
     </div>
-    <video id="video-input" ></video>
+    <video id="video-input" width="380" height="750"></video>
     </br></br></br></br>
 
     <video id="Original-video-input" ></video>

@@ -47,14 +47,14 @@ function openCvReady() {
     const constraints = {
         audio: false,
         video: {
-          // facingMode:  front? "user": "environment",
+           facingMode:  front? "user": "environment",
             //resizeMode: 'none',
-           // width: { ideal: 1280 },
-           // height: { ideal: 720 },
-            focusMode: true,
-            zoom: 50 ,
+            width: { ideal: 1920 },
+           height: { ideal: 1080 },
+            //focusMode: true,
+            //zoom: 50 ,
             aspectRatio: 16/9,
-            deviceId: {exact: devices[2].deviceId}
+            deviceId:  devices[2].deviceId
         }
         /*
              video: {
@@ -77,7 +77,7 @@ function openCvReady() {
             console.log("Got stream with constraints:", constraints);
             console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-
+/*
             if (width < height) {
                 [width, height] = [height, width];
                 aspectRatio = 1 / aspectRatio;
@@ -97,13 +97,14 @@ function openCvReady() {
            // console.log(x,y,ratio)
            //video.style.transform = 'translate (${x},${y}) scale(${ratio})'
             // original_Video.srcObject = stream;
+  */
             video.srcObject = stream;
             //original_Video.play();
             video.play();
 
             let context = cap_image.getContext('2d');
             snap.addEventListener("click",function (){
-                context.drawImage(video,0,0,video.videoWidth, video.videoHeight);
+                context.drawImage(video,0,0,650,800);
                 transform(cap_image);
             });
         })
@@ -232,19 +233,26 @@ function openCvReady() {
         //rectCropIm = resizeIm.roi(rectIm);
 
        // cv.imshow('canvasOutput', rectCropIm);
+/*
+        if( 1500 >transformedIm.cols > 1000 || 1500 >transformedIm.rows > 1000) {
 
+            if (ratio <= 1) {
+                let dsize = new cv.Size(transformedIm.cols * 0.94, transformedIm.rows * 0.67);
+                cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
+            }
 
-        let dsize = new cv.Size(transformedIm.cols * 0.5, transformedIm.cols * 0.7);
-        cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
-
-        if(ratio <= 1) {
-            let dsize = new cv.Size(transformedIm.cols * 0.3, transformedIm.cols * 0.5);
+        }
+        if(transformedIm.cols >= 1500 || transformedIm.rows >= 1500){
+            let dsize = new cv.Size(transformedIm.cols *0.4, transformedIm.rows * 0.3);
+            cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
+        }
+*/
+        if(transformedIm.cols > 1000 || transformedIm.rows > 1000) {
+            let dsize = new cv.Size(550, 700);
             cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
         }
 
-
-
-       // let point1 = new cv.Point(3,3);
+        // let point1 = new cv.Point(3,3);
        // let point2 = new cv.Point(transformedIm.cols-5,transformedIm.rows-5);
        // let contoursColor = new cv.Scalar(255, 0, 0);
 
@@ -523,7 +531,7 @@ function getTransformedImage(im, fromPts) {
     // Grayscale
     cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
 
-    cv.medianBlur(transformedIm, transformedIm, 3);
+    //cv.medianBlur(transformedIm, transformedIm, 3);
 
    cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 127, 7);
     // Blur
@@ -719,9 +727,10 @@ function extractAllWords(im){
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
     cv.findContours(im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
-    let minCntArea= 35; // for å fjernet små brikker
+    let minCntArea= 8; // for å fjernet små brikker
     let imArea = (im.rows * im.cols)*0.1;
-    let horizentalDistanse = [];
+    let charHorizentalDistanse = [];
+    let charVerticalDistanse = [];
     let charactersDimention =[]
     let sortertAngle=[];
     let linesCntAngles=[];
@@ -744,7 +753,12 @@ function extractAllWords(im){
             let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
             cv.rectangle(im, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
             */
-            charactersDimention.push(new cv.Point(rect.width,rect.height));
+            if(!charHorizentalDistanse.includes(rect.width)) {
+                charHorizentalDistanse.push(rect.width);
+            }
+            if(!charVerticalDistanse.includes(rect.height)) {
+                charVerticalDistanse.push(rect.height);
+            }
 
 
             /*
@@ -780,14 +794,14 @@ function extractAllWords(im){
     }
 
      */
-    charactersDimention.sort((a,b) => a.x-b.x);
-    let horizentalCharSnitt = charactersDimention.at(charactersDimention.length/2).x;
-    charactersDimention.sort((a,b) => a.y-b.y);
-    let verticalCharSnitt = charactersDimention.at(charactersDimention.length/2).y;
+    charHorizentalDistanse.sort((a,b) => a-b);
+    let horizentalCharSnitt = charHorizentalDistanse.at(charVerticalDistanse.length/2 -2);
+    charVerticalDistanse.sort((a,b) => a-b);
+    let verticalCharSnitt = charVerticalDistanse.at(charVerticalDistanse.length/2);
 
     let dst = new cv.Mat();
     let M = new cv.Mat();
-    let ksize = new cv.Size(horizentalCharSnitt*0.45, verticalCharSnitt*0.3);
+    let ksize = new cv.Size(horizentalCharSnitt*1.15, verticalCharSnitt*0.3);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(im, dst, cv.MORPH_GRADIENT, M);
     cv.imshow('pros-image', dst);

@@ -247,8 +247,9 @@ function openCvReady() {
             cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
         }
 */
+
         if(transformedIm.cols > 1000 || transformedIm.rows > 1000) {
-            let dsize = new cv.Size(550, 700);
+            let dsize = new cv.Size(1200, 1500);
             cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
         }
 
@@ -266,8 +267,8 @@ function openCvReady() {
         let rect = new cv.Rect(10,10,transformedIm.cols-20,transformedIm.rows-20);
         cropIm = transformedIm.roi(rect);
         cv.imshow('canvasOutput', cropIm);
-        extractAllWords(cropIm)
-/*
+
+
         let medinaAngle = findWordsCoordinates(cropIm)
         //medinaAngle +=90;
         if(medinaAngle){
@@ -284,15 +285,14 @@ function openCvReady() {
             let M = cv.getRotationMatrix2D(center, medinaAngle, 1);
             let s = new cv.Scalar(255, 255, 255, 255);
             cv.warpAffine(cropIm,cropIm, M, dsize,cv.INTER_LINEAR,cv.BORDER_CONSTANT,s);
-
-
             cv.imshow('canvasOutput', cropIm);
 
-            transformedIm.delete(); cropIm.delete();
 
         }
-
- */
+        let blur_im = new cv.Mat();
+        cv.medianBlur(cropIm, blur_im, 3);
+        extractAllWords(blur_im)
+        transformedIm.delete(); cropIm.delete();
 
     } else {
 
@@ -531,8 +531,6 @@ function getTransformedImage(im, fromPts) {
     // Grayscale
     cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
 
-    //cv.medianBlur(transformedIm, transformedIm, 3);
-
    cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 127, 7);
     // Blur
     let ksize = new cv.Size(3, 3);
@@ -727,7 +725,7 @@ function extractAllWords(im){
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
     cv.findContours(im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
-    let minCntArea= 8; // for å fjernet små brikker
+    let minCntArea= 60; // for å fjernet små brikker
     let imArea = (im.rows * im.cols)*0.1;
     let charHorizentalDistanse = [];
     let charVerticalDistanse = [];
@@ -740,7 +738,7 @@ function extractAllWords(im){
     let contoursColor = new cv.Scalar(0, 255,0);
     let rotatedRect;
     let vertices;
-    for (let i = 0; i < contours.size()*0.3; ++i) {
+    for (let i = 0; i < contours.size()*0.5; ++i) {
         let cnt = contours.get(i);
         const cntArea = cv.contourArea(cnt)
 
@@ -794,22 +792,40 @@ function extractAllWords(im){
     }
 
      */
+    // NB: her kunne jeg finne tallet til det mest repeterende av bokstaverbreden, men det er tung prossess for optiamlisering.
     charHorizentalDistanse.sort((a,b) => a-b);
-    let horizentalCharSnitt = charHorizentalDistanse.at(charVerticalDistanse.length/2 -2);
+    let horizentalCharSnitt = (charHorizentalDistanse.at(0)+charHorizentalDistanse.at(charHorizentalDistanse.length-1))/2;
     charVerticalDistanse.sort((a,b) => a-b);
-    let verticalCharSnitt = charVerticalDistanse.at(charVerticalDistanse.length/2);
+    let verticalCharSnitt = (charVerticalDistanse.at(0)+charVerticalDistanse.at(charVerticalDistanse.length-1))/2;
 
     let dst = new cv.Mat();
+
+    //cv.threshold(im,im,THRESHOLD, 255, cv.THRESH_BINARY_INV | cv.THRESH_OTSU);
+    //let dst = new cv.Mat();
+
+
     let M = new cv.Mat();
-    let ksize = new cv.Size(horizentalCharSnitt*1.15, verticalCharSnitt*0.3);
+    let ksize = new cv.Size(horizentalCharSnitt*0.36, verticalCharSnitt*0.1);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(im, dst, cv.MORPH_GRADIENT, M);
+
     cv.imshow('pros-image', dst);
+
+    let MM = cv.Mat.ones(horizentalCharSnitt*0.36, verticalCharSnitt*0.3, cv.CV_8U);
+    let hsize = new cv.Size(1.3, 1);
+    MM = cv.getStructuringElement(cv.MORPH_CROSS, hsize);
+    let anchor = new cv.Point(-1, -1);
+    //let MM = cv.Mat.ones(5, 5, cv.CV_8U);
+// You can try more different parameters
+    //cv.dilate(dst, dst, MM, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue())
+
+    cv.imshow('pros-image', dst);
+
 
     let conts = new cv.MatVector();
     let h= new cv.Mat();
-    let min_Areal= horizentalCharSnitt*verticalCharSnitt;
-    cv.findContours(dst, conts, h, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+    let min_Areal= horizentalCharSnitt*verticalCharSnitt*0.3;
+    cv.findContours(dst, conts, h, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
     for (let i = 0; i < conts.size(); ++i) {
         let cnt = conts.get(i);

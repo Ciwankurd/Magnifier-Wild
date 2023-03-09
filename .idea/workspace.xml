@@ -7,9 +7,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="video dem">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="styling og endring">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -302,7 +304,21 @@
       <option name="project" value="LOCAL" />
       <updated>1678190515314</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="styling og endring i noen funtion">
+      <created>1678300053162</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1678300053162</updated>
+    </task>
+    <task id="LOCAL-00024" summary="styling og endring">
+      <created>1678300086706</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1678300086706</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -338,8 +354,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="new cha" />
-    <MESSAGE value="nnnn" />
     <MESSAGE value="dddd" />
     <MESSAGE value="neww" />
     <MESSAGE value="newwdd" />
@@ -363,35 +377,35 @@
     <MESSAGE value="video d" />
     <MESSAGE value="video de" />
     <MESSAGE value="video dem" />
-    <option name="LAST_COMMIT_MESSAGE" value="video dem" />
+    <MESSAGE value="styling og endring i noen funtion" />
+    <MESSAGE value="styling og endring" />
+    <option name="LAST_COMMIT_MESSAGE" value="styling og endring" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>262</line>
-          <option name="timeStamp" value="50" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>858</line>
+          <line>888</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>848</line>
-          <option name="timeStamp" value="60" />
+          <line>287</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="77" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>876</line>
-          <option name="timeStamp" value="61" />
+          <line>268</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>762</line>
-          <option name="timeStamp" value="63" />
+          <line>809</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="91" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

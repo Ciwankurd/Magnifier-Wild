@@ -6,12 +6,17 @@ const cap_image = document.getElementById("cap-image");
 const pros_image = document.getElementById("pros-image");
 const CanvasLab = document.getElementById("ImProcess");
 const snap = document.getElementById("snap");
+const labCanvas = document.getElementById("LabcanvasOutput");
 const imtofrode = document.getElementById("canvasOutput");
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('fileInput');
 let MIN_CONTOURS_SCALE= 20; // Minimum original image ratio
 let THRESHOLD= 128; // Monochrome threshold
 let origIm=document.getElementById('oIm');
+let Frode_projection=document.getElementById('Frode-projection');
+let OpenCV_projection=document.getElementById('OpenCV-projection');
+let Stronger_contrast=document.getElementById('contrast');
+let Negative=document.getElementById('negative');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,modifyTall_h,Im_Ratio, min_width,min_height;
 
 inputElement.addEventListener('change', (e) => {
@@ -247,6 +252,7 @@ function openCvReady() {
             cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
         }
 */
+       // checkTextOrination(transformedIm);
 
         if(transformedIm.cols > 1000 || transformedIm.rows > 1000) {
             let dsize = new cv.Size(1200, 1500);
@@ -269,8 +275,9 @@ function openCvReady() {
         cv.imshow('canvasOutput', cropIm);
 
 
-        let medinaAngle = findWordsCoordinates(cropIm)
+        let medinaAngle = findlinesAngel(cropIm)
         //medinaAngle +=90;
+
         if(medinaAngle){
             //medinaAngle +=90;
             //imtofrode.style.transform= 'rotate('+lineAngle+'deg)'
@@ -285,13 +292,20 @@ function openCvReady() {
             let M = cv.getRotationMatrix2D(center, medinaAngle, 1);
             let s = new cv.Scalar(255, 255, 255, 255);
             cv.warpAffine(cropIm,cropIm, M, dsize,cv.INTER_LINEAR,cv.BORDER_CONSTANT,s);
-            cv.imshow('canvasOutput', cropIm);
-
 
         }
+        cv.imshow('LabcanvasOutput', cropIm);
+        cv.imshow('canvasOutput', cropIm);
         let blur_im = new cv.Mat();
         cv.medianBlur(cropIm, blur_im, 3);
-        extractAllWords(blur_im)
+        cv.imshow('canvasOutput', blur_im);
+        if(Frode_projection.checked){
+            processPageCallback(imtofrode);
+        }
+        if(OpenCV_projection.checked) {
+            extractAllWords(cropIm)
+        }
+
         transformedIm.delete(); cropIm.delete();
 
     } else {
@@ -336,8 +350,8 @@ function getContoursPoints (im) {
     let approx = new cv.Mat();
     let vertices = new cv.Mat();
 
-    const epsilon = 0.02 * cv.arcLength(maxCnt, true)
-    cv.approxPolyDP(maxCnt, approx, epsilon, true);
+    const epsilon = 0.02 * cv.arcLength(maxCnt, true) // maximum distance from contour to approximated contour
+    cv.approxPolyDP(maxCnt, approx, epsilon, true);   //  Douglas-Peucker algorithm.function to approximate the shape
 
     if (approx.size().height === 4) {// Keep if it is a rectangle
         // antallKanter = approx.size().height;
@@ -352,7 +366,6 @@ function getContoursPoints (im) {
         //  sort by y  coordinates to know which corner has been scanned first
 
         console.log(pts.data32F)
-
         //let sortPts= pts.sort((a,b)=>b-a);
         //console.log(sortPts.data32F);
         let sortPots = [];
@@ -383,18 +396,20 @@ function getContoursPoints (im) {
 
    // console.log(maxCntArea)
     if (approx.size().height !== 4) {
-
+        let minRecrt = cv.minAreaRect(maxCnt)
+        vertices = cv.RotatedRect.points(minRecrt);
         modifyTall_v =45;
-        modifyTall_h = 45;
+        modifyTall_h =45;
         // let features = new cv.Mat();
         //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
         //features.convertTo(features,cv.CV_32FC2);
         //console.log(features.data32F);
+        let dst = new cv.Mat();
         let rectangleColor = new cv.Scalar(255, 0, 0);
         for (let i = 0; i < 4; i++) {
-            cv.line(dst, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
+            cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
         }
-        cv.imshow('pros-image', dst);
+        cv.imshow('pros-image', im);
         console.log(vertices)
 
         for (let i = 0; i < 4; i++) {
@@ -572,11 +587,11 @@ function checkshape(pts){
     let wt ,wb,hl,hr;
 
     // Alle points ordnet by Y coordinates when we scanned contours.
-    wt = getDistance(pts[0].x, pts[0].y, pts[2].x, pts[2].y)
+    wt = getDistance(pts[0].x, pts[0].y, pts[1].x, pts[1].y)
 
 
-    if(pts[0].y < pts[1].y) {                   // check position to x for first and second point
-        if (pts[2].y > pts[3].y ) {             // check position to x for third and point forth point
+    if(pts[0].x < pts[1].x) {                   // check position to x for first and second point
+        if (pts[2].x > pts[3].x ) {             // check position to x for third and point forth point
             hl = getDistance(pts[0].x, pts[0].y, pts[3].x, pts[3].y);
             hr = getDistance(pts[1].x, pts[1].y, pts[2].x, pts[2].y);
         }
@@ -586,14 +601,15 @@ function checkshape(pts){
         }
     }
 
-    else if(pts[0].y == pts[1].y){
+    if(pts[0].y == pts[1].y){
         hl = getDistance(pts[0].x, pts[0].y, pts[3].x, pts[3].y);
         hr = getDistance(pts[1].x, pts[1].y, pts[2].x, pts[2].y);
     }
 
+
     else
         {
-        if (pts[2].y < pts[3].y ) {
+        if (pts[2].x < pts[3].x ) {
             hr = getDistance(pts[0].x, pts[0].y, pts[3].x, pts[3].y);
             hl = getDistance(pts[1].x, pts[1].y, pts[2].x, pts[2].y);
         }
@@ -656,7 +672,7 @@ function checkTextOrination(im){
 }
 // find coordinates to every word in contour
 
-function findWordsCoordinates(im){
+function findlinesAngel(im){
     let dst = new cv.Mat();
     let M = new cv.Mat();
     let ksize = new cv.Size(18, 2);
@@ -698,14 +714,18 @@ function findWordsCoordinates(im){
                 cv.line(dst, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
             }
             cv.imshow('pros-image', dst);
-            linesCntAngles.push(rotatedRect.angle)
-            sortertAngle.push(rotatedRect.angle)
-            console.log(rotatedRect.angle)
+            vertices.sort((a,b) => a.y-b.y);
+            let dx = Math.abs(vertices[3].x - vertices[2].x);
+            let dy =Math.abs(vertices[3].y - vertices[2].y);
+            let rektangleAngle = Math.atan2(dy,dx);
+            linesCntAngles.push(rektangleAngle)
+           // sortertAngle.push(rotatedRect.angle)
+
 
         }
 
     }
-
+/*
     sortertAngle.sort((a,b) => a-b)
     medianAngle = sortertAngle.at(sortertAngle.length/2);
     let index = linesCntAngles.indexOf(medianAngle);
@@ -716,11 +736,26 @@ function findWordsCoordinates(im){
     }
     dst.delete(); contours.delete(); linesCntAngles=[]; sortertAngle=[]; rectArr=[]; vertices=[];
     return medianAngle*0.5;
+*/
+    linesCntAngles.sort((a,b) => a-b);
+    medianAngle = linesCntAngles.at(linesCntAngles.length/2);
 
+    return medianAngle >0 ? -medianAngle : medianAngle;
 }
 // Extract words based on morphology operator.
 
 function extractAllWords(im){
+
+    let cany_im = new cv.Mat();
+
+    cv.Canny(im, cany_im, 30, 120, 3, false);
+    cv.imshow('pros-image',cany_im);
+    // Threshold
+    // let threshold_im = new cv.Mat();
+    //cv.adaptiveThreshold(im_gray, threshold_im, 255, cv.THRESH_BINARY, 81, 3);
+    //cv.threshold(cany_im, threshold_im, THRESHOLD, 255, cv.THRESH_BINARY);
+
+
     // Contours
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
@@ -739,7 +774,8 @@ function extractAllWords(im){
     let rotatedRect;
     let vertices;
     for (let i = 0; i < contours.size()*0.5; ++i) {
-        let cnt = contours.get(i);
+        let r = Math.floor(Math.random() * contours.size());  // Randomize choose sample of width in different places
+        let cnt = contours.get(r);
         const cntArea = cv.contourArea(cnt)
 
         if (cntArea > minCntArea && cntArea < imArea) {
@@ -768,9 +804,8 @@ function extractAllWords(im){
             for (let i = 0; i < 4; i++) {
                 cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
             }
+             */
 
-     */
-            cv.imshow('pros-image', im);
            // linesCntAngles.push(rotatedRect.angle)
            // sortertAngle.push(rotatedRect.angle)
            // console.log(rotatedRect.angle)
@@ -778,6 +813,7 @@ function extractAllWords(im){
         }
 
     }
+    cv.imshow('pros-image', im);
 
    // sortertAngle.sort((a,b) => a-b)
    // medianAngle = sortertAngle.at(sortertAngle.length/2);
@@ -794,9 +830,9 @@ function extractAllWords(im){
      */
     // NB: her kunne jeg finne tallet til det mest repeterende av bokstaverbreden, men det er tung prossess for optiamlisering.
     charHorizentalDistanse.sort((a,b) => a-b);
-    let horizentalCharSnitt = (charHorizentalDistanse.at(0)+charHorizentalDistanse.at(charHorizentalDistanse.length-1))/2;
+    let horizentalCharSnitt = charHorizentalDistanse.at(charHorizentalDistanse.length-1)/2;
     charVerticalDistanse.sort((a,b) => a-b);
-    let verticalCharSnitt = (charVerticalDistanse.at(0)+charVerticalDistanse.at(charVerticalDistanse.length-1))/2;
+    let verticalCharSnitt = charVerticalDistanse.at(charVerticalDistanse.length-1)/2;
 
     let dst = new cv.Mat();
 
@@ -805,7 +841,7 @@ function extractAllWords(im){
 
 
     let M = new cv.Mat();
-    let ksize = new cv.Size(horizentalCharSnitt*0.36, verticalCharSnitt*0.1);
+    let ksize = new cv.Size(horizentalCharSnitt*0.247, verticalCharSnitt*0.2);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(im, dst, cv.MORPH_GRADIENT, M);
 
@@ -885,6 +921,12 @@ function extractAllWords(im){
     })
 
     console.log(sort_by_lines)
+/*
+     contours.delete(); hierarchy.delete(); charHorizentalDistanse=[]; charVerticalDistanse =[];
+    charactersDimention=[];  rectArr=[]; medianAngle.delete(); rectangleColor.delete();
+    contoursColor.delete(); rotatedRect.delete(); vertices.delete();
+    conts.delete(); h.delete(); M.delete(); MM.delete(); dst.delete();
+*/
     // Crop Image
     cropImage(sort_by_lines)
     /*
@@ -900,7 +942,7 @@ function extractAllWords(im){
 
 // crop image
 function cropImage(wordCoordinates){
-    const ctx = imtofrode.getContext("2d");
+    const ctx = labCanvas.getContext("2d");
 
     for (var word of wordCoordinates)
     {

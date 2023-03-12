@@ -42,9 +42,6 @@ function openCvReady() {
     let front = false;
     let mode = "user"
 
-    document.getElementById("flip-button").onclick = () => {
-        front = !front;
-    };
 
    let devices = await navigator.mediaDevices.enumerateDevices();
 
@@ -58,8 +55,8 @@ function openCvReady() {
            height: { ideal: 1080 },
             //focusMode: true,
             //zoom: 50 ,
-            aspectRatio: 16/9,
-            deviceId:  devices[2].deviceId
+            //aspectRatio: 16/9,
+            //deviceId:  devices[2].deviceId
         }
         /*
              video: {
@@ -74,13 +71,13 @@ function openCvReady() {
     await navigator.mediaDevices.getUserMedia(constraints)
         .then( stream => {
             // Granted. Store deviceIds for next time
-            localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
+            //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
             let [track] = stream.getVideoTracks();
             let {width, height, aspectRatio} = track.getSettings();
-            console.log("Got stream with constraints:", constraints);
-            console.log(`Using video device: ${track.getSettings.deviceId}`);
+           // console.log("Got stream with constraints:", constraints);
+           // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
 /*
             if (width < height) {
@@ -109,7 +106,7 @@ function openCvReady() {
 
             let context = cap_image.getContext('2d');
             snap.addEventListener("click",function (){
-                context.drawImage(video,0,0,650,800);
+                context.drawImage(video,0,0,width,height);
                 transform(cap_image);
             });
         })

@@ -55,7 +55,7 @@ function openCvReady() {
            height: { ideal: 1080 },
             //focusMode: true,
             //zoom: 50 ,
-            //aspectRatio: 16/9,
+            aspectRatio: 16/9,
             //deviceId:  devices[2].deviceId
         }
         /*

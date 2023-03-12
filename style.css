@@ -5,10 +5,9 @@
     position: relative;
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-    width: 100%;
     height: 100%;
-
-
+    overflow: hidden;
+    width: 100%;
 }
 @media screen and (max-width: 580px){
     .overlay {
@@ -69,7 +68,7 @@
     height: 60px;
     width: 60px;
     border-radius: 50%;
-    cursor: nwse-resize;
+    cursor: pointer;
     text-align: center;
     background:red;
     font-family: center;
@@ -147,6 +146,7 @@ font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
     background: white;
 }
 #video-input{
+
     width: 100%;
     height: 100%;
 }
@@ -204,6 +204,7 @@ body{
 
 #cap-image{
     width:95%;
+    height: max-content;
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
    /* background: white;

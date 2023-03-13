@@ -106,7 +106,9 @@ function openCvReady() {
 
             let context = cap_image.getContext('2d');
             snap.addEventListener("click",function (){
-                context.drawImage(video,0,0,width,height);
+                cap_image.width= width;
+                cap_image.height=height;
+               context.drawImage(video,0,0,width,height);
                 transform(cap_image);
             });
         })

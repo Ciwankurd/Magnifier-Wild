@@ -7,7 +7,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="video resizing">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="image Width resizing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
@@ -346,7 +346,14 @@
       <option name="project" value="LOCAL" />
       <updated>1678656818185</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="image Width resizing">
+      <created>1678710629949</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1678710629949</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -382,7 +389,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="ssss" />
     <MESSAGE value="siste endring" />
     <MESSAGE value="xsxscfs" />
     <MESSAGE value="siste endringer" />
@@ -407,51 +413,58 @@
     <MESSAGE value="Randomization of width samples in image" />
     <MESSAGE value="updating styling" />
     <MESSAGE value="video resizing" />
-    <option name="LAST_COMMIT_MESSAGE" value="video resizing" />
+    <MESSAGE value="image Width resizing" />
+    <option name="LAST_COMMIT_MESSAGE" value="image Width resizing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>929</line>
+          <line>934</line>
           <option name="timeStamp" value="59" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>273</line>
+          <line>278</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="79" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>741</line>
+          <line>746</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="107" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>943</line>
+          <line>948</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>844</line>
+          <line>849</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="109" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>750</line>
+          <line>755</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="110" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>814</line>
+          <line>819</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="112" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/scripts.js</url>
+          <line>112</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="123" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

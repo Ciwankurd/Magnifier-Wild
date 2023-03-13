@@ -51,9 +51,9 @@ function openCvReady() {
         video: {
            facingMode:  front? "user": "environment",
             //resizeMode: 'none',
-            width: { ideal: 1920 },
-           height: { ideal: 1080 },
-            //focusMode: true,
+            width: { ideal: 1280 },
+           height: { ideal: 720 },
+            focusMode: true,
             //zoom: 50 ,
             aspectRatio: 16/9,
             //deviceId:  devices[2].deviceId
@@ -79,7 +79,7 @@ function openCvReady() {
            // console.log("Got stream with constraints:", constraints);
            // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-/*
+
             if (width < height) {
                 [width, height] = [height, width];
                 aspectRatio = 1 / aspectRatio;
@@ -93,22 +93,27 @@ function openCvReady() {
                 //frameRate: {exact: 10},
                 aspectRatio: 16/9,
             });
-           // let x = (video.width -video.offsetWidth)/2+"px";
-           // let y = (video.height -video.offsetHeight)/2+"px";
-           //let ratio = video.offsetWidth/video.width;
-           // console.log(x,y,ratio)
-           //video.style.transform = 'translate (${x},${y}) scale(${ratio})'
+            let x = (video.width -video.offsetWidth)/2+"px";
+            let y = (video.height -video.offsetHeight)/2+"px";
+           let ratio = video.offsetWidth/video.width;
+           console.log(x,y,ratio)
+            video.style.width=width;
+           video.style.height=height;
+           //video.style.transform = `translate(${x},${y}) scale(${ratio})`;
+          // cap_image.style.transform = `scale(${ratio})`;
             // original_Video.srcObject = stream;
-  */
             video.srcObject = stream;
             //original_Video.play();
-            video.play();
+            video.onloadedmetadata = () => {
+                video.play();
+            };
 
             let context = cap_image.getContext('2d');
             snap.addEventListener("click",function (){
                 cap_image.width= width;
                 cap_image.height=height;
                context.drawImage(video,0,0,width,height);
+                cap_image.style.transform = `scale(${ratio})`;
                 transform(cap_image);
             });
         })

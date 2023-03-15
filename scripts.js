@@ -20,16 +20,55 @@ let Negative=document.getElementById('negative');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,modifyTall_h,Im_Ratio, min_width,min_height;
 
 inputElement.addEventListener('change', (e) => {
+        origIm.src = URL.createObjectURL(e.target.files[0]);
+        imgElement.src = URL.createObjectURL(e.target.files[0]);
+    /*
+    let file = e.target.files[0];
+    let reader = new FileReader();
+    let original_width, original_height;
+    //Read the contents of Image File.
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = function (e) {
 
-    origIm.src = URL.createObjectURL(e.target.files[0]);
-    imgElement.src = URL.createObjectURL(e.target.files[0]);
+        //create image
+        let image = document.createElement("img");
 
-}, false);
-imgElement.onload = function ImProcess() {
-    result.innerHTML='';
+        //Set the Base64 string return from FileReader as source.
+        image.src = e.target.result;
+
+        //Validate the File Height and Width.
+        image.onload = function () {
+            origIm.src = URL.createObjectURL(file);
+            original_height = this.height;
+            original_width = this.width;
+            console.log(original_width, original_height)
+            let wanted_Width = 1200;
+            let wanted_Height = 1500;
+            // let orignal_size = Math.round(e.target.files[0].size/1024**2); // size in MB
+
+            if (original_width > 1200 && original_width < original_height) {
+                let ratio = wanted_Width / original_width;
+                origIm.width = wanted_Width;
+                origIm.height = original_height * ratio;
+            }
+            if (original_width > 1200 && original_width > original_height) {
+                let ratio = wanted_Width / original_width;
+                origIm.height = wanted_Height;
+                origIm.width = original_width;
+            }
+        };
+    }
+*/
+});
+imgElement.onload = function ImProcess(){
+
+    // result.innerHTML = '';
+    //let dsize = new cv.Size(300, 500);
+    //cv.resize(origIm, origIm, dsize, 0, 0, cv.INTER_AREA);
     transform(origIm)
     //processPageCallback(imtofrode);
 };
+
 // check if opencv loaded
 function openCvReady() {
     // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
@@ -51,10 +90,11 @@ function openCvReady() {
         video: {
            facingMode:  front? "user": "environment",
             //resizeMode: 'none',
-            width: { ideal: 1280 },
-           height: { ideal: 720 },
+            width: { ideal: 1920 },
+           height: { ideal: 1080 },
             focusMode: true,
             //zoom: 50 ,
+            scale: 5,
             aspectRatio: 16/9,
             //deviceId:  devices[2].deviceId
         }
@@ -92,6 +132,7 @@ function openCvReady() {
                 height: {exact: height},
                 //frameRate: {exact: 10},
                 aspectRatio: 16/9,
+                scale: 5
             });
             let x = (video.width -video.offsetWidth)/2+"px";
             let y = (video.height -video.offsetHeight)/2+"px";
@@ -113,7 +154,7 @@ function openCvReady() {
                 cap_image.width= width;
                 cap_image.height=height;
                context.drawImage(video,0,0,width,height);
-                cap_image.style.transform = `scale(${ratio})`;
+
                 transform(cap_image);
             });
         })
@@ -228,6 +269,7 @@ function openCvReady() {
 
 // opencv
  function transform (src) {
+     result.innerHTML = '';
     const im = cv.imread(src);
     let pts = getContoursPoints(im);
     if(pts) {
@@ -302,12 +344,12 @@ function openCvReady() {
         cv.imshow('canvasOutput', cropIm);
         let blur_im = new cv.Mat();
         cv.medianBlur(cropIm, blur_im, 3);
-        cv.imshow('canvasOutput', blur_im);
+       // cv.imshow('canvasOutput', blur_im);
         if(Frode_projection.checked){
             processPageCallback(imtofrode);
         }
         if(OpenCV_projection.checked) {
-            extractAllWords(cropIm)
+            extractAllWords(cropIm,blur_im)
         }
 
         transformedIm.delete(); cropIm.delete();
@@ -748,8 +790,8 @@ function findlinesAngel(im){
 }
 // Extract words based on morphology operator.
 
-function extractAllWords(im){
-
+function extractAllWords(im,blured_im){
+    // // pre Test to find out median width for characters in context
     let cany_im = new cv.Mat();
 
     cv.Canny(im, cany_im, 30, 120, 3, false);
@@ -763,9 +805,9 @@ function extractAllWords(im){
     // Contours
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
-    cv.findContours(im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
-    let minCntArea= 60; // for å fjernet små brikker
-    let imArea = (im.rows * im.cols)*0.1;
+    cv.findContours(blured_im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+    let minCntArea= 100; // for å fjernet små brikker
+    let imArea = (blured_im.rows * blured_im.cols)*0.1;
     let charHorizentalDistanse = [];
     let charVerticalDistanse = [];
     let charactersDimention =[]
@@ -808,7 +850,7 @@ function extractAllWords(im){
             for (let i = 0; i < 4; i++) {
                 cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
             }
-             */
+*/
 
            // linesCntAngles.push(rotatedRect.angle)
            // sortertAngle.push(rotatedRect.angle)
@@ -817,7 +859,7 @@ function extractAllWords(im){
         }
 
     }
-    cv.imshow('pros-image', im);
+    cv.imshow('pros-image', blured_im);
 
    // sortertAngle.sort((a,b) => a-b)
    // medianAngle = sortertAngle.at(sortertAngle.length/2);
@@ -845,9 +887,9 @@ function extractAllWords(im){
 
 
     let M = new cv.Mat();
-    let ksize = new cv.Size(horizentalCharSnitt*0.247, verticalCharSnitt*0.2);
-    M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
-    cv.morphologyEx(im, dst, cv.MORPH_GRADIENT, M);
+    let ksize = new cv.Size(horizentalCharSnitt*2, verticalCharSnitt*0.2);
+    M = cv.getStructuringElement(cv.MORPH_RECT, ksize);
+    cv.morphologyEx(blured_im, dst, cv.MORPH_GRADIENT, M);
 
     cv.imshow('pros-image', dst);
 
@@ -864,24 +906,25 @@ function extractAllWords(im){
 
     let conts = new cv.MatVector();
     let h= new cv.Mat();
-    let min_Areal= horizentalCharSnitt*verticalCharSnitt*0.3;
+    let min_Areal= horizentalCharSnitt*verticalCharSnitt;
+    let max_Area = (im.rows * im.cols)*0.1;
     cv.findContours(dst, conts, h, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
 
     for (let i = 0; i < conts.size(); ++i) {
         let cnt = conts.get(i);
         const cntArea = cv.contourArea(cnt)
 
-        if (cntArea > min_Areal && cntArea < imArea) {
+        if (cntArea > min_Areal && cntArea < max_Area) {
             // MaxCnt=cnt;
             //minCntArea=cntArea;
             let rect= cv.boundingRect(cnt);
             let point1 = new cv.Point(rect.x, rect.y);
             let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
-            cv.rectangle(im, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
+            //cv.rectangle(im, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
             rectArr.push(rect);
 
 
-            /*
+/*
             rotatedRect = cv.minAreaRect(cnt);
             rectArr.push(rotatedRect);
             vertices = cv.RotatedRect.points(rotatedRect);
@@ -890,8 +933,8 @@ function extractAllWords(im){
             for (let i = 0; i < 4; i++) {
                 cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
             }
+*/
 
-     */
             cv.imshow('pros-image', im);
             // linesCntAngles.push(rotatedRect.angle)
             // sortertAngle.push(rotatedRect.angle)
@@ -903,13 +946,74 @@ function extractAllWords(im){
 
 // Calculate maximum rectangle height
 
-   let max_height = rectArr.sort((a,b) => b.height - a.height).at(0).height;
-    let first_y = rectArr.sort((a,b) =>a.y- b.y).at(0).y;
+   //let max_height = rectArr.sort((a,b) => b.height - a.height).at(0).height;
+    rectArr.sort((a,b) =>a.y- b.y);
+
+    for (let i=0;  i < rectArr.length; i++) {
+
+        let x = rectArr[i].x;
+        let y = rectArr[i].y;
+        let h = rectArr[i].height;
+        let w = rectArr[i].width;
+        let rect = new cv.Rect(x, y, w, h);
+        let croped_rectIm = im.roi(rect);
+        cv.imshow('pros-image', croped_rectIm);
+
+        // find out median char dimension in line
+        /*
+        let medianCharSize = line_Medin_char_line(croped_rectIm);
+        if (medianCharSize.charMedianWidth && medianCharSize.charMedianHeight) {}
+            let medianCharWidth = medianCharSize.charMedianWidth;
+            let medianCharHeight = medianCharSize.charMedianHeight;
+
+         */
+            let dst = new cv.Mat();
+            let M = new cv.Mat();
+            let ksize = new cv.Size(horizentalCharSnitt * 0.3, verticalCharSnitt * 0.2);
+            M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
+            cv.morphologyEx(croped_rectIm, dst, cv.MORPH_GRADIENT, M);
+            cv.imshow('pros-image', dst);
+            cv.imshow('pros-image', croped_rectIm);
+            let contours = new cv.MatVector();
+            let hierarchy = new cv.Mat();
+            let min_Areal = horizentalCharSnitt * verticalCharSnitt * 0.3;
+            let max_Areal = w * h;
+            let rectArrOrd = [];
+
+            cv.findContours(dst, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+            for (let i = 0; i < contours.size(); ++i) {
+                let cnt = contours.get(i);
+                const cntArea = cv.contourArea(cnt)
+
+                if (cntArea > min_Areal && cntArea <= max_Areal) {
+                    // MaxCnt=cnt;
+                    //minCntArea=cntArea;
+                    let rect = cv.boundingRect(cnt);
+                    let point1 = new cv.Point(rect.x, rect.y);
+                    let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
+                    //cv.rectangle(croped_rectIm, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
+                    rectArrOrd.push(rect);
+                    // cv.imshow('pros-image', croped_rectIm);
+                }
+
+
+            }
+            // sort row by x;
+            rectArrOrd.sort((a, b) => a.x - b.x);
+            cropImage(rectArrOrd);
+            rectArrOrd = [];
+
+    }
+
+    addZoomButtons();
+
+/*
+
     let linje = 1
     let sort_by_lines = []
-    for (let i=0;  i < rectArr.length; i++){
-        if( rectArr.at(i).y >first_y+max_height){
-            first_y = rectArr.at(i).y;
+    for (let i=0;  i < rectArr.length-1; i++){
+        if( (rectArr.at(i+1).y - rectArr.at(i).y) > (rectArr.at(i).height + rectArr.at(i+1).height)/2){
+            //first_y = rectArr.at(i).y;
             linje++;
         }
         let obj = {"linje": linje,"x": rectArr.at(i).x,"y":rectArr.at(i).y,"w":rectArr.at(i).width,"h":rectArr.at(i).height};
@@ -925,15 +1029,15 @@ function extractAllWords(im){
     })
 
     console.log(sort_by_lines)
-/*
+
      contours.delete(); hierarchy.delete(); charHorizentalDistanse=[]; charVerticalDistanse =[];
     charactersDimention=[];  rectArr=[]; medianAngle.delete(); rectangleColor.delete();
     contoursColor.delete(); rotatedRect.delete(); vertices.delete();
     conts.delete(); h.delete(); M.delete(); MM.delete(); dst.delete();
-*/
+
     // Crop Image
     cropImage(sort_by_lines)
-    /*
+
     for (let i=0; i< sort_by_lines.length; i++) {
         let cropIm = new cv.Mat();
         let rect = new cv.Rect(sort_by_lines.at(i).x,sort_by_lines.at(i).y,sort_by_lines.at(i).w,sort_by_lines.at(i).h);
@@ -944,16 +1048,87 @@ function extractAllWords(im){
 
 }
 
+// pre Test to find out median width for characters in line
+
+function line_Medin_char_line(im){
+    // Contours
+    let contours = new cv.MatVector();
+    let hierarchy = new cv.Mat();
+    cv.findContours(im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+    let minCntArea= 60; // for å fjernet små brikker
+    let imArea = im.rows * im.cols;
+    let charHorizentalDistanse = [];
+    let charVerticalDistanse = [];
+    let rectangleColor = new cv.Scalar(0, 255, 0);
+    let contoursColor = new cv.Scalar(0, 255,0);
+    for (let i = 0; i < contours.size(); ++i) {
+        //let r = Math.floor(Math.random() * contours.size());  // Randomize choose sample of width in different places
+        let cnt = contours.get(i);
+        const cntArea = cv.contourArea(cnt)
+
+        if (cntArea > minCntArea && cntArea < imArea) {
+            // MaxCnt=cnt;
+            //minCntArea=cntArea;
+            let rect= cv.boundingRect(cnt);
+            /*
+             let point1 = new cv.Point(rect.x, rect.y);
+            let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
+            cv.rectangle(im, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
+            */
+            if(!charHorizentalDistanse.includes(rect.width)) {
+                charHorizentalDistanse.push(rect.width);
+            }
+            if(!charVerticalDistanse.includes(rect.height)) {
+                charVerticalDistanse.push(rect.height);
+            }
+
+
+
+            let rotatedRect = cv.minAreaRect(cnt);
+           let vertices = cv.RotatedRect.points(rotatedRect);
+            cv.drawContours(im, contours, 0, contoursColor, 1, 8, hierarchy, 100);
+            // draw rotatedRect
+            for (let i = 0; i < 4; i++) {
+                cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
+            }
+
+        }
+
+    }
+    cv.imshow('pros-image', im);
+
+    // sortertAngle.sort((a,b) => a-b)
+    // medianAngle = sortertAngle.at(sortertAngle.length/2);
+    // let index = linesCntAngles.indexOf(medianAngle);
+    // medianRect = rectArr.at(index)
+    // distance between two characters
+    /*
+    rectArr.sort((a,b) => a.x - b.x)
+    for (let i = 1; i < rectArr.length; ++i) {
+       let avstand = (rectArr[i - 1].x+rectArr[i - 1].width) - rectArr[i].x
+        horizentalDistanse.push(avstand);
+    }
+
+     */
+    // NB: her kunne jeg finne tallet til det mest repeterende av bokstaverbreden, men det er tung prossess for optiamlisering.
+    charHorizentalDistanse.sort((a,b) => a-b);
+    let horizentalCharSnitt = charHorizentalDistanse.at(charHorizentalDistanse.length-1)/2;
+    charVerticalDistanse.sort((a,b) => a-b);
+    let verticalCharSnitt = charVerticalDistanse.at(charVerticalDistanse.length-1)/2;
+
+    return {'charMedianWidth':horizentalCharSnitt, 'charMedianHeight':verticalCharSnitt};
+}
+
 // crop image
 function cropImage(wordCoordinates){
-    const ctx = labCanvas.getContext("2d");
+    const ctx = pros_image.getContext("2d");
 
     for (var word of wordCoordinates)
     {
         const x = word.x;
         const y = word.y;
-        const w = word.w;
-        const h = word.h;
+        const w = word.width;
+        const h = word.height;
 
         // get the image of the current word
         const wordImage = ctx.getImageData(x,y,w,h);
@@ -972,6 +1147,12 @@ function cropImage(wordCoordinates){
 
 
     }
+/*
+
+*/
+}
+
+function addZoomButtons(){
     const zoomInn = document.createElement("a");
     zoomInn.setAttribute("class","bi bi-zoom-in")
     zoomInn.setAttribute("id","zoom-inn-icon")
@@ -987,9 +1168,7 @@ function cropImage(wordCoordinates){
     zoomReset.setAttribute("id","zoom-reset-icon")
     zoomReset.setAttribute("type","button")
     result.appendChild(zoomReset)
-
 }
-
 
 // Modify corner coordinates
 

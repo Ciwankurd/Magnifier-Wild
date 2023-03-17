@@ -16,7 +16,7 @@
     <br><br><br>
 <p id="status">OpenCV.js is loading...</p>
     <br><br>
-    <h2>Options</h2>
+    <h2>Options</h2> <br>
     <div class="form-check form-check-inline">
         <input class="form-check-input" type="checkbox" id="negative" name="negative" value="negative">
         <label class="form-check-label" for="negative">
@@ -49,9 +49,9 @@
         <!--
         <span id="boot-icon" class="bi bi-image" style="font-size: 200px; color: rgb(59, 154, 201); opacity: 0.8; -webkit-text-stroke-width: 0px; text-shadow: rgb(4, 43, 62) 8.2px -4.2px 2.9px;"></span>
         -->
-        <br><label>Input Image</label></br></br>
-        <img id="imageSrc" class="img-fluid" alt="No Image" width="450" height="600"/>
-        <img alt="original image"  id="oIm" hidden="hidden" />
+        <br><label>Input Image</label> <br><br>
+        <img id="imageSrc" class="img-fluid" alt="No Image" width="500" height="500"/>
+
         <br><br><br>
         <div class="col-sm-6 mx-auto shadow p-3 mb-5 bg-body rounded">
             <label for="fileInput" class="form-label">Velg Bilde fra Camera eller Studio</label>
@@ -60,9 +60,9 @@
 
 
     </div>
-    </br></br></br></br>
+    <br><br><br><br>
     <div>
-        <canvas class="img-fluid" id="LabcanvasOutput"></canvas> </br></br>
+        <canvas class="img-fluid" id="LabcanvasOutput"></canvas> <br><br>
         <canvas class="img-fluid" id="canvasOutput"></canvas>
     </div>
 </div>
@@ -74,11 +74,11 @@
         canvasOutput
         <div id="result"></div>
     </div>
-    </br>
-    </br>
+    <br>
+    <br>
 
-<label>Input CAM</label></br>
-<label>Output OpenCV</label></br></br>
+<label>Input CAM</label><br>
+<label>Output OpenCV</label><br><br>
     <div class="overlay">
             <div class="overlay-element top-left"></div>
             <div class="overlay-element top-right"></div>
@@ -89,7 +89,7 @@
         <div><button class="overlay-element bottom-center" id="snap">Capture</button></div>
 
     </div>
-    </br></br>
+    <br><br>
 
 <!--
     <video id="Original-video-input" class="img-fluid" ></video>
@@ -99,16 +99,11 @@
 <canvas id="ImProcess" alt="Show Image Prossess" class="img-fluid"></canvas>
 -->
     </br></br>
-    <label>Captured Image</label></br></br>
-<canvas id="cap-image" class="img-fluid" alt="Captured image" ></canvas></br>
-    </br></br>
-    <label>Image-Processing</label></br></br>
-<canvas id="pros-image" class="img-fluid" alt="Show Image Prossess" ></canvas></br>
-
-
-
-
-
+    <label>Captured Image</label><br><br>
+    <canvas id="cap-image" class="img-fluid" ></canvas></br>
+    <br><br>
+    <label>Image-Processing</label><br><br>
+<canvas id="pros-image" class="img-fluid" ></canvas><br>
 <form>
     <h1>Magnifier-Wild</h1>
     <p>View (scanned) Image with magnification and reflow.</p>
@@ -116,8 +111,11 @@
     <p>By , Group 51, Frode Eika Sandnes, Oslo Metropolitan University, April, 2022.</p>
 
 </form>
+</div>
+<img alt="original image" hidden="hidden" id="oIm"  />
 <script src="frode.js" defer></script>
 <script src="scripts.js" > </script>
-</div>
+
+
 </body>
 </html>

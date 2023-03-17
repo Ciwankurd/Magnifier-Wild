@@ -19,9 +19,56 @@ let Stronger_contrast=document.getElementById('contrast');
 let Negative=document.getElementById('negative');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,modifyTall_h,Im_Ratio, min_width,min_height;
 
-inputElement.addEventListener('change', (e) => {
+inputElement.addEventListener('change', async (e) => {
+
+    // Read in file
+    let file = e.target.files[0];
+    let fileSizeInMB = Math.round(file.size/1024**2); // Regne image size in MB
+    // compress image from camera if image size mer than 2 MB
+    if( fileSizeInMB > 2) {
+        // Ensure it's an image
+        if(file.type.match(/image.*/)) {
+            console.log('An image has been loaded');
+
+            // Load the image
+            let reader = new FileReader();
+            reader.onload = function (readerEvent) {
+                let image = new Image();
+                image.onload = function (imageEvent) {
+
+                    // Resize the image
+                    let canvas = document.createElement('canvas'),
+                        max_size = 4200,
+                        width = image.width,
+                        height = image.height;
+                    if (width > height) {
+                        if (width > max_size) {
+                            height *= max_size / width;
+                            width = max_size;
+                        }
+                    } else {
+                        if (height > max_size) {
+                            width *= (max_size / height);
+                            height = max_size;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext('2d').drawImage(image, 0, 0, width, height);
+                    let dataUrl = canvas.toDataURL('image/jpeg');
+                    origIm.src = dataUrl;
+                    imgElement.src = dataUrl;
+                }
+                image.src = readerEvent.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+
+    }
+    else {
         origIm.src = URL.createObjectURL(e.target.files[0]);
         imgElement.src = URL.createObjectURL(e.target.files[0]);
+    }
     /*
     let file = e.target.files[0];
     let reader = new FileReader();
@@ -59,8 +106,12 @@ inputElement.addEventListener('change', (e) => {
         };
     }
 */
+
+
+
 });
-imgElement.onload = function ImProcess(){
+
+origIm.onload = function ImProcess(){
 
     // result.innerHTML = '';
     //let dsize = new cv.Size(300, 500);
@@ -90,12 +141,12 @@ function openCvReady() {
         video: {
            facingMode:  front? "user": "environment",
             //resizeMode: 'none',
-            width: { ideal: 1920 },
-           height: { ideal: 1080 },
-            focusMode: true,
+            width: { ideal: 1908 },
+           height: { ideal: 4032 },
+            //focusMode: true,
             //zoom: 50 ,
-            scale: 5,
-            aspectRatio: 16/9,
+            // scale: 5,
+            //aspectRatio: 16/9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -119,7 +170,7 @@ function openCvReady() {
            // console.log("Got stream with constraints:", constraints);
            // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-
+/*
             if (width < height) {
                 [width, height] = [height, width];
                 aspectRatio = 1 / aspectRatio;
@@ -134,12 +185,14 @@ function openCvReady() {
                 aspectRatio: 16/9,
                 scale: 5
             });
+*/
+
             let x = (video.width -video.offsetWidth)/2+"px";
             let y = (video.height -video.offsetHeight)/2+"px";
            let ratio = video.offsetWidth/video.width;
            console.log(x,y,ratio)
-            video.style.width=width;
-           video.style.height=height;
+            //video.width=width;
+           //video.height=height;
            //video.style.transform = `translate(${x},${y}) scale(${ratio})`;
           // cap_image.style.transform = `scale(${ratio})`;
             // original_Video.srcObject = stream;
@@ -148,14 +201,27 @@ function openCvReady() {
             video.onloadedmetadata = () => {
                 video.play();
             };
-
-            let context = cap_image.getContext('2d');
+            let canvas =document.createElement('canvas');
+            let context = canvas.getContext('2d');
             snap.addEventListener("click",function (){
-                cap_image.width= width;
-                cap_image.height=height;
-               context.drawImage(video,0,0,width,height);
+                canvas.width= 1908;
+                canvas.height=4032;
+               context.drawImage(video,0,0,1908,4032);
+                let dataUrl = canvas.toDataURL('image/jpeg');
+                origIm.src = dataUrl;
+                imgElement.src = dataUrl;
+                /*
+                let cap = new cv.VideoCapture(video);
+                video.height = video.videoHeight;
+                video.width = video.videoWidth;
+                console.log(height, width);
 
-                transform(cap_image);
+                let src = new cv.Mat(height, width, cv.CV_8UC4);
+                cap.read(src);
+                cv.imshow('original_cap-image',src);
+
+                 */
+               // transform(cap_image);
             });
         })
         .catch((err) => {
@@ -344,7 +410,7 @@ function openCvReady() {
         cv.imshow('canvasOutput', cropIm);
         let blur_im = new cv.Mat();
         cv.medianBlur(cropIm, blur_im, 3);
-       // cv.imshow('canvasOutput', blur_im);
+        cv.imshow('canvasOutput', blur_im);
         if(Frode_projection.checked){
             processPageCallback(imtofrode);
         }
@@ -444,8 +510,8 @@ function getContoursPoints (im) {
     if (approx.size().height !== 4) {
         let minRecrt = cv.minAreaRect(maxCnt)
         vertices = cv.RotatedRect.points(minRecrt);
-        modifyTall_v =45;
-        modifyTall_h =45;
+        modifyTall_v =35;
+        modifyTall_h =35;
         // let features = new cv.Mat();
         //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
         //features.convertTo(features,cv.CV_32FC2);
@@ -721,7 +787,7 @@ function checkTextOrination(im){
 function findlinesAngel(im){
     let dst = new cv.Mat();
     let M = new cv.Mat();
-    let ksize = new cv.Size(18, 2);
+    let ksize = new cv.Size(25, 2);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(im, dst, cv.MORPH_GRADIENT, M);
     //cv.imshow('pros-image', dst);
@@ -729,7 +795,7 @@ function findlinesAngel(im){
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();
     cv.findContours(dst, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
-    let minCntArea= 1200; // for å fjernet små brikker
+    let minCntArea= 3000; // for å fjernet små brikker
     let imArea = (im.rows * im.cols)*0.1;
     let sortertAngle=[];
     let linesCntAngles=[];
@@ -762,7 +828,7 @@ function findlinesAngel(im){
             cv.imshow('pros-image', dst);
             vertices.sort((a,b) => a.y-b.y);
             let dx = Math.abs(vertices[3].x - vertices[2].x);
-            let dy =Math.abs(vertices[3].y - vertices[2].y);
+            let dy = Math.abs(vertices[3].y - vertices[2].y);
             let rektangleAngle = Math.atan2(dy,dx);
             linesCntAngles.push(rektangleAngle)
            // sortertAngle.push(rotatedRect.angle)
@@ -784,7 +850,7 @@ function findlinesAngel(im){
     return medianAngle*0.5;
 */
     linesCntAngles.sort((a,b) => a-b);
-    medianAngle = linesCntAngles.at(linesCntAngles.length/2);
+    medianAngle = linesCntAngles.at(linesCntAngles.length-1);
 
     return medianAngle >0 ? -medianAngle : medianAngle;
 }

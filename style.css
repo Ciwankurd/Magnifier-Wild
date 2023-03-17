@@ -88,7 +88,7 @@
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
      background: white;
-     overflow: hidden;
+    overflow: hidden;
 
 }
 
@@ -127,20 +127,7 @@ font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
     background: #eef;
 }
 
-#canvasOutput{
-    background: white;
-    color: white;
-    background-color: white;
-    margin-left: 0px;
-    width: 95%;
-    border: 6px solid green;
-    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-    background: white;
-}
-#LabcanvasOutput{
-    background: white;
-    color: white;
-    background-color: white;
+#canvasOutput, #LabcanvasOutput{
     margin-left: 0px;
     width: 95%;
     border: 6px solid green;
@@ -158,6 +145,7 @@ font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
     min-height: 60vh;
     width: 95%;
     text-align: center;
+    padding: 1%;
 }
 
 h1{

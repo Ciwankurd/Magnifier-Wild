@@ -143,10 +143,10 @@ function openCvReady() {
             //resizeMode: 'none',
             width: { ideal: 1908 },
            height: { ideal: 4032 },
-            //focusMode: true,
+            focusMode: true,
             //zoom: 50 ,
-            // scale: 5,
-            //aspectRatio: 16/9,
+            scale: 5,
+            aspectRatio: 16/9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -191,8 +191,8 @@ function openCvReady() {
             let y = (video.height -video.offsetHeight)/2+"px";
            let ratio = video.offsetWidth/video.width;
            console.log(x,y,ratio)
-            //video.width=width;
-           //video.height=height;
+            video.style.width=width;
+           video.style.height=height;
            //video.style.transform = `translate(${x},${y}) scale(${ratio})`;
           // cap_image.style.transform = `scale(${ratio})`;
             // original_Video.srcObject = stream;

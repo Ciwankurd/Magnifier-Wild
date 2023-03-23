@@ -120,16 +120,30 @@ function openCvReady() {
             let canvas =document.createElement('canvas');
             let context = canvas.getContext('2d');
             snap.addEventListener("click",function (){
+                switch (screen.orientation.type) {
+                    case "landscape-primary":
+                        canvas.width= 1280;
+                        canvas.height=1000;
+                        break;
+                    case "portrait-primary":
+                        canvas.width= 1000;
+                        canvas.height=1280;
+                        break;
+                    default:
+                        console.log("The orientation API isn't supported in this browser :(");
+                        canvas.width= 1000;
+                        canvas.height=1280;
+                }
                 canvas.width= 1280;
                 canvas.height=1000;
-               context.drawImage(video,0,0,1280,1000);
+               context.drawImage(video,0,0,canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 imSrc='webCam';
                origIm.src = dataUrl;
                imgElement.src = dataUrl;
                 cap_image.width= 1280;
                 cap_image.height=1000;
-                cap_image.getContext('2d').drawImage(video,0,0,1280,1000);
+                cap_image.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
                 //transform(cap_image);
                 /*
                 let cap = new cv.VideoCapture(video);
@@ -619,6 +633,7 @@ function getTransformedImage(im, fromPts) {
         cv.warpPerspective(im, transformedIm, M, dsize,cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar(255,255,255,255));
         // check line orientation
         checkLineOrientation(transformedIm);
+        modifyCorners(fromPts)
     }
 
     if(ratio >= 1 ) {
@@ -737,7 +752,7 @@ function checkLineOrientation(im){
     //cv.threshold(im,im, THRESHOLD, 255, cv.THRESH_BINARY);
     cv.imshow('pros-image',new_im);
     let M = new cv.Mat();
-    let ksize = new cv.Size(25, 10);
+    let ksize = new cv.Size(25, 20);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(new_im, new_im, cv.MORPH_GRADIENT, M);
     cv.imshow('pros-image',new_im);
@@ -848,7 +863,7 @@ function findlinesAngel(im){
     return medianAngle*0.5;
 */
     linesCntAngles.sort((a,b) => a-b);
-    medianAngle = linesCntAngles.at(linesCntAngles.length-1);
+    medianAngle = linesCntAngles.at(linesCntAngles.length/2);
     contours.delete(); dst.delete();
     return medianAngle >0 ? -medianAngle : medianAngle;
     //return medianAngle;

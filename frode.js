@@ -8,7 +8,7 @@
 //
 // By Frode Eika Sandnes, March 2022 - Oslo Metropolitan University
 
-
+let zoomButtonsDiv = document.getElementById("zoomButtons")
 // magic numbers
 let bytesPerPixel = 4;
 
@@ -157,6 +157,7 @@ let isPixelSet = (r,g,b,p) =>
     return (distForeground < distBackground*1.3)  // magic number
 }
 // Get vertical projection of canvas
+/*
 let verticalProjection = (imageData, w, h, params) =>
 {
     const result = [];
@@ -176,6 +177,78 @@ let verticalProjection = (imageData, w, h, params) =>
     }
     return result;
 }
+*/
+// oppdateret verticalProjection
+// Get vertical projection of canvas
+function verticalProjection(imageData, w, h, params)
+{
+    const result = [];
+    const d = imageData.data;
+    const end = w * bytesPerPixel;
+    const step = bytesPerPixel;
+    let threshold = w/10; // projection area must we wider than this number of pixels to trigger
+    let scalingFactor = 4;  // strength of bias against left-most pixels
+    for (var y = 0; y < h; y++)
+    {
+        // find max region covered by set pixels
+        let projectionStarts = 0;
+        let pixelFound = false;
+        let projectionEnds = 0;
+        for (var x = 0; x < end; x += step)
+        {
+            var i = y * end + x;
+            if (isPixelSet(d[i], d[i + 1], d[i + 2], params))
+            {
+                projectionStarts = x;
+                pixelFound = true;
+                break;  // jump out and scan backwards
+            }
+        }
+
+        if (pixelFound)   // only go backwards if set pixel is found
+        {
+            for (var x = end-step; x > projectionStarts; x -= step)
+            {
+                var i = y * end + x;
+                if (isPixelSet(d[i], d[i + 1], d[i + 2], params))
+                {
+                    projectionEnds = x;
+                    break;  // jump out and scan backwards
+                }
+            }
+        }
+        // converting from imageArray to pixel values
+        projectionStarts /= step;
+        projectionEnds /= step;
+        // bias leftmost pixels by giving them more "weight" compared to pixels at the left.
+        projectionStarts /= scalingFactor;
+        //console.log(threshold, "diff", projectionEnds - projectionStarts);
+        if (projectionEnds - projectionStarts > threshold)
+        {
+            result.push(true);
+        }
+        else
+        {
+            result.push(false);
+        }
+
+// Preivous version
+        /*        var lineSet = false;
+                for (var x = 0; x < end; x += step)
+                    {
+                    var i = y * end + x;
+                    if (isPixelSet(d[i], d[i + 1], d[i + 2], params))
+                        {
+                        lineSet = true;
+                        break;
+                        }
+                }
+                result.push(lineSet);*/
+    }
+    return result;
+}
+
+
 
 // Get horisontal projection of canvas imagedata
 let horisontalProjection = (imageData, w, h, y0, y1, params) =>
@@ -708,21 +781,7 @@ let addWords = ({canvas:canvas,allWords:allWords,background:background}) =>
             /// rightToLeftMapping.get(rightPageId).push({id:id,x:x+w/2,y:y+h/2});
 
     }
-    const zoomInn = document.createElement("a");
-    zoomInn.setAttribute("class","bi bi-zoom-in")
-    zoomInn.setAttribute("id","zoom-inn-icon")
-    zoomInn.setAttribute("type","button")
-    result.appendChild(zoomInn)
-    const zoomOut = document.createElement("a");
-    zoomOut.setAttribute("class","bi bi-zoom-out")
-    zoomOut.setAttribute("id","zoom-out-icon")
-    zoomOut.setAttribute("type","button")
-    result.appendChild(zoomOut)
-    const zoomReset = document.createElement("a");
-    zoomReset.setAttribute("class","bi bi-arrows-move")
-    zoomReset.setAttribute("id","zoom-reset-icon")
-    zoomReset.setAttribute("type","button")
-    result.appendChild(zoomReset)
+    addZoomButtons();
 
 }
 

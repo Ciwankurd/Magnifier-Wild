@@ -76,20 +76,40 @@
 
 
 }
-#flip-button{
-    position: absolute;
 
 
+/* width */
+::-webkit-scrollbar {
+    width: 20px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+    background-image: -webkit-gradient(linear, left top, right top, from(midnightblue), to(lightseagreen));
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: -webkit-gradient(linear, left top, right top, from(midnightblue), to(greenyellow));
 }
 
  #result:has(canvas[name="clipWord"]){
      padding: 5px;
      width:100%;
+     height: 720px;
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
      background: white;
-    overflow: hidden;
-
+    overflow-x: auto;
+    overflow-y: auto;
 }
 
 #result > canvas[name="clipWord"]{
@@ -100,26 +120,35 @@
     transform: scale(1.5);
     border: 4px solid greenyellow;
 
-
 }
 {
     --scale-zoom:1;
 }
-#result:has(canvas[name="clipWord"]) #zoom-inn-icon{
-font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
-    padding: 4px;  position:relative;margin-right:3%;
+#zoomButtons:has(a){
+    display: inline-block;
+    width:100%;
+    margin-bottom: 1.5%;
+    padding: 1%;
+    height:max-content;
+    border: 3px solid aquamarine;
+    box-shadow: 5px 5px 8px 5px black, 2px 2px 6px 4px red ;
+    background: darkslategray;
+}
+#zoomButtons > #zoom-inn-icon{
+font-size: 25px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
+    padding: 4px;  position:relative; margin-right: 5%;
     zoom: var(--scale-zoom);
 
 }
-#result:has(canvas[name="clipWord"]) #zoom-out-icon{
-    font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
-    padding: 4px;  position: relative; margin-right:3%;
+#zoomButtons >  #zoom-out-icon{
+    font-size: 25px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
+    padding: 4px;  position: center; margin-right: 5%;
     zoom: var(--scale-zoom);
 
 }
-#result:has(canvas[name="clipWord"]) #zoom-reset-icon{
-    font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 30%; padding: 4px;
-    position: absolute;margin-right:12%; margin-top:15px;
+#zoomButtons >  #zoom-reset-icon{
+    font-size: 25px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
+    position: relative; padding: 4px;
     zoom: var(--scale-zoom);
 
 }
@@ -128,7 +157,7 @@ font-size: 18px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
 }
 
 #canvasOutput, #LabcanvasOutput{
-    margin-left: 0px;
+    margin-left: 0;
     width: 95%;
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
@@ -192,9 +221,8 @@ body{
 }
 
 #cap-image{
-    width:95%;
+    width:100%;
     height: 100%;
-    height: max-content;
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
    /* background: white;

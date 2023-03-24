@@ -122,28 +122,26 @@ function openCvReady() {
             snap.addEventListener("click",function (){
                 switch (screen.orientation.type) {
                     case "landscape-primary":
-                        canvas.width= 1280;
-                        canvas.height=1000;
+                        canvas.width= 1300;
+                        canvas.height=800;
                         break;
                     case "portrait-primary":
-                        canvas.width= 1000;
-                        canvas.height=1280;
+                        canvas.width= 800;
+                        canvas.height=1300;
                         break;
                     default:
                         console.log("The orientation API isn't supported in this browser :(");
-                        canvas.width= 1000;
-                        canvas.height=1280;
+                        canvas.width= 800;
+                        canvas.height=1300;
                 }
-                canvas.width= 1280;
-                canvas.height=1000;
                context.drawImage(video,0,0,canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 imSrc='webCam';
                origIm.src = dataUrl;
                imgElement.src = dataUrl;
-                cap_image.width= 1280;
-                cap_image.height=1000;
-                cap_image.getContext('2d').drawImage(video,0,0,canvas.width,canvas.height);
+                cap_image.width= 1300;
+                cap_image.height=800;
+               cap_image.getContext('2d').drawImage(video,0,0,1300,800);
                 //transform(cap_image);
                 /*
                 let cap = new cv.VideoCapture(video);
@@ -377,7 +375,12 @@ function resizing(im,max_size){
     let width = im.cols, height = im.rows;
     if (width > height) {
         if (width > max_size) {
-            height *= (max_size / width) * 1.6;
+            if(imSrc=='webCam'){
+                height *= (max_size / width)
+            }
+            else {
+                height *= (max_size / width) * 1.6;
+            }
             width = max_size;
         }
     } else {
@@ -705,12 +708,6 @@ function checkshape(pts){
         }
     }
 
-    if(pts[0].y == pts[1].y){
-        hl = getDistance(pts[0].x, pts[0].y, pts[3].x, pts[3].y);
-        hr = getDistance(pts[1].x, pts[1].y, pts[2].x, pts[2].y);
-    }
-
-
     else
         {
         if (pts[2].x < pts[3].x ) {
@@ -764,8 +761,8 @@ function checkLineOrientation(im){
     let MaxCntArea= im.cols*im.rows;
     let min_area= 5000;
     let MaxCnt = new cv.MatVector();
-    let medianRatio = [];
-    for (let i = 0; i < contours.size()*0.2; ++i) {
+    let sannsynlighet_feil_ratio = 0, sannsynlighet_riktig_ratio = 0;
+    for (let i = 0; i < contours.size()*0.5; ++i) {
         let cnt = contours.get(i);
         const cntArea = cv.contourArea(cnt)
 
@@ -783,16 +780,17 @@ function checkLineOrientation(im){
                 lineheight = rect.height;
                 console.log(linewidth,lineheight)
                 ratio = lineheight/linewidth;
-                medianRatio.push(ratio);
-                if(medianRatio.length > 10){
-                    break;
+                if(ratio > 1){
+                    sannsynlighet_feil_ratio++;
+                }
+                else {
+                    sannsynlighet_riktig_ratio++;
                 }
 
             }
 
     }
-    medianRatio.sort((a,b) => a-b);
-    ratio = medianRatio.at(medianRatio.length/2);
+   sannsynlighet_riktig_ratio > sannsynlighet_feil_ratio ? ratio=-1 : ratio= 1;
     contours.delete(); new_im.delete();
 
 }

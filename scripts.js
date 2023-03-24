@@ -142,9 +142,9 @@ function openCvReady() {
                 imSrc='webCam'; // variable will be used to check if image source from web camera
                origIm.src = dataUrl;
                imgElement.src = dataUrl;
-                cap_image.width= 920;
-                cap_image.height=540;
-               cap_image.getContext('2d').drawImage(video,0,0,920,540);
+                cap_image.width= canvas.width;
+                cap_image.height=canvas.height;
+               cap_image.getContext('2d').drawImage(video,0,0,cap_image.width,cap_image.height);
                 //transform(cap_image);
                 /*
                 let cap = new cv.VideoCapture(video);
@@ -381,20 +381,24 @@ function resizing(im,max_size){
     if (width > height) {
         if (width > max_size) {
             if(imSrc=='webCam'){
-                height *= (max_size / width)
+               // height *= (max_size / width)
+                height=940;
             }
             else {
-                height *= (max_size / width);
+                //height *= (max_size / width);
+                height=940;
             }
             width = max_size;
         }
     } else {
         if (height > max_size) {
             if(Frode_projection) {
-                width *= (max_size / height);
+                //width *= (max_size / height);
+                width=540;
             }
             else {
-                width *= (max_size / height);
+                //width *= (max_size / height);
+                width = 540
             }
             height = max_size;
         }

@@ -270,7 +270,7 @@ function openCvReady() {
 
 
 // opencv
- function transform (src) {
+async function transform (src) {
      // empty div if new image uploaded
      result.innerHTML = '';
      zoomButtonsDiv.innerHTML = '';
@@ -767,7 +767,7 @@ function checkLineOrientation(im){
     let min_area= 5000;
     let MaxCnt = new cv.MatVector();
     let sannsynlighet_feil_ratio = 0, sannsynlighet_riktig_ratio = 0;
-    for (let i = 0; i < contours.size()*0.5; ++i) {
+    for (let i = 0; i < contours.size()*0.4; ++i) {
         let cnt = contours.get(i);
         const cntArea = cv.contourArea(cnt)
 
@@ -1008,7 +1008,7 @@ function extractAllWords(im,blured_im){
             rectArr.push(rect);
 
 
-
+/*
             rotatedRect = cv.minAreaRect(cnt);
             rectArr.push(rotatedRect);
             vertices = cv.RotatedRect.points(rotatedRect);
@@ -1018,7 +1018,7 @@ function extractAllWords(im,blured_im){
                 cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
             }
 
-
+*/
             cv.imshow('pros-image', im);
             // linesCntAngles.push(rotatedRect.angle)
             // sortertAngle.push(rotatedRect.angle)

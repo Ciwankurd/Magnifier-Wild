@@ -23,8 +23,8 @@ let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyT
     modifyTall_h,Im_Ratio, min_width,min_height, imSrc='';
 inputElement.addEventListener('change', async (e) => {
 
-    origIm.src = URL.createObjectURL(e.target.files[0]);
-    imgElement.src = URL.createObjectURL(e.target.files[0]);
+    origIm.src = URL.createObjectURL(e.target.files[0]);            // bildet som skal behandles
+    imgElement.src = URL.createObjectURL(e.target.files[0]);        // bildet som skal vises til brukeren
 });
 
 origIm.onload = function ImProcess(){
@@ -46,14 +46,13 @@ function openCvReady() {
 
   // let devices = await navigator.mediaDevices.enumerateDevices();
 
-    // Prefer camera resolution nearest to 1280x720.
     const constraints = {
         audio: false,
         video: {
            facingMode:  front? "user": "environment",
             //resizeMode: 'none',
-            width: { ideal: 1908 },
-           height: { ideal: 4032 },
+            width: { ideal: 1280 },
+           height: { ideal: 720 },
             focusMode: true,
             zoom: true ,
             tilt: true,
@@ -71,6 +70,7 @@ function openCvReady() {
 
      */
     };
+    // check if browser support som camera properties
     const supports = navigator.mediaDevices.getSupportedConstraints();
     if (supports.pan && supports.tilt && supports.zoom) {
         console.log("Browser supports camera ")
@@ -119,29 +119,32 @@ function openCvReady() {
             };
             let canvas =document.createElement('canvas');
             let context = canvas.getContext('2d');
+
+            // Capture image from video and draw image in canvas.
             snap.addEventListener("click",function (){
+                // check screen orientation
                 switch (screen.orientation.type) {
                     case "landscape-primary":
-                        canvas.width= 1300;
-                        canvas.height=800;
+                        canvas.width= 920;
+                        canvas.height=540;
                         break;
                     case "portrait-primary":
-                        canvas.width= 800;
-                        canvas.height=1300;
+                        canvas.width= 540;
+                        canvas.height=920;
                         break;
                     default:
                         console.log("The orientation API isn't supported in this browser :(");
-                        canvas.width= 800;
-                        canvas.height=1300;
+                        canvas.width= 540;
+                        canvas.height=920;
                 }
                context.drawImage(video,0,0,canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
-                imSrc='webCam';
+                imSrc='webCam'; // variable will be used to check if image source from web camera
                origIm.src = dataUrl;
                imgElement.src = dataUrl;
-                cap_image.width= 1300;
-                cap_image.height=800;
-               cap_image.getContext('2d').drawImage(video,0,0,1300,800);
+                cap_image.width= 920;
+                cap_image.height=540;
+               cap_image.getContext('2d').drawImage(video,0,0,920,540);
                 //transform(cap_image);
                 /*
                 let cap = new cv.VideoCapture(video);
@@ -177,7 +180,7 @@ function openCvReady() {
     //video.width=720;
     //video.height=1280;
 
-
+    // here is video processing and auto-detection of max contour in video
 
     /*
     let src = new cv.Mat(video.height, video.width, cv.CV_8UC4);
@@ -268,16 +271,18 @@ function openCvReady() {
 
 // opencv
  function transform (src) {
+     // empty div if new image uploaded
      result.innerHTML = '';
      zoomButtonsDiv.innerHTML = '';
     let im = cv.imread(src);
+    // Resize image if its demention
      if((im.cols >= 1000 || im.rows >= 1000) && tavle.checked) {
-         resizing(im, 1300);
+         resizing(im, 920);
      }
-    let pts = getContoursPoints(im);
+    let pts = getContoursPoints(im);                // for å få vertices (conners) points
     if(pts) {
 
-        const transformedIm = getTransformedImage(im, pts);
+        const transformedIm = getTransformedImage(im, pts);     // transformere funnet contour til ny bildet (canvas)
         //let resizeIm = new cv.Mat();
         //let dsize = new cv.Size(550,800);
         //cv.resize(transformedIm,resizeIm, dsize, 0, 0, cv.INTER_AREA);
@@ -304,8 +309,8 @@ function openCvReady() {
         // Crop Image and resizing
         let cropIm = new cv.Mat();
         if(transformedIm.cols > 1000 || transformedIm.rows > 1000) {
-            resizing(transformedIm,1300);
-            let rect = new cv.Rect(30,15,transformedIm.cols-50,transformedIm.rows-50);
+            resizing(transformedIm,920);
+            let rect = new cv.Rect(15,15,transformedIm.cols-25,transformedIm.rows-25);
             cropIm = transformedIm.roi(rect);
         }
         else{
@@ -325,7 +330,7 @@ function openCvReady() {
 
 
 
-        let medinaAngle = findlinesAngel(cropIm)
+        let medinaAngle = findlinesAngel(cropIm)  // to find out line angle
         //medinaAngle +=90;
 
         if(medinaAngle){
@@ -379,7 +384,7 @@ function resizing(im,max_size){
                 height *= (max_size / width)
             }
             else {
-                height *= (max_size / width) * 1.6;
+                height *= (max_size / width);
             }
             width = max_size;
         }
@@ -389,7 +394,7 @@ function resizing(im,max_size){
                 width *= (max_size / height);
             }
             else {
-                width *= (max_size / height) * 1.5;
+                width *= (max_size / height);
             }
             height = max_size;
         }
@@ -579,7 +584,7 @@ function getContoursPoints (im) {
     }
     else {
         //cv.findContours(cany_im, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-        cv.findContours(threshold_im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
+        cv.findContours(cany_im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
     }
     let maxCntArea = 0;
     let maxCnt = new cv.MatVector();
@@ -1003,16 +1008,16 @@ function extractAllWords(im,blured_im){
             rectArr.push(rect);
 
 
-/*
+
             rotatedRect = cv.minAreaRect(cnt);
             rectArr.push(rotatedRect);
             vertices = cv.RotatedRect.points(rotatedRect);
-            cv.drawContours(im, contours, 0, contoursColor, 1, 8, hierarchy, 100);
+            //cv.drawContours(im, contours, 0, contoursColor, 1, 8, hierarchy, 100);
             // draw rotatedRect
             for (let i = 0; i < 4; i++) {
                 cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
             }
-*/
+
 
             cv.imshow('pros-image', im);
             // linesCntAngles.push(rotatedRect.angle)

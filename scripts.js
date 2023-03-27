@@ -125,25 +125,25 @@ function openCvReady() {
                 // check screen orientation
                 switch (screen.orientation.type) {
                     case "landscape-primary":
-                        canvas.width= 920;
-                        canvas.height=540;
+                        canvas.width= 2016;
+                        canvas.height=1134;
                         break;
                     case "portrait-primary":
-                        canvas.width= 540;
-                        canvas.height=920;
+                        canvas.width= 1134;
+                        canvas.height=2016;
                         break;
                     default:
                         console.log("The orientation API isn't supported in this browser :(");
-                        canvas.width= 540;
-                        canvas.height=920;
+                        canvas.width= 1134;
+                        canvas.height=2016;
                 }
                context.drawImage(video,0,0,canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 imSrc='webCam'; // variable will be used to check if image source from web camera
                origIm.src = dataUrl;
                imgElement.src = dataUrl;
-                cap_image.width= canvas.width;
-                cap_image.height=canvas.height;
+                cap_image.width= 400;
+                cap_image.height=250;
                cap_image.getContext('2d').drawImage(video,0,0,cap_image.width,cap_image.height);
                 //transform(cap_image);
                 /*
@@ -281,6 +281,9 @@ async function transform (src) {
      }
      if(im.cols >= 1500 || im.rows >= 1500){
          let half_Size = im.cols >= im.rows? im.cols*0.6: im.rows*0.55;
+         if(imSrc='webCam') {
+             half_Size = im.cols >= im.rows ? im.cols : im.rows;
+         }
          resizing(im,half_Size);
      }
     let pts = getContoursPoints(im);                // for å få vertices (conners) points
@@ -700,8 +703,13 @@ function getTransformedImage(im, fromPts) {
 
     // Grayscale
     cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
-   cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 7);
-    cv.imshow('pros-image',transformedIm);
+    if(imSrc=='webCam'){
+        cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 5);
+    }
+    else {
+        cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 7);
+    }
+   cv.imshow('pros-image',transformedIm);
 
     // Threshold
     cv.threshold(transformedIm, transformedIm,THRESHOLD, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);

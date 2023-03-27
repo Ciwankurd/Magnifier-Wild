@@ -490,8 +490,8 @@ function getContoursPoints (im) {
     if (approx.size().height !== 4) {
         let minRecrt = cv.minAreaRect(maxCnt)
         vertices = cv.RotatedRect.points(minRecrt);
-        modifyTall_v =45;
-        modifyTall_h =45;
+        modifyTall_v =25;
+        modifyTall_h =25;
         // let features = new cv.Mat();
         //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
         //features.convertTo(features,cv.CV_32FC2);
@@ -836,7 +836,7 @@ function checkLineOrientation(im){
 function findlinesAngel(im){
     let dst = new cv.Mat();
     let M = new cv.Mat();
-    let ksize = new cv.Size(25, 2);
+    let ksize = new cv.Size(25, 1);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(im, dst, cv.MORPH_GRADIENT, M);
     //cv.imshow('pros-image', dst);
@@ -876,32 +876,31 @@ function findlinesAngel(im){
             }
             cv.imshow('pros-image', dst);
             vertices.sort((a,b) => a.y-b.y);
-            let dx = Math.abs(vertices[3].x - vertices[2].x);
-            let dy = Math.abs(vertices[3].y - vertices[2].y);
-            let rektangleAngle = Math.atan2(dy,dx);
-            linesCntAngles.push(rektangleAngle)
-           // sortertAngle.push(rotatedRect.angle)
+           // let dx = vertices[3].x - vertices[2].x;
+            //let dy = vertices[3].y - vertices[2].y;
+            //let rektangleAngle = Math.atan2(dy,dx);
+            //linesCntAngles.push(rektangleAngle)
+           if(rotatedRect.size.width > rotatedRect.size.height ) {
+               sortertAngle.push(rotatedRect.angle)
+           }
+           else {
+               let angle = 180 - (-rotatedRect.angle+90)
+               sortertAngle.push(angle)
+           }
 
 
         }
 
     }
-/*
     sortertAngle.sort((a,b) => a-b)
     medianAngle = sortertAngle.at(sortertAngle.length/2);
-    let index = linesCntAngles.indexOf(medianAngle);
-    medianRect = rectArr.at(index)
-    if (medianRect.size.width < medianRect.size.height) {
-        dst.delete(); contours.delete(); linesCntAngles=[]; sortertAngle=[]; rectArr=[]; vertices=[];
-        return (-medianAngle - 90)*0.5;
-    }
     dst.delete(); contours.delete(); linesCntAngles=[]; sortertAngle=[]; rectArr=[]; vertices=[];
-    return medianAngle*0.5;
-*/
-    linesCntAngles.sort((a,b) => a-b);
-    medianAngle = linesCntAngles.at(linesCntAngles.length/2);
-    contours.delete(); dst.delete();
-    return medianAngle >0 ? -medianAngle : medianAngle;
+    return medianAngle;
+
+    //linesCntAngles.sort((a,b) => a-b);
+    //medianAngle = linesCntAngles.at(linesCntAngles.length/2);
+    //contours.delete(); dst.delete();
+    //return medianAngle >0 ? medianAngle : medianAngle;
     //return medianAngle;
 }
 // Extract words based on morphology operator.

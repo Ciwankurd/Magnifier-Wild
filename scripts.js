@@ -314,11 +314,11 @@ async function transform (src) {
         let cropIm = new cv.Mat();
         if(transformedIm.cols > 1000 || transformedIm.rows > 1000) {
             //resizing(transformedIm,920);
-            let rect = new cv.Rect(15,15,transformedIm.cols-20,transformedIm.rows-20);
+            let rect = new cv.Rect(25,25,transformedIm.cols-35,transformedIm.rows-35);
             cropIm = transformedIm.roi(rect);
         }
         else{
-            let rect = new cv.Rect(10,10,transformedIm.cols-20,transformedIm.rows-20);
+            let rect = new cv.Rect(15,15,transformedIm.cols-20,transformedIm.rows-20);
             cropIm = transformedIm.roi(rect);
         }
         cv.imshow('canvasOutput', cropIm);
@@ -332,9 +332,9 @@ async function transform (src) {
         //let rotateIm = new cv.Mat();
 
 
-
-
-        let medinaAngle = findlinesAngel(cropIm)  // to find out line angle
+        let blur_im = new cv.Mat();
+        cv.medianBlur(cropIm, blur_im, 3);
+        let medinaAngle = findlinesAngel(blur_im)  // to find out line angle
         //medinaAngle +=90;
 
         if(medinaAngle){
@@ -351,8 +351,7 @@ async function transform (src) {
         }
         cv.imshow('LabcanvasOutput', cropIm);
         cv.imshow('canvasOutput', cropIm);
-        let blur_im = new cv.Mat();
-        cv.medianBlur(cropIm, blur_im, 3);
+
         //cv.imshow('canvasOutput', blur_im);
         if(Frode_projection.checked){
             processPageCallback(imtofrode);
@@ -657,24 +656,36 @@ function getTransformedImage(im, fromPts) {
             toPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
                 0,0,cols, 0, 0, rows,cols,rows
             ]);
+            M = cv.getPerspectiveTransform(fromPts, toPts); // Matrix of transformations
+            cv.warpPerspective(im, transformedIm, M, dsize,cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar(255,255,255,255));
+            cv.rotate(transformedIm, transformedIm, cv.ROTATE_90_CLOCKWISE)
+            //imRotation(transformedIm,-90)
+            cv.imshow('pros-image',transformedIm);
+            // check line orientation
+            checkLineOrientation(transformedIm);
+            if(ratio >=1) {
+                modifyCorners(fromPts)
+            }
         }
         else{
 
             toPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
-                0, 0, 0, rows, cols, 0, cols, rows
+                0, rows,0, 0, cols, rows,cols, 0
             ]);
+            M = cv.getPerspectiveTransform(fromPts, toPts); // Matrix of transformations
+            cv.warpPerspective(im, transformedIm, M, dsize,cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar(255,255,255,255));
+            cv.imshow('pros-image',transformedIm);
+            cv.rotate(transformedIm, transformedIm, cv.ROTATE_90_CLOCKWISE)
+            //imRotation(transformedIm,-90)
+            cv.imshow('pros-image',transformedIm);
+            // check line orientation
+            checkLineOrientation(transformedIm);
+            if(ratio >=1) {
+                modifyCorners(fromPts)
+            }
         }
 
-         M = cv.getPerspectiveTransform(fromPts, toPts); // Matrix of transformations
-        cv.warpPerspective(im, transformedIm, M, dsize,cv.INTER_LINEAR, cv.BORDER_CONSTANT, new cv.Scalar(255,255,255,255));
-        if(cols > rows) {
-            cv.rotate(transformedIm, transformedIm, cv.ROTATE_90_CLOCKWISE)
-        }
-        //imRotation(transformedIm,-90)
-        cv.imshow('pros-image',transformedIm);
-        // check line orientation
-        checkLineOrientation(transformedIm);
-        modifyCorners(fromPts)
+
     }
     if(ratio >= 1 ) {
          toPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
@@ -689,17 +700,18 @@ function getTransformedImage(im, fromPts) {
 
     // Grayscale
     cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
-
-   cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 33, 7);
+   cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 7);
     cv.imshow('pros-image',transformedIm);
-   // Blur
-    //let ksize = new cv.Size(3, 3);
-    //cv.medianBlur(transformedIm, transformedIm, 3);
-   // cv.GaussianBlur(transformedIm, transformedIm, ksize, 0, 0, cv.BORDER_DEFAULT);
-    //cv.bilateralFilter(transformedIm, transformedIm, 9, 75, 75, cv.BORDER_DEFAULT);
 
     // Threshold
     cv.threshold(transformedIm, transformedIm,THRESHOLD, 255, cv.THRESH_BINARY | cv.THRESH_OTSU);
+    // Blur
+    let ksize = new cv.Size(3, 3);
+    //cv.medianBlur(transformedIm, transformedIm, 3);
+     //cv.GaussianBlur(transformedIm, transformedIm, ksize, 0, 0, cv.BORDER_DEFAULT);
+    //cv.cvtColor(transformedIm,transformedIm, cv.COLOR_RGBA2RGB, 0);
+    //cv.bilateralFilter(transformedIm, transformedIm, 9, 75, 50, cv.BORDER_DEFAULT);
+
     cv.imshow('pros-image',transformedIm);
 
 
@@ -784,7 +796,7 @@ function checkLineOrientation(im){
     cv.Canny(new_im, new_im, 30, 100, 3, false);
 
     //threshold
-    //cv.threshold(im,im, THRESHOLD, 255, cv.THRESH_BINARY);
+    //cv.threshold(new_im,new_im, THRESHOLD, 255, cv.THRESH_BINARY);
     cv.imshow('pros-image',new_im);
     let M = new cv.Mat();
     let ksize = new cv.Size(25, 20);
@@ -797,15 +809,13 @@ function checkLineOrientation(im){
     //cv.findContours(new_im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
     cv.findContours(new_im, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
     let MaxCntArea= im.cols*im.rows;
-    let min_area= 5000;
-    let MaxCnt = new cv.MatVector();
+    let min_area= im.cols*im.rows*0.001;
     let sannsynlighet_feil_ratio = 0, sannsynlighet_riktig_ratio = 0;
-    for (let i = 0; i < contours.size()*0.4; ++i) {
+    for (let i = contours.size()/2; i < contours.size()*0.8; ++i) {
         let cnt = contours.get(i);
         const cntArea = cv.contourArea(cnt)
 
             if (min_area < cntArea && cntArea < MaxCntArea) {
-                MaxCnt = cnt;
                 let rect = cv.boundingRect(cnt);
                 let contoursColor = new cv.Scalar(255, 255, 255);
                 let rectangleColor = new cv.Scalar(255, 0, 0);
@@ -818,7 +828,7 @@ function checkLineOrientation(im){
                 lineheight = rect.height;
                 console.log(linewidth,lineheight)
                 ratio = lineheight/linewidth;
-                if(ratio > 1){
+                if(ratio >= 1){
                     sannsynlighet_feil_ratio++;
                 }
                 else {

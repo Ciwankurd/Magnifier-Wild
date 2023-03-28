@@ -10,7 +10,7 @@ const labCanvas = document.getElementById("LabcanvasOutput");
 const imtofrode = document.getElementById("canvasOutput");
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('fileInput');
-let MIN_CONTOURS_SCALE= 20; // Minimum original image ratio
+let contour_scale= 20; // Minimum original image ratio
 let THRESHOLD= 128; // Monochrome threshold
 let origIm=document.getElementById('oIm');
 let Frode_projection=document.getElementById('Frode-projection');
@@ -20,7 +20,7 @@ let Negative=document.getElementById('negative');
 let docum=document.getElementById('doc');
 let tavle=document.getElementById('tavle');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,
-    modifyTall_h,Im_Ratio, min_width,min_height, imSrc='';
+    modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false;
 inputElement.addEventListener('change', async (e) => {
 
     origIm.src = URL.createObjectURL(e.target.files[0]);            // bildet som skal behandles
@@ -99,7 +99,7 @@ function openCvReady() {
            // let x = (video.width -video.offsetWidth)/2+"px";
             //let y = (video.height -video.offsetHeight)/2+"px";
            //let ratio = video.offsetWidth/video.width;
-           console.log(x,y,ratio)
+           //console.log(x,y,ratio)
             video.style.width=width;
            video.style.height=height;
            //video.style.transform = `translate(${x},${y}) scale(${ratio})`;
@@ -132,7 +132,7 @@ function openCvReady() {
                 }
                context.drawImage(video,0,0,canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
-                imSrc='webCam'; // variable will be used to check if image source from web camera
+                webCamIm=true; // variable will be used to check if image source from web camera
                origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
                imgElement.src = dataUrl;      // to show image to user
                 cap_image.width= 400;
@@ -159,7 +159,7 @@ function openCvReady() {
             console.error(`${err.name}: ${err.message}`);
             if (error.name === "ConstraintNotSatisfiedError") {
                 console.error(
-                    `The resolution ${constraints.video.width.exact}x${constraints.video.height.exact} px is not supported by your device.`
+                    `The resolution ${constraints.video.width.exact} x ${constraints.video.height.exact} px is not supported by your device.`
                 );
             } else if (error.name === "PermissionDeniedError") {
                 console.error(
@@ -234,7 +234,7 @@ function openCvReady() {
                         cntArea = cv.contourArea(cnt)
 
                         maxRectScale = parseInt(cntArea / imRectArea * 100)  // percentage Contour Area compare to Image Area
-                        if (maxRectScale >= MIN_CONTOURS_SCALE) {   // Filter by ratio to original image
+                        if (maxRectScale >= contour_scale) {   // Filter by ratio to original image
                             if (cntArea > maxCntArea) {
                                 maxCntArea = cntArea;
                                 rect = cv.boundingRect(cnt);
@@ -276,17 +276,14 @@ async function transform (src) {
      if((im.cols > 1300 || im.rows > 1300) && tavle.checked) {
          resizing(im, 1300);
      }
-     if(im.cols >= 1500 || im.rows >= 1500){
+     if((im.cols >= 1500 || im.rows >= 1500)){
          let half_Size = im.cols >= im.rows? im.cols*0.6: im.rows*0.55;
-         if(imSrc='webCam') {
-             half_Size = im.cols >= im.rows ? im.cols : im.rows;
-         }
          resizing(im,half_Size);
      }
-    let pts = getContoursPoints(im);                // for å få vertices (conners) points
+    let pts = findContoursVertices(im);                // for å få vertices (conners) points
     if(pts) {
 
-        const transformedIm = getTransformedImage(im, pts);     // transformere funnet contour til ny bildet (canvas)
+        const transformedIm = transformImage(im, pts);     // transformere funnet contour til ny bildet (canvas)
         //let resizeIm = new cv.Mat();
         //let dsize = new cv.Size(550,800);
         //cv.resize(transformedIm,resizeIm, dsize, 0, 0, cv.INTER_AREA);
@@ -331,7 +328,9 @@ async function transform (src) {
         //cv.imshow('LabcanvasOutput',transformedIm);
         //let rotateIm = new cv.Mat();
 
-
+        // Blur and
+        //
+        // Rotation
         let blur_im = new cv.Mat();
         cv.medianBlur(cropIm, blur_im, 3);
         let medinaAngle = findlinesAngel(blur_im)  // to find out line angle
@@ -340,8 +339,6 @@ async function transform (src) {
         if(medinaAngle){
             //medinaAngle +=90;
             //imtofrode.style.transform= 'rotate('+lineAngle+'deg)'
-
-
             //cv.imshow('LabcanvasOutput', cropIm);
 
 
@@ -354,13 +351,13 @@ async function transform (src) {
 
         //cv.imshow('canvasOutput', blur_im);
         if(Frode_projection.checked){
-            processPageCallback(imtofrode);
+            processPageCallback(imtofrode);             // Call Frode Projection
         }
         if(OpenCV_projection.checked) {
-            extractAllWords(cropIm,blur_im)
+            extractAllWords(cropIm,blur_im)             // Call Opencv projection
         }
-
-        transformedIm.delete(); cropIm.delete(); blur_im.delete();
+        webCamIm = false;
+        transformedIm.delete(); cropIm.delete(); blur_im.delete();      // Free Memory
 
     } else {
         result.toast.show('Har ikke funnet contours!')
@@ -371,7 +368,10 @@ async function transform (src) {
     im.delete();
 
 }
+
+// --------------- Rotation------------------
 function imRotation(im, angle){
+    // Calc. new image dimension
     let w = Math.abs(im.cols * Math.cos(angle)) + Math.abs(im.rows * Math.sin(angle));
     let h = Math.abs(im.rows * Math.cos(angle)) + Math.abs(im.cols * Math.sin(angle));
     let dsize = new cv.Size(im.cols,im.rows);
@@ -381,11 +381,13 @@ function imRotation(im, angle){
     cv.warpAffine(im,im, M, dsize,cv.INTER_LINEAR,cv.BORDER_CONSTANT,s);
     M.delete();
 }
+
+// -------------- Resizing Image -------------
 function resizing(im,max_size){
     let width = im.cols, height = im.rows;
     if (width > height) {
         if (width > max_size) {
-            height *= (max_size / width);
+            height *= (max_size / width);           // Ratio
             width = max_size;
         }
     } else {
@@ -396,33 +398,33 @@ function resizing(im,max_size){
     }
 
     let dsize = new cv.Size(width, height);
-    cv.resize(im, im, dsize, 0, 0, cv.INTER_AREA);
+    cv.resize(im, im, dsize, 0, 0, cv.INTER_AREA);          // opencv Resizing
 }
-function getContoursPoints (im) {
+
+// -------------- Get vertices of founded rectangle (contour) ------------
+function findContoursVertices (im) {
+    // Subtraction foreground og background in Selected zone (Center)
     if(tavle.checked) {
-
-        let rect = new cv.Rect(100, 100, im.cols*0.85, im.rows * 0.8);
-
-
+        let rect = new cv.Rect(100, 100, im.cols*0.85, im.rows * 0.8);   // Dimension of Selected Zone
         //rect = new cv.Rect(50,50, im.cols*0.95, im.rows*0.8);
 
-        cv.cvtColor(im, im, cv.COLOR_RGBA2RGB, 0);
+        cv.cvtColor(im, im, cv.COLOR_RGBA2RGB, 0);      // Gray Scale
         let mask = new cv.Mat();
         let bgdModel = new cv.Mat();
         let fgdModel = new cv.Mat();
-
+        //Function GrapCut in Opencv to subtract Find out foreground and background
         cv.grabCut(im, mask, rect, bgdModel, fgdModel, 1, cv.GC_INIT_WITH_RECT);
-// draw foreground
+        // draw foreground
         for (let i = 0; i < im.rows; i++) {
             for (let j = 0; j < im.cols; j++) {
-                if (mask.ucharPtr(i, j)[0] == 0 || mask.ucharPtr(i, j)[0] == 2) {
+                if (mask.ucharPtr(i, j)[0] === 0 || mask.ucharPtr(i, j)[0] === 2) {
                     im.ucharPtr(i, j)[0] = 0;
                     im.ucharPtr(i, j)[1] = 0;
                     im.ucharPtr(i, j)[2] = 0;
                 }
             }
         }
-// draw grab rect
+        // draw grab rect
         let color = new cv.Scalar(255, 255, 255);
         let point1 = new cv.Point(rect.x, rect.y);
         let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
@@ -433,15 +435,14 @@ function getContoursPoints (im) {
         fgdModel.delete();
     }
 
-    cv.imshow('pros-image', im);
-   let maxCnt = findMaxCnt(im);
+   let maxCnt = findMaxCnt(im);                 // find Max-contour in image (Target Contour)
 
     let pts = new cv.Mat();
     let approx = new cv.Mat();
     let vertices = new cv.Mat();
 
     const epsilon = 0.02 * cv.arcLength(maxCnt, true) // maximum distance from contour to approximated contour
-    cv.approxPolyDP(maxCnt, approx, epsilon, true);   //  Douglas-Peucker algorithm.function to approximate the shape
+    cv.approxPolyDP(maxCnt, approx, epsilon, true);   //  Douglas-Peucker algorithm function to approximate the shape
 
     if (approx.size().height === 4) {// Keep if it is a rectangle
         // antallKanter = approx.size().height;
@@ -452,28 +453,30 @@ function getContoursPoints (im) {
         //console.log(pts);
         //approx.convertTo(approx,cv.CV_32FC2);
         //console.log(approx.data32F);
-        pts.convertTo(pts, cv.CV_32FC2);
+        pts.convertTo(pts, cv.CV_32FC2);        // Convert Type
         //  sort by y  coordinates to know which corner has been scanned first
 
         console.log(pts.data32F)
         //let sortPts= pts.sort((a,b)=>b-a);
         //console.log(sortPts.data32F);
+        // Set 'Pts' in new array 'sortPots' with X,Y coordinates to be easy for sorting By 'Y'
         let sortPots = [];
         for (let i = 0; i < 8; i+=2) {
             sortPots.push({x:Math.round(pts.data32F[i]),y:Math.round(pts.data32F[i+1])})
         }
         //  sort by y  coordinates to know which corner has been scanned first
         sortPots.sort(function(a, b) {
-
             return  a.y - b.y;
         });
 
         console.log(sortPots)
+        // Reset Sorted array in new object in form matrix 4 X 1
         let recPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
-            sortPots[0].x, sortPots[0].y,sortPots[1].x,sortPots[1].y,sortPots[2].x, sortPots[2].y,sortPots[3].x, sortPots[3].y
+            sortPots[0].x, sortPots[0].y,sortPots[1].x,sortPots[1].y,
+            sortPots[2].x, sortPots[2].y,sortPots[3].x, sortPots[3].y
         ]);
         console.log(recPts.data32F)
-        checkshape(sortPots)
+        checkshape(sortPots)           // To check Weather the Max-Contour is horizontal or vertical (Ratio >= 1 or < 1)
 
         // cv.imshow('canvasOutput', threshold_im);
         // Modify corner coordinates
@@ -481,15 +484,17 @@ function getContoursPoints (im) {
         //frompoint=  modifyCorners(recPts);
         // console.log(frompoint.data32F)
         //ratio =1;  // default
-        return modifyCorners(recPts);
+        return modifyCorners(recPts);         // Sort Contour Vertices To Find Which vertices L.Top, R.Top,L.Bottom,R.B
     }
 
 
    // console.log(maxCntArea)
+
+    // if Number of Vertices more than 4 Bounded Minimum rectangle and take vertices of rectangle.
     if (approx.size().height !== 4) {
-        let minRecrt = cv.minAreaRect(maxCnt)
+        let minRecrt = cv.minAreaRect(maxCnt)       // OpenCV Function Minimum Bounding Rectangle
         vertices = cv.RotatedRect.points(minRecrt);
-        modifyTall_v =25;
+        modifyTall_v =25;                           // Numbers To Modify selected Vertices to approximation of contour
         modifyTall_h =25;
         // let features = new cv.Mat();
         //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
@@ -497,12 +502,13 @@ function getContoursPoints (im) {
         //console.log(features.data32F);
         let dst = new cv.Mat();
         let rectangleColor = new cv.Scalar(255, 0, 0);
+        // Draw Minimum Bounding Rectangle
         for (let i = 0; i < 4; i++) {
             cv.line(im, vertices[i], vertices[(i + 1) % 4], rectangleColor, 2, cv.LINE_AA, 0);
         }
         cv.imshow('pros-image', im);
         console.log(vertices)
-
+        // Rounding of number
         for (let i = 0; i < 4; i++) {
             vertices[(i + 1)% 4];
             vertices[i].x= Math.round(vertices[i].x);
@@ -518,8 +524,7 @@ function getContoursPoints (im) {
 
         console.log(vertices)
 
-
-
+        // Rest in ny object av type data32F2 which is Matrix 4 X 1
         let recPts = cv.matFromArray(4, 1, cv.CV_32FC2, [
             vertices[0].x, vertices[0].y,vertices[1].x,vertices[1].y,vertices[2].x, vertices[2].y,vertices[3].x, vertices[3].y
         ]);
@@ -537,6 +542,7 @@ function getContoursPoints (im) {
     }
 }
 
+// --------------- Find Max-Contour in Image -------------
  function findMaxCnt(im){
     // Image area
     const imRectArea = im.cols * im.rows //
@@ -546,13 +552,14 @@ function getContoursPoints (im) {
     let im_gray = new cv.Mat();
     cv.cvtColor(im, im_gray, cv.COLOR_RGBA2GRAY, 0);
 
-
+    // Blur
     let medianBlur_im = new cv.Mat();
     cv.medianBlur(im_gray, medianBlur_im, 13);
 
+    // Canny Edge Detection
     let cany_im = new cv.Mat();
-
     cv.Canny(medianBlur_im, cany_im, 60, 120, 3, false);
+
     // Threshold
     let threshold_im = new cv.Mat();
     //cv.adaptiveThreshold(im_gray, threshold_im, 255, cv.THRESH_BINARY, 81, 3);
@@ -560,8 +567,9 @@ function getContoursPoints (im) {
     //cv.threshold(threshold_im, threshold_im,THRESHOLD, 255, cv.THRESH_BINARY);
     cv.imshow('pros-image',threshold_im);
     let M = cv.Mat.ones(3, 3, cv.CV_8U);
-    // cv.morphologyEx(threshold_im, threshold_im, cv.MORPH_GRADIENT, M);
+    // cv.morphologyEx(threshold_im, threshold_im, cv.MORPH_GRADIENT, M);   // Morph. Diff. between Opening and Closing
     let anchor = new cv.Point(-1, -1);
+    // Morphological operator (Dilation of Edge Contour if case it not Connected Clearly)
     cv.dilate(cany_im, cany_im, M, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue());
      cv.imshow('pros-image',cany_im);
     //let k = cv.Mat.ones(3, 3, cv.CV_8U);
@@ -573,9 +581,10 @@ function getContoursPoints (im) {
 
     // Contours
     let contours = new cv.MatVector();
-    let hierarchy = new cv.Mat();
-    if(tavle.checked) {
-        cv.findContours(cany_im, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
+    let hierarchy = new cv.Mat();      // To Save Relation between Contours (Children/Parents) To Know More Click link
+    // https://docs.opencv.org/3.4/da/d0a/tutorial_js_contours_hierarchy.html
+     if(tavle.checked) {
+    cv.findContours(cany_im, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE); // Take only parents Contours
     }
     else {
         cv.findContours(cany_im, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
@@ -585,25 +594,21 @@ function getContoursPoints (im) {
     for (let i = 0; i < contours.size(); ++i) {
 
         let cnt = contours.get(i);
-        const cntArea = cv.contourArea(cnt)
+        let cntArea = cv.contourArea(cnt)
 
-        const maxRectScale = parseInt(cntArea / imRectArea * 100) // How big is it compared to the original image (%)
+        let maxRectScale = parseInt(cntArea / imRectArea * 100) // How big is it compared to the original image (%)
         console.log(maxRectScale)
-        if (maxRectScale >= MIN_CONTOURS_SCALE) {// Filter by ratio to original image
+        if (maxRectScale >= contour_scale) {       // Choose only Contours which is make '20%' and over of Image Size
 
             if (cntArea > maxCntArea) {
                 maxCnt = cnt;
                 maxCntArea = cntArea;
-
-
             }
 
         }
 
     }
-
-
-
+    // in Case Couldn't find out max-Contour we us 'cv.RETR_CCOMP' To Take (children and parents)
     if(!maxCnt.size()){
         cv.findContours(threshold_im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);
         for (let i = 0; i < contours.size(); ++i) {
@@ -613,7 +618,7 @@ function getContoursPoints (im) {
 
             const maxRectScale = parseInt(cntArea / imRectArea * 100) // How big is it compared to the original image (%)
             console.log(maxRectScale)
-            if (maxRectScale >= MIN_CONTOURS_SCALE) {// Filter by ratio to original image
+            if (maxRectScale >= contour_scale) {// Filter by ratio to original image
 
                 if (cntArea > maxCntArea) {
                     maxCnt = cnt;
@@ -635,7 +640,7 @@ function getContoursPoints (im) {
 
 }
 
-function getTransformedImage(im, fromPts) {
+function transformImage(im, fromPts) {
 
     let transformedIm = new cv.Mat();
     const rows = im.rows;
@@ -700,7 +705,7 @@ function getTransformedImage(im, fromPts) {
 
     // Grayscale
     cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
-    if(imSrc=='webCam'){
+    if(webCamIm){
         cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 5);
     }
     else {
@@ -742,13 +747,15 @@ function getDistance(x1, y1, x2, y2){
     return Math.sqrt(x * x + y * y);
 }
 
-// sjekk om bildet er horizental eller virtikal
+
+
+// check if the Max-contour which founded in image is vertical or horizontal
 
 function checkshape(pts){
 
     let wt ,wb,hl,hr;
 
-    // Alle points ordnet by Y coordinates when we scanned contours.
+    // Alle points sorted by Y coordinates when we scanned contours.
     wt = getDistance(pts[0].x, pts[0].y, pts[1].x, pts[1].y)
 
 
@@ -780,15 +787,16 @@ function checkshape(pts){
     max_width = Math.max(wt,wb);
     max_height = Math.max(hl,hr);
 
-    min_width = Math.min(wt,wb);
-    min_height = Math.min(hl,hr);
-    ratio = max_height/max_width;  // for  å sjekke retning til rectangle om den er horizental eller vertikal
+    min_width = Math.min(wt,wb);        // Find Max Width
+    min_height = Math.min(hl,hr);       // Find Max Height
+    ratio = max_height/max_width;       // if 'Ratio' >= 1 Max-Contour is Vertical else it Horizontal if Not
    // Im_Ratio = max_height/im.cols;
     //console.log(ratio,Im_Ratio)
 }
 
+// -------------------- Check Line Orientation --------------------
 
-// find Text direction in contour
+// Find Text direction in contour to double-check whether the text in the same direction of contour direction
 function checkLineOrientation(im){
     //Gray Scale
     let new_im = new cv.Mat();
@@ -843,11 +851,13 @@ function checkLineOrientation(im){
             }
 
     }
+    // Check if selected Ratio is right or fail
    sannsynlighet_riktig_ratio > sannsynlighet_feil_ratio ? ratio=-1 : ratio= 1;
     contours.delete(); new_im.delete();
 
 }
-// find coordinates to every word in contour
+
+// --------------- Find Median Angle of Lines in Text -------------
 function findlinesAngel(im){
     let dst = new cv.Mat();
     let M = new cv.Mat();
@@ -896,10 +906,13 @@ function findlinesAngel(im){
             //let rektangleAngle = Math.atan2(dy,dx);
             //linesCntAngles.push(rektangleAngle)
            if(rotatedRect.size.width > rotatedRect.size.height ) {
+               // if line direction slightly skewed Up or straight For More info. see link
+               // https://theailearner.com/tag/angle-of-rotation-by-cv2-minarearect/
+               // https://namkeenman.wordpress.com/2015/12/18/open-cv-determine-angle-of-rotatedrect-minarearect/
                sortertAngle.push(rotatedRect.angle)
            }
            else {
-               let angle = 180 - (-rotatedRect.angle+90)
+               let angle = 180 - (-rotatedRect.angle+90)          // if line direction slightly skewed down
                sortertAngle.push(angle)
            }
 
@@ -918,10 +931,11 @@ function findlinesAngel(im){
     //return medianAngle >0 ? medianAngle : medianAngle;
     //return medianAngle;
 }
-// Extract words based on morphology operator.
 
+
+// --------------- Extract words based on morphology operator ----------
 function extractAllWords(im,blured_im){
-    // // pre Test to find out median width for characters in context
+    // pre Test to find out median width and height of characters in context
 
     //cv.imshow('pros-image',cany_im);
     // Threshold
@@ -1003,7 +1017,8 @@ function extractAllWords(im,blured_im){
 
      */
     contours.delete();
-    // NB: her kunne jeg finne tallet til det mest repeterende av bokstaverbreden, men det er tung prossess for optiamlisering.
+    // NB: here we could select most high frequency of chars,but it will take long time and effect the performance.
+    // Sort char based on width and height then select median of width and height
     charHorizentalDistanse.sort((a,b) => a-b);
     let horizentalCharSnitt = charHorizentalDistanse.at(charHorizentalDistanse.length/2);
     charVerticalDistanse.sort((a,b) => a-b);
@@ -1014,7 +1029,7 @@ function extractAllWords(im,blured_im){
     //cv.threshold(im,im,THRESHOLD, 255, cv.THRESH_BINARY_INV | cv.THRESH_OTSU);
     //let dst = new cv.Mat();
 
-
+    // Apply Morph. to select lines in Context.
     let M = new cv.Mat();
     let ksize = new cv.Size(horizentalCharSnitt*2, verticalCharSnitt*0.2);
     M = cv.getStructuringElement(cv.MORPH_RECT, ksize);
@@ -1046,13 +1061,13 @@ function extractAllWords(im,blured_im){
         if (cntArea > min_Areal && cntArea < max_Area) {
             // MaxCnt=cnt;
             //minCntArea=cntArea;
-            let rect= cv.boundingRect(cnt);
+            let rect= cv.boundingRect(cnt);     // bounding lines with rectangles.
           /*
             let point1 = new cv.Point(rect.x, rect.y);
             let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
             cv.rectangle(im, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
           */
-            rectArr.push(rect);
+            rectArr.push(rect);         // push lines (rect) to array
 
 
 /*
@@ -1078,6 +1093,7 @@ function extractAllWords(im,blured_im){
 // Calculate maximum rectangle height
 
    //let max_height = rectArr.sort((a,b) => b.height - a.height).at(0).height;
+    // Sort Line (rect) based on height 'Y'
     rectArr.sort((a,b) =>a.y- b.y);
 
     for (let i=0;  i < rectArr.length; i++) {
@@ -1087,7 +1103,7 @@ function extractAllWords(im,blured_im){
         let h = rectArr[i].height;
         let w = rectArr[i].width;
         let rect = new cv.Rect(x, y, w, h);
-        let croped_rectIm = im.roi(rect);
+        let croped_rectIm = im.roi(rect);           // Crop Lines from Main Image
         cv.imshow('pros-image', croped_rectIm);
 
         // find out median char dimension in line
@@ -1101,7 +1117,9 @@ function extractAllWords(im,blured_im){
             let dst = new cv.Mat();
             let M = new cv.Mat();
             let ksize;
-            if(tavle.checked && imSrc == "webCam"){
+
+            // Apply Minimal Morph. for Image From Web because Camera resolution is less than main Camera
+            if(tavle.checked && webCamIm){
                 ksize = new cv.Size(horizentalCharSnitt * 0.1, verticalCharSnitt * 0.1);
             }
             else {
@@ -1117,6 +1135,8 @@ function extractAllWords(im,blured_im){
             let max_Areal = w * h;
             let rectArrOrd = [];
 
+            // Find Contours for alle words in lines and bounded with rectangles then
+            // sort Words (rectangles) Based on 'X' in every line then Crop words (rectangles)
             cv.findContours(dst, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
             for (let i = 0; i < contours.size(); ++i) {
                 let cnt = contours.get(i);
@@ -1136,9 +1156,9 @@ function extractAllWords(im,blured_im){
 
             }
             // sort row by x;
-            rectArrOrd.sort((a, b) => a.x - b.x);
-            cropImage(rectArrOrd);
-            rectArrOrd = [];
+            rectArrOrd.sort((a, b) => a.x - b.x);       // Sort Rectangles (Words) in line
+            cropImage(rectArrOrd);                               // Crop Words (Rectangle)
+            rectArrOrd = [];                                     // Free Memory
 
     }
 
@@ -1185,7 +1205,7 @@ function extractAllWords(im,blured_im){
 
 }
 
-// crop image
+// -------------------- Crop Words in Lines --------------------
 function cropImage(wordCoordinates){
     const ctx = pros_image.getContext("2d");
 
@@ -1217,7 +1237,7 @@ function cropImage(wordCoordinates){
 
     */
 }
-
+// ---------------- Add Zoom Buttons -------------------
 function addZoomButtons(){
     const zoomInn = document.createElement("a");
     zoomInn.setAttribute("class","bi bi-zoom-in")
@@ -1238,8 +1258,9 @@ function addZoomButtons(){
 
 
 
-// pre Test to find out median width for characters in line
+// ------------------ Extra Function to find Median characters Width and height --------------
 
+// pre Test to find out median width for characters in line
 function line_Medin_char_line(im){
     // Contours
     let contours = new cv.MatVector();
@@ -1311,10 +1332,9 @@ function line_Medin_char_line(im){
 
 
 
-// Modify corner coordinates
+// ---------------------- Modify and Select corner coordinates ------------------------------
 
 function modifyCorners(pts){
-
 
     let max_sum = pts.data32F[0]+pts.data32F[1];
     let min_sum = pts.data32F[0]+pts.data32F[1];
@@ -1370,6 +1390,7 @@ function modifyCorners(pts){
         pts.data32F[i]=rect[i];
     }
     console.log(Im_Ratio,rect,pts.data32F)
+    // Crop Max-Contour by shrinking vertices to inside
     if(ratio <1) {
         pts.data32F[0] += modifyTall_h;
         pts.data32F[1] += modifyTall_h;
@@ -1419,15 +1440,15 @@ zoomButtonsDiv.addEventListener('click', function(event) {
     console.log(event.target.id)
 
     // let clipWord = document.getElementsByName("clipWord");
-    if(event.target.id=='zoom-inn-icon'){
+    if(event.target.id==='zoom-inn-icon'){
         zoom += 0.15;
         document.documentElement.style.setProperty('--scale-zoom',  zoom);
     }
-    if(event.target.id=='zoom-out-icon'){
+    if(event.target.id==='zoom-out-icon'){
         zoom -= 0.15;
         document.documentElement.style.setProperty('--scale-zoom',  zoom);
     }
-    if(event.target.id=='zoom-reset-icon'){
+    if(event.target.id==='zoom-reset-icon'){
         zoom = 1;
         document.documentElement.style.setProperty('--scale-zoom',  zoom);
     }

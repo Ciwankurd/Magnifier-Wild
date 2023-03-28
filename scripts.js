@@ -40,16 +40,13 @@ function openCvReady() {
 }
 
 (async () => {
-    let front = false;
-    let mode = "user"
-
 
   // let devices = await navigator.mediaDevices.enumerateDevices();
 
     const constraints = {
         audio: false,
         video: {
-           facingMode:  front? "user": "environment",
+           facingMode: "environment",
             //resizeMode: 'none',
             width: { ideal: 1280 },
            height: { ideal: 720 },
@@ -67,7 +64,6 @@ function openCvReady() {
                      exact: "environment"
                              }
                      }
-
      */
     };
     // check if browser support som camera properties
@@ -86,13 +82,10 @@ function openCvReady() {
            // console.log("Got stream with constraints:", constraints);
            // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-
             if (width < height) {
                 [width, height] = [height, width];
                 aspectRatio = 1 / aspectRatio;
             }
-
-
             track.applyConstraints({
                 resizeMode: 'crop-and-scale',
                 width: {exact: width},
@@ -103,9 +96,9 @@ function openCvReady() {
             });
 
 
-            let x = (video.width -video.offsetWidth)/2+"px";
-            let y = (video.height -video.offsetHeight)/2+"px";
-           let ratio = video.offsetWidth/video.width;
+           // let x = (video.width -video.offsetWidth)/2+"px";
+            //let y = (video.height -video.offsetHeight)/2+"px";
+           //let ratio = video.offsetWidth/video.width;
            console.log(x,y,ratio)
             video.style.width=width;
            video.style.height=height;
@@ -117,9 +110,9 @@ function openCvReady() {
             video.onloadedmetadata = () => {
                 video.play();
             };
+            // create canvas element to draw image from camera inn
             let canvas =document.createElement('canvas');
             let context = canvas.getContext('2d');
-
             // Capture image from video and draw image in canvas.
             snap.addEventListener("click",function (){
                 // check screen orientation
@@ -140,10 +133,11 @@ function openCvReady() {
                context.drawImage(video,0,0,canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 imSrc='webCam'; // variable will be used to check if image source from web camera
-               origIm.src = dataUrl;
-               imgElement.src = dataUrl;
+               origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
+               imgElement.src = dataUrl;      // to show image to user
                 cap_image.width= 400;
                 cap_image.height=250;
+                // show capture image under Web camera canvas
                cap_image.getContext('2d').drawImage(video,0,0,cap_image.width,cap_image.height);
                 //transform(cap_image);
                 /*
@@ -176,7 +170,8 @@ function openCvReady() {
             }
         });
 
-
+// Here an extra code to for video processing to find out auto-detection of max-contour in the video
+    // it has been commented because it effects performance of project and cost a lot of memory
     //video.width=720;
     //video.height=1280;
 
@@ -269,13 +264,15 @@ function openCvReady() {
 })();
 
 
-// opencv
+// Her we will transfer target element in image (Max-contour in image) to new image then will apply projection
 async function transform (src) {
      // empty div if new image uploaded
      result.innerHTML = '';
      zoomButtonsDiv.innerHTML = '';
     let im = cv.imread(src);
-    // Resize image if its demention
+    // Resize image dimensions if its too big
+    // when Tavle chooses av user subtraction
+    // F.ground and B.ground use too much of memory therefor resize vi before
      if((im.cols > 1300 || im.rows > 1300) && tavle.checked) {
          resizing(im, 1300);
      }

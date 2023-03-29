@@ -42,22 +42,6 @@ function openCvReady() {
 (async () => {
 
   // let devices = await navigator.mediaDevices.enumerateDevices();
-    try {
-        const panTiltZoomPermissionStatus = await navigator.permissions.query({
-            name: "camera",
-            panTiltZoom: true
-        });
-
-        if (panTiltZoomPermissionStatus.state == "granted") {
-            // User has granted access to the website to control camera PTZ.
-        }
-
-        panTiltZoomPermissionStatus.addEventListener("change", () => {
-            // User has changed PTZ permission status.
-        });
-    } catch (error) {
-        console.log(error);
-    }
     const constraints = {
         audio: false,
         video: {
@@ -65,9 +49,9 @@ function openCvReady() {
             //resizeMode: 'none',
             width: { ideal: 1280 },
            height: { ideal: 720 },
-            advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
+           // advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
             focusMode: true,
-            zoom: true,
+            zoom: 150,
             tilt: true,
             pan:true,
             scale: true,
@@ -95,8 +79,6 @@ function openCvReady() {
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
             let [track] = stream.getVideoTracks();
-            let capabilities = track.getCapabilities();
-            let settings = track.getSettings();
             let {width, height, aspectRatio} = track.getSettings();
            // console.log("Got stream with constraints:", constraints);
            // console.log(`Using video device: ${track.getSettings.deviceId}`);

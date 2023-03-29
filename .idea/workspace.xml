@@ -8,7 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="Zoom Permission">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="Zoom">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
     </list>
@@ -154,7 +154,7 @@
       <workItem from="1677880609750" duration="65055000" />
       <workItem from="1678118226207" duration="22451000" />
       <workItem from="1678975719889" duration="49988000" />
-      <workItem from="1679143172401" duration="297713000" />
+      <workItem from="1679143172401" duration="301258000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -485,7 +485,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680106587020</updated>
     </task>
-    <option name="localTasksCounter" value="48" />
+    <task id="LOCAL-00048" summary="Zoom">
+      <created>1680121042811</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1680121042811</updated>
+    </task>
+    <option name="localTasksCounter" value="49" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,7 +528,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="video dem" />
     <MESSAGE value="styling og endring i noen funtion" />
     <MESSAGE value="styling og endring" />
     <MESSAGE value="styling" />
@@ -546,167 +552,168 @@
     <MESSAGE value="change dimension captured image from web Camera" />
     <MESSAGE value="change in crop condition" />
     <MESSAGE value="Zoom Permission" />
-    <option name="LAST_COMMIT_MESSAGE" value="Zoom Permission" />
+    <MESSAGE value="Zoom" />
+    <option name="LAST_COMMIT_MESSAGE" value="Zoom" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1334</line>
+          <line>1338</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1279</line>
+          <line>1283</line>
           <option name="timeStamp" value="150" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1313</line>
+          <line>1317</line>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>440</line>
+          <line>444</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>643</line>
+          <line>647</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="212" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>556</line>
+          <line>560</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="214" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1052</line>
+          <line>1056</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="219" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1042</line>
+          <line>1046</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="220" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1027</line>
+          <line>1031</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="222" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>935</line>
+          <line>939</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="224" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1103</line>
+          <line>1107</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="225" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>954</line>
+          <line>958</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="232" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>952</line>
+          <line>956</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="234" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>806</line>
+          <line>810</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>280</line>
+          <line>284</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="249" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>663</line>
+          <line>667</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="250" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>766</line>
+          <line>770</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="251" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>859</line>
+          <line>863</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="252" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>396</line>
+          <line>400</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="256" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>320</line>
+          <line>324</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="257" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>329</line>
+          <line>333</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="258" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>383</line>
+          <line>387</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="259" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>582</line>
+          <line>586</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="263" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>616</line>
+          <line>620</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="264" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>857</line>
+          <line>861</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="268" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>287</line>
+          <line>291</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="272" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>712</line>
+          <line>716</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="273" />
         </line-breakpoint>

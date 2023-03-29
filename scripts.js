@@ -65,9 +65,9 @@ function openCvReady() {
             //resizeMode: 'none',
             width: { ideal: 1280 },
            height: { ideal: 720 },
-            advanced: [{ width: 1920, height: 1280 }, { aspectRatio: 1.333 }],
+            advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
             focusMode: true,
-            zoom: 150,
+            zoom: true,
             tilt: true,
             pan:true,
             scale: true,
@@ -95,6 +95,8 @@ function openCvReady() {
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
             let [track] = stream.getVideoTracks();
+            let capabilities = track.getCapabilities();
+            let settings = track.getSettings();
             let {width, height, aspectRatio} = track.getSettings();
            // console.log("Got stream with constraints:", constraints);
            // console.log(`Using video device: ${track.getSettings.deviceId}`);
@@ -103,8 +105,18 @@ function openCvReady() {
                 [width, height] = [height, width];
                 aspectRatio = 1 / aspectRatio;
             }
-            track.applyConstraints(constraints);
 
+            track.applyConstraints(
+                {
+                    resizeMode: 'crop-and-scale',
+                    width: {exact: width},
+                    height: {exact: height},
+                    zoom: 150,
+                    //frameRate: {exact: 10},
+                    aspectRatio: 16/9,
+                    scale: 5
+                }
+            );
 
            // let x = (video.width -video.offsetWidth)/2+"px";
             //let y = (video.height -video.offsetHeight)/2+"px";
@@ -120,6 +132,7 @@ function openCvReady() {
             video.onloadedmetadata = () => {
                 video.play();
             };
+
             // create canvas element to draw image from camera inn
             let canvas =document.createElement('canvas');
             let context = canvas.getContext('2d');

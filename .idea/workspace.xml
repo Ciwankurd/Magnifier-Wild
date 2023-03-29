@@ -8,7 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="Zoomm">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="Zoom">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
     </list>
@@ -154,14 +154,7 @@
       <workItem from="1677880609750" duration="65055000" />
       <workItem from="1678118226207" duration="22451000" />
       <workItem from="1678975719889" duration="49988000" />
-      <workItem from="1679143172401" duration="302480000" />
-    </task>
-    <task id="LOCAL-00001" summary="tew">
-      <created>1673220281035</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1673220281035</updated>
+      <workItem from="1679143172401" duration="303354000" />
     </task>
     <task id="LOCAL-00002" summary="new">
       <created>1674252275144</created>
@@ -499,7 +492,14 @@
       <option name="project" value="LOCAL" />
       <updated>1680124703813</updated>
     </task>
-    <option name="localTasksCounter" value="50" />
+    <task id="LOCAL-00050" summary="Zoom">
+      <created>1680133061159</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1680133061161</updated>
+    </task>
+    <option name="localTasksCounter" value="51" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -558,9 +558,9 @@
     <MESSAGE value="change dimension captured image from web Camera" />
     <MESSAGE value="change in crop condition" />
     <MESSAGE value="Zoom Permission" />
-    <MESSAGE value="Zoom" />
     <MESSAGE value="Zoomm" />
-    <option name="LAST_COMMIT_MESSAGE" value="Zoomm" />
+    <MESSAGE value="Zoom" />
+    <option name="LAST_COMMIT_MESSAGE" value="Zoom" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

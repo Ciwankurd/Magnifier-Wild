@@ -65,11 +65,12 @@ function openCvReady() {
             //resizeMode: 'none',
             width: { ideal: 1280 },
            height: { ideal: 720 },
+            advanced: [{ width: 1920, height: 1280 }, { aspectRatio: 1.333 }],
             focusMode: true,
-            zoom: 1.0,
+            zoom: 150,
             tilt: true,
             pan:true,
-            scale: 5,
+            scale: true,
             aspectRatio: 16/9,
             //deviceId:  devices[2].deviceId
         }
@@ -102,15 +103,7 @@ function openCvReady() {
                 [width, height] = [height, width];
                 aspectRatio = 1 / aspectRatio;
             }
-            track.applyConstraints({
-                resizeMode: 'crop-and-scale',
-                width: {exact: width},
-                height: {exact: height},
-                zoom: 2.0,
-                //frameRate: {exact: 10},
-                aspectRatio: 16/9,
-                scale: 5
-            });
+            track.applyConstraints(constraints);
 
 
            // let x = (video.width -video.offsetWidth)/2+"px";

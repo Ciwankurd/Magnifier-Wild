@@ -273,8 +273,8 @@ async function transform (src) {
     // Resize image dimensions if its too big
     // when Tavle chooses av user subtraction
     // F.ground and B.ground use too much of memory therefor resize vi before
-     if((im.cols > 1300 || im.rows > 1300) && tavle.checked) {
-         resizing(im, 1300);
+     if((im.cols >= 1280 || im.rows >= 1280) && tavle.checked) {
+         resizing(im, 1280);
      }
      if((im.cols >= 1500 || im.rows >= 1500)){
          let half_Size = im.cols >= im.rows? im.cols*0.6: im.rows*0.55;
@@ -309,7 +309,7 @@ async function transform (src) {
 */
         // Crop Image and resizing
         let cropIm = new cv.Mat();
-        if(transformedIm.cols > 1000 || transformedIm.rows > 1000) {
+        if(transformedIm.cols > 1280 || transformedIm.rows > 1280) {
             //resizing(transformedIm,920);
             let rect = new cv.Rect(25,25,transformedIm.cols-35,transformedIm.rows-35);
             cropIm = transformedIm.roi(rect);
@@ -583,12 +583,8 @@ function findContoursVertices (im) {
     let contours = new cv.MatVector();
     let hierarchy = new cv.Mat();      // To Save Relation between Contours (Children/Parents) To Know More Click link
     // https://docs.opencv.org/3.4/da/d0a/tutorial_js_contours_hierarchy.html
-     if(tavle.checked) {
     cv.findContours(cany_im, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE); // Take only parents Contours
-    }
-    else {
-        cv.findContours(cany_im, contours, hierarchy, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE);
-    }
+
     let maxCntArea = 0;
     let maxCnt = new cv.MatVector();
     for (let i = 0; i < contours.size(); ++i) {

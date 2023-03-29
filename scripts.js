@@ -42,7 +42,22 @@ function openCvReady() {
 (async () => {
 
   // let devices = await navigator.mediaDevices.enumerateDevices();
+    try {
+        const panTiltZoomPermissionStatus = await navigator.permissions.query({
+            name: "camera",
+            panTiltZoom: true
+        });
 
+        if (panTiltZoomPermissionStatus.state == "granted") {
+            // User has granted access to the website to control camera PTZ.
+        }
+
+        panTiltZoomPermissionStatus.addEventListener("change", () => {
+            // User has changed PTZ permission status.
+        });
+    } catch (error) {
+        console.log(error);
+    }
     const constraints = {
         audio: false,
         video: {
@@ -51,7 +66,7 @@ function openCvReady() {
             width: { ideal: 1280 },
            height: { ideal: 720 },
             focusMode: true,
-            zoom: true ,
+            zoom: 1.0,
             tilt: true,
             pan:true,
             scale: 5,
@@ -66,6 +81,7 @@ function openCvReady() {
                      }
      */
     };
+
     // check if browser support som camera properties
     const supports = navigator.mediaDevices.getSupportedConstraints();
     if (supports.pan && supports.tilt && supports.zoom) {
@@ -90,6 +106,7 @@ function openCvReady() {
                 resizeMode: 'crop-and-scale',
                 width: {exact: width},
                 height: {exact: height},
+                zoom: 2.0,
                 //frameRate: {exact: 10},
                 aspectRatio: 16/9,
                 scale: 5

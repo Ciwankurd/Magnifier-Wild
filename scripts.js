@@ -118,17 +118,17 @@ function openCvReady() {
                 // check screen orientation
                 switch (screen.orientation.type) {
                     case "landscape-primary":
-                        canvas.width= 2016;
-                        canvas.height=1134;
+                        canvas.width= 1280;
+                        canvas.height=720;
                         break;
                     case "portrait-primary":
-                        canvas.width= 1134;
-                        canvas.height=2016;
+                        canvas.width= 720;
+                        canvas.height=1280;
                         break;
                     default:
                         console.log("The orientation API isn't supported in this browser :(");
-                        canvas.width= 1134;
-                        canvas.height=2016;
+                        canvas.width= 1280;
+                        canvas.height=720;
                 }
                context.drawImage(video,0,0,canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');

@@ -8,9 +8,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="Add more comments and live link">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="Add more comments">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -154,7 +153,7 @@
       <workItem from="1677880609750" duration="65055000" />
       <workItem from="1678118226207" duration="22451000" />
       <workItem from="1678975719889" duration="49988000" />
-      <workItem from="1679143172401" duration="286456000" />
+      <workItem from="1679143172401" duration="288403000" />
     </task>
     <task id="LOCAL-00001" summary="tew">
       <created>1673220281035</created>
@@ -457,7 +456,14 @@
       <option name="project" value="LOCAL" />
       <updated>1679967424803</updated>
     </task>
-    <option name="localTasksCounter" value="44" />
+    <task id="LOCAL-00044" summary="Add more comments">
+      <created>1680013490853</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1680013490853</updated>
+    </task>
+    <option name="localTasksCounter" value="45" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -493,7 +499,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="endre in project version" />
     <MESSAGE value="video dimention" />
     <MESSAGE value="video d" />
     <MESSAGE value="video de" />
@@ -518,7 +523,8 @@
     <MESSAGE value="fix warp Perspective" />
     <MESSAGE value="fix web camera resolution" />
     <MESSAGE value="Add more comments and live link" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add more comments and live link" />
+    <MESSAGE value="Add more comments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add more comments" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

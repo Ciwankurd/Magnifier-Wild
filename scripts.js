@@ -306,11 +306,11 @@ async function transform (src) {
         let cropIm = new cv.Mat();
         if(transformedIm.cols > 1280 || transformedIm.rows > 1280) {
             //resizing(transformedIm,920);
-            let rect = new cv.Rect(25,25,transformedIm.cols-35,transformedIm.rows-35);
+            let rect = new cv.Rect(30,30,transformedIm.cols-45,transformedIm.rows-45);
             cropIm = transformedIm.roi(rect);
         }
         else{
-            let rect = new cv.Rect(15,15,transformedIm.cols-20,transformedIm.rows-20);
+            let rect = new cv.Rect(20,15,transformedIm.cols-25,transformedIm.rows-25);
             cropIm = transformedIm.roi(rect);
         }
         cv.imshow('canvasOutput', cropIm);
@@ -323,9 +323,7 @@ async function transform (src) {
         //cv.imshow('LabcanvasOutput',transformedIm);
         //let rotateIm = new cv.Mat();
 
-        // Blur and
-        //
-        // Rotation
+        // Blur
         let blur_im = new cv.Mat();
         cv.medianBlur(cropIm, blur_im, 3);
         let medinaAngle = findlinesAngel(blur_im)  // to find out line angle
@@ -364,7 +362,7 @@ async function transform (src) {
 
 }
 
-// --------------- Rotation------------------
+// --------------- Rotation ------------------
 function imRotation(im, angle){
     // Calc. new image dimension
     let w = Math.abs(im.cols * Math.cos(angle)) + Math.abs(im.rows * Math.sin(angle));
@@ -697,7 +695,7 @@ function transformImage(im, fromPts) {
     // Grayscale
     cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
     if(webCamIm){
-        cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 13, 11);
+        cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 13, 7);
     }
     else {
         cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 7);
@@ -710,18 +708,12 @@ function transformImage(im, fromPts) {
     let ksize = new cv.Size(3, 3);
     //cv.medianBlur(transformedIm, transformedIm, 3);
     if(webCamIm) {
-        cv.GaussianBlur(transformedIm, transformedIm, ksize, 0, 0, cv.BORDER_DEFAULT);
+       cv.GaussianBlur(transformedIm, transformedIm, ksize, 0, 0, cv.BORDER_DEFAULT);
     }
      //cv.cvtColor(transformedIm,transformedIm, cv.COLOR_RGBA2RGB, 0);
     //cv.bilateralFilter(transformedIm, transformedIm, 9, 75, 50, cv.BORDER_DEFAULT);
 
     cv.imshow('pros-image',transformedIm);
-
-
-
-
-
-
     fromPts.delete();
     toPts.delete();
     M.delete(); im.delete();

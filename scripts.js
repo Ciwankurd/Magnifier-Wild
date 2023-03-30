@@ -47,11 +47,11 @@ function openCvReady() {
         video: {
            facingMode: "environment",
             //resizeMode: 'none',
-            width: { ideal: 4032 },
-            height: { ideal: 1908 },
+            width: { ideal: 1920 },
+            height: { ideal: 1080 },
             //advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
             focusMode: true,
-            zoom: 1.5,
+            zoom: 2,
             tilt: true,
             frameRate: 40,
             pan:true,
@@ -697,7 +697,7 @@ function transformImage(im, fromPts) {
     // Grayscale
     cv.cvtColor(transformedIm, transformedIm, cv.COLOR_RGBA2GRAY, 0);
     if(webCamIm){
-        cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 7);
+        cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 13, 11);
     }
     else {
         cv.adaptiveThreshold(transformedIm, transformedIm, 250, cv.ADAPTIVE_THRESH_GAUSSIAN_C, cv.THRESH_BINARY, 25, 7);

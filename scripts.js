@@ -47,11 +47,11 @@ function openCvReady() {
         video: {
            facingMode: "environment",
             //resizeMode: 'none',
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
             //advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
             focusMode: true,
-            zoom: 2,
+            zoom: 1.5,
             tilt: true,
             frameRate: 40,
             pan:true,
@@ -709,8 +709,10 @@ function transformImage(im, fromPts) {
     // Blur
     let ksize = new cv.Size(3, 3);
     //cv.medianBlur(transformedIm, transformedIm, 3);
-     //cv.GaussianBlur(transformedIm, transformedIm, ksize, 0, 0, cv.BORDER_DEFAULT);
-    //cv.cvtColor(transformedIm,transformedIm, cv.COLOR_RGBA2RGB, 0);
+    if(webCamIm) {
+        cv.GaussianBlur(transformedIm, transformedIm, ksize, 0, 0, cv.BORDER_DEFAULT);
+    }
+     //cv.cvtColor(transformedIm,transformedIm, cv.COLOR_RGBA2RGB, 0);
     //cv.bilateralFilter(transformedIm, transformedIm, 9, 75, 50, cv.BORDER_DEFAULT);
 
     cv.imshow('pros-image',transformedIm);

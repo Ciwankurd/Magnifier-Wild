@@ -1,4 +1,5 @@
 //"use strict";
+
 const video = document.getElementById("video-input");
 let original_Video = document.getElementById('Original-video-input');
 let cap_video = document.getElementById("canvas-output");
@@ -19,6 +20,7 @@ let Stronger_contrast=document.getElementById('contrast');
 let Negative=document.getElementById('negative');
 let docum=document.getElementById('doc');
 let tavle=document.getElementById('tavle');
+let text_detection=document.getElementById('easyocr');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,
     modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false;
 inputElement.addEventListener('change', async (e) => {
@@ -30,15 +32,16 @@ inputElement.addEventListener('change', async (e) => {
 origIm.onload = function ImProcess(){
     transform(origIm)
 };
-
 // check if opencv loaded
+/*
 function openCvReady() {
     // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
     cv['onRuntimeInitialized']=() => {
         document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+        document.getElementById('iconLoad').hidden = "hidden"
     }
 }
-
+*/
 (async () => {
 
   // let devices = await navigator.mediaDevices.enumerateDevices();
@@ -131,7 +134,7 @@ function openCvReady() {
                origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
                imgElement.src = dataUrl;      // to show image to user
                 cap_image.width= 400;
-                cap_image.height=250;
+                cap_image.height=300;
                 // show capture image under Web camera canvas
                cap_image.getContext('2d').drawImage(video,0,0,cap_image.width,cap_image.height);
                 //transform(cap_image);
@@ -256,8 +259,23 @@ function openCvReady() {
 
        setTimeout(processVideo, 0);
 */
+    //textRecognition ()
 })();
 
+
+// Use Tesseract OCR to detect text in image and words coordinates
+ function textRecognition (im){
+     //Tesseract.loadLanguage('eng');
+     //esseract.initialize('eng');
+    Tesseract.recognize(im)
+        .then((output) => {
+         console.log(output.data.words);
+         if(output.data.words.length > 0) {
+             cropImage(output.data.words)
+             result.append(output.data.text)
+         }
+        });
+}
 
 // Her we will transfer target element in image (Max-contour in image) to new image then will apply projection
 async function transform (src) {
@@ -275,7 +293,35 @@ async function transform (src) {
          let half_Size = im.cols >= im.rows? im.cols*0.6: im.rows*0.55;
          resizing(im,half_Size);
      }
-    let pts = findContoursVertices(im);                // for å få vertices (conners) points
+    let pts;
+     if(text_detection.checked){
+         //const outBase64 =  cv.imencode('.jpg', im).toString('base64');
+         //const output = 'data:image/jpeg;base64,' + outBase64;
+         //let tempCanvas = document.getElementById("tempCanvas");
+         //let tempCanvasCtx = tempCanvas.getContext('2d')
+         //tempCanvasCtx.putImageData(im,0,0)
+         //let blob = cv.blobFromImage(im)
+         //cv.imshow('tempCanvas',im)
+         //let b64image = tempCanvas.toDataURL('image/jpeg')
+         //let output = 'data:image/jpeg;base64,' + blob;
+         //console.log(b64image)
+         //
+
+        //let imgData = new ImageData( new Uint8ClampedArray( im.data ), im.cols, im.rows );
+        //console.log(imgData)
+        //let blob = new Blob([imgData],{type: 'image/png'})
+         //const tensor = tf.tensor(imgData.data, [imgData.width, imgData.height, -1])
+        //let output = 'data:image/jpeg;base64,' + imgData;
+        //let tempImg = document.createElement('img')
+         //tempImg.setAttribute('type','Image/.png')
+         //tempImg.src = imgData;
+         //tempCanvasCtx.putImageData(imgData,0,0)
+
+         textRecognition (cap_image)
+     }
+     else {
+     pts = findContoursVertices(im);                // for å få vertices (conners) points
+    }
     if(pts) {
 
         const transformedIm = transformImage(im, pts);     // transformere funnet contour til ny bildet (canvas)
@@ -1147,8 +1193,6 @@ function extractAllWords(im,blured_im){
 
     }
 
-    addZoomButtons();
-
 /*
 
     let linje = 1
@@ -1193,16 +1237,28 @@ function extractAllWords(im,blured_im){
 // -------------------- Crop Words in Lines --------------------
 function cropImage(wordCoordinates){
     const ctx = pros_image.getContext("2d");
+    const capCtx = cap_image.getContext("2d");
 
     for (var word of wordCoordinates)
     {
-        const x = word.x;
-        const y = word.y;
-        const w = word.width;
-        const h = word.height;
+        let x,y,h,w, wordImage
+        if(text_detection.checked && webCamIm){
+            x = word.bbox.x0;
+            y = word.bbox.y0;
+            w = word.bbox.x1 - x;
+            h = word.bbox.y1 - y;
+            // get the image of the current word
+            wordImage = capCtx.getImageData(x,y,w,h);
+        }
+        else {
+             x = word.x;
+             y = word.y;
+             w = word.width;
+             h = word.height;
+            // get the image of the current word
+             wordImage = ctx.getImageData(x,y,w,h);
+        }
 
-        // get the image of the current word
-        const wordImage = ctx.getImageData(x,y,w,h);
         // create temporary canvas for word
         const wordCanvas = document.createElement("canvas");
 
@@ -1218,9 +1274,7 @@ function cropImage(wordCoordinates){
 
 
     }
-    /*
-
-    */
+    addZoomButtons();
 }
 // ---------------- Add Zoom Buttons -------------------
 function addZoomButtons(){

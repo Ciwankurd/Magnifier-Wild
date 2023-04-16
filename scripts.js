@@ -133,8 +133,8 @@ function openCvReady() {
                 webCamIm=true; // variable will be used to check if image source from web camera
                origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
                imgElement.src = dataUrl;      // to show image to user
-                cap_image.width= 400;
-                cap_image.height=300;
+                cap_image.width= 300;
+                cap_image.height=400;
                 // show capture image under Web camera canvas
                cap_image.getContext('2d').drawImage(video,0,0,cap_image.width,cap_image.height);
                 //transform(cap_image);

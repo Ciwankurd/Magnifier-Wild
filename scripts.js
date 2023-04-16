@@ -21,7 +21,7 @@ let Negative=document.getElementById('negative');
 let docum=document.getElementById('doc');
 let tavle=document.getElementById('tavle');
 let text_detection=document.getElementById('easyocr');
-let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,
+let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,tesseractImg,
     modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false;
 inputElement.addEventListener('change', async (e) => {
 
@@ -297,9 +297,13 @@ async function transform (src) {
      if(text_detection.checked){
          //const outBase64 =  cv.imencode('.jpg', im).toString('base64');
          //const output = 'data:image/jpeg;base64,' + outBase64;
+         //let imgData = new ImageData( new Uint8ClampedArray( im.data ), im.cols, im.rows );
          //let tempCanvas = document.getElementById("tempCanvas");
          //let tempCanvasCtx = tempCanvas.getContext('2d')
-         //tempCanvasCtx.putImageData(im,0,0)
+         //tempCanvasCtx.clearRect(0, 0, tempCanvas.width, tempCanvas.height);
+         //tempCanvas.width = imgData.width;
+         //tempCanvas.height = imgData.height;
+         //tempCanvasCtx.putImageData(imgData,0,0)
          //let blob = cv.blobFromImage(im)
          //cv.imshow('tempCanvas',im)
          //let b64image = tempCanvas.toDataURL('image/jpeg')
@@ -316,8 +320,10 @@ async function transform (src) {
          //tempImg.setAttribute('type','Image/.png')
          //tempImg.src = imgData;
          //tempCanvasCtx.putImageData(imgData,0,0)
-
-         textRecognition (cap_image)
+         tesseractImg = document.createElement('canvas')
+         cv.imshow(tesseractImg, im)
+         let b64im = tesseractImg.toDataURL('image/jpeg')
+         textRecognition (b64im)
      }
      else {
      pts = findContoursVertices(im);                // for å få vertices (conners) points
@@ -658,8 +664,6 @@ function findContoursVertices (im) {
                 if (cntArea > maxCntArea) {
                     maxCnt = cnt;
                     maxCntArea = cntArea;
-
-
                 }
 
             }
@@ -1237,12 +1241,12 @@ function extractAllWords(im,blured_im){
 // -------------------- Crop Words in Lines --------------------
 function cropImage(wordCoordinates){
     const ctx = pros_image.getContext("2d");
-    const capCtx = cap_image.getContext("2d");
+    const capCtx = tesseractImg.getContext("2d");
 
     for (var word of wordCoordinates)
     {
         let x,y,h,w, wordImage
-        if(text_detection.checked && webCamIm){
+        if(text_detection.checked && !OpenCV_projection.checked){
             x = word.bbox.x0;
             y = word.bbox.y0;
             w = word.bbox.x1 - x;

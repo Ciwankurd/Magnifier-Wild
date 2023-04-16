@@ -1192,7 +1192,7 @@ function extractAllWords(im,blured_im){
             rectArrOrd = [];                                     // Free Memory
 
     }
-
+    addZoomButtons();
 /*
 
     let linje = 1
@@ -1274,6 +1274,7 @@ function cropImage(wordCoordinates){
 
 
     }
+    if(!OpenCV_projection.checked)
     addZoomButtons();
 }
 // ---------------- Add Zoom Buttons -------------------

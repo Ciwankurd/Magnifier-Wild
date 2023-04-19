@@ -8,7 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="change call zoom buttons">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="updataing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
@@ -159,14 +159,9 @@
       <workItem from="1679143172401" duration="316931000" />
       <workItem from="1680907874786" duration="15614000" />
       <workItem from="1680972165400" duration="3452000" />
-      <workItem from="1681482343358" duration="46380000" />
-    </task>
-    <task id="LOCAL-00016" summary="opdatering styling camera layout">
-      <created>1676421126225</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1676421126225</updated>
+      <workItem from="1681482343358" duration="46994000" />
+      <workItem from="1681771451815" duration="486000" />
+      <workItem from="1681896548642" duration="1337000" />
     </task>
     <task id="LOCAL-00017" summary="opdatering resoltion">
       <created>1676423018812</created>
@@ -504,7 +499,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681647798106</updated>
     </task>
-    <option name="localTasksCounter" value="65" />
+    <task id="LOCAL-00065" summary="updataing">
+      <created>1681654822089</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1681654822089</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -540,7 +542,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="image Width resizing" />
     <MESSAGE value="image Width resizing new" />
     <MESSAGE value="camera resizing and compress image" />
     <MESSAGE value="camera resize" />
@@ -565,24 +566,25 @@
     <MESSAGE value="using tesseracr js to detect words and coordinates" />
     <MESSAGE value="change capture image size" />
     <MESSAGE value="change call zoom buttons" />
-    <option name="LAST_COMMIT_MESSAGE" value="change call zoom buttons" />
+    <MESSAGE value="updataing" />
+    <option name="LAST_COMMIT_MESSAGE" value="updataing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1373</line>
+          <line>1376</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1318</line>
+          <line>1321</line>
           <option name="timeStamp" value="150" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1352</line>
+          <line>1355</line>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -619,11 +621,6 @@
           <url>file://$PROJECT_DIR$/scripts.js</url>
           <line>965</line>
           <option name="timeStamp" value="224" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1133</line>
-          <option name="timeStamp" value="225" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
@@ -703,14 +700,18 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
           <line>266</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="282" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
           <line>284</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="284" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/scripts.js</url>
+          <line>1268</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="285" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

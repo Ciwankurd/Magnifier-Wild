@@ -20,7 +20,7 @@ let Stronger_contrast=document.getElementById('contrast');
 let Negative=document.getElementById('negative');
 let docum=document.getElementById('doc');
 let tavle=document.getElementById('tavle');
-let text_detection=document.getElementById('easyocr');
+let text_detection=document.getElementById('OCR');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,tesseractImg,
     modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false;
 inputElement.addEventListener('change', async (e) => {
@@ -1241,12 +1241,14 @@ function extractAllWords(im,blured_im){
 // -------------------- Crop Words in Lines --------------------
 function cropImage(wordCoordinates){
     const ctx = pros_image.getContext("2d");
-    const capCtx = tesseractImg.getContext("2d");
-
+    let capCtx;
+    if(text_detection.checked) {
+        capCtx = tesseractImg.getContext("2d");
+    }
     for (var word of wordCoordinates)
     {
         let x,y,h,w, wordImage
-        if(text_detection.checked && !OpenCV_projection.checked){
+        if(text_detection.checked){
             x = word.bbox.x0;
             y = word.bbox.y0;
             w = word.bbox.x1 - x;
@@ -1278,8 +1280,9 @@ function cropImage(wordCoordinates){
 
 
     }
-    if(!OpenCV_projection.checked)
-    addZoomButtons();
+    if(!OpenCV_projection.checked) {
+        addZoomButtons();
+    }
 }
 // ---------------- Add Zoom Buttons -------------------
 function addZoomButtons(){

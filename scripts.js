@@ -1,13 +1,13 @@
-//"use strict";
+"use strict";
 
 const video = document.getElementById("video-input");
-let original_Video = document.getElementById('Original-video-input');
-let cap_video = document.getElementById("canvas-output");
+//let original_Video = document.getElementById('Original-video-input');
+//let cap_video = document.getElementById("canvas-output");
 const cap_image = document.getElementById("cap-image");
 const pros_image = document.getElementById("pros-image");
-const CanvasLab = document.getElementById("ImProcess");
+//const CanvasLab = document.getElementById("ImProcess");
 const snap = document.getElementById("snap");
-const labCanvas = document.getElementById("LabcanvasOutput");
+// const labCanvas = document.getElementById("LabcanvasOutput");
 const imtofrode = document.getElementById("canvasOutput");
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('fileInput');
@@ -16,9 +16,9 @@ let THRESHOLD= 128; // Monochrome threshold
 let origIm=document.getElementById('oIm');
 let Frode_projection=document.getElementById('Frode-projection');
 let OpenCV_projection=document.getElementById('OpenCV-projection');
-let Stronger_contrast=document.getElementById('contrast');
-let Negative=document.getElementById('negative');
-let docum=document.getElementById('doc');
+// let Stronger_contrast=document.getElementById('contrast');
+// let Negative=document.getElementById('negative');
+// let docum=document.getElementById('doc');
 let tavle=document.getElementById('tavle');
 let text_detection=document.getElementById('OCR');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,tesseractImg,
@@ -33,18 +33,30 @@ origIm.onload = function ImProcess(){
     transform(origIm)
 };
 // check if opencv loaded
-/*
-function openCvReady() {
+async function openCvReady() {
     // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
     cv['onRuntimeInitialized']=() => {
-        document.getElementById('status').innerHTML = 'OpenCV.js is ready.';
+        document.getElementById('status').innerHTML = 'System is ready.';
         document.getElementById('iconLoad').hidden = "hidden"
     }
 }
-*/
+let radioBtns = document.getElementsByName('projection')
+async function lagreRadioBtn(id){
+    localStorage.setItem('radiobtn',id)
+    for(let rBtn of radioBtns){
+        if(rBtn.checked){
+            localStorage.setItem('checkedBtn', rBtn.id)
+        }
+    }
+}
+async function setCheckedBtn(){
+    userBtn = localStorage.getItem('checkedBtn')
+    let userBtn = document.getElementById(userBtn);
+    userBtn.checked = true
+}
 (async () => {
-
   // let devices = await navigator.mediaDevices.enumerateDevices();
+    setCheckedBtn()
     const constraints = {
         audio: false,
         video: {
@@ -283,7 +295,7 @@ async function transform (src) {
      result.innerHTML = '';
      zoomButtonsDiv.innerHTML = '';
     let im = cv.imread(src);
-    // Resize image dimensions if its too big
+    // Resize image dimensions if it's too big
     // when Tavle chooses av user subtraction
     // F.ground and B.ground use too much of memory therefor resize vi before
      if((im.cols >= 1280 || im.rows >= 1280) && tavle.checked) {
@@ -355,7 +367,7 @@ async function transform (src) {
         }
 */
         // Crop Image and resizing
-        let cropIm = new cv.Mat();
+        let cropIm;
         if(transformedIm.cols > 1280 || transformedIm.rows > 1280) {
             //resizing(transformedIm,920);
             let rect = new cv.Rect(30,30,transformedIm.cols-45,transformedIm.rows-45);
@@ -417,8 +429,8 @@ async function transform (src) {
 // --------------- Rotation ------------------
 function imRotation(im, angle){
     // Calc. new image dimension
-    let w = Math.abs(im.cols * Math.cos(angle)) + Math.abs(im.rows * Math.sin(angle));
-    let h = Math.abs(im.rows * Math.cos(angle)) + Math.abs(im.cols * Math.sin(angle));
+    //let w = Math.abs(im.cols * Math.cos(angle)) + Math.abs(im.rows * Math.sin(angle));
+    //let h = Math.abs(im.rows * Math.cos(angle)) + Math.abs(im.cols * Math.sin(angle));
     let dsize = new cv.Size(im.cols,im.rows);
     let center = new cv.Point(im.cols/2,im.rows/2);
     let M = cv.getRotationMatrix2D(center, angle, 1);
@@ -470,10 +482,13 @@ function findContoursVertices (im) {
             }
         }
         // draw grab rect
+        /*
         let color = new cv.Scalar(255, 255, 255);
         let point1 = new cv.Point(rect.x, rect.y);
         let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
-        //cv.rectangle(im, point1, point2, color);
+        cv.rectangle(im, point1, point2, color);
+
+         */
         cv.imshow('pros-image', im);
         mask.delete();
         bgdModel.delete();
@@ -545,7 +560,7 @@ function findContoursVertices (im) {
         //cv.goodFeaturesToTrack(cany_im,features,4,0.05,400)
         //features.convertTo(features,cv.CV_32FC2);
         //console.log(features.data32F);
-        let dst = new cv.Mat();
+        //let dst = new cv.Mat();
         let rectangleColor = new cv.Scalar(255, 0, 0);
         // Draw Minimum Bounding Rectangle
         for (let i = 0; i < 4; i++) {
@@ -846,7 +861,7 @@ function checkLineOrientation(im){
     //threshold
     //cv.threshold(new_im,new_im, THRESHOLD, 255, cv.THRESH_BINARY);
     cv.imshow('pros-image',new_im);
-    let M = new cv.Mat();
+    let M;
     let ksize = new cv.Size(25, 20);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(new_im, new_im, cv.MORPH_GRADIENT, M);
@@ -895,7 +910,7 @@ function checkLineOrientation(im){
 // --------------- Find Median Angle of Lines in Text -------------
 function findlinesAngel(im){
     let dst = new cv.Mat();
-    let M = new cv.Mat();
+    let M;
     let ksize = new cv.Size(25, 1);
     M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
     cv.morphologyEx(im, dst, cv.MORPH_GRADIENT, M);
@@ -907,7 +922,7 @@ function findlinesAngel(im){
     let minCntArea= 3000; // for å fjernet små brikker
     let imArea = (im.rows * im.cols)*0.1;
     let sortertAngle=[];
-    let linesCntAngles=[];
+    // let linesCntAngles;
     let  rectArr = [];
     let medianAngle;
     let rectangleColor = new cv.Scalar(255, 0, 0);
@@ -957,7 +972,7 @@ function findlinesAngel(im){
     }
     sortertAngle.sort((a,b) => a-b)
     medianAngle = sortertAngle.at(sortertAngle.length/2);
-    dst.delete(); contours.delete(); linesCntAngles=[]; sortertAngle=[]; rectArr=[]; vertices=[];
+    dst.delete(); contours.delete(); // linesCntAngles=[]; sortertAngle=[]; rectArr=[]; vertices=[];
     return medianAngle;
 
     //linesCntAngles.sort((a,b) => a-b);
@@ -987,15 +1002,15 @@ function extractAllWords(im,blured_im){
     let imArea = (im.rows * im.cols)*0.08;
     let charHorizentalDistanse = [];
     let charVerticalDistanse = [];
-    let charactersDimention =[]
-    let sortertAngle=[];
-    let linesCntAngles=[];
+    //let charactersDimention =[]
+    //let sortertAngle=[];
+    //let linesCntAngles=[];
     let  rectArr = [];
-    let medianAngle;
-    let rectangleColor = new cv.Scalar(0, 255, 0);
-    let contoursColor = new cv.Scalar(0, 255,0);
-    let rotatedRect;
-    let vertices;
+    //let medianAngle;
+    //let rectangleColor = new cv.Scalar(0, 255, 0);
+    //let contoursColor = new cv.Scalar(0, 255,0);
+    //let rotatedRect;
+    //let vertices;
     for (let i = 0; i < contours.size()*0.25; ++i) {
         let r = Math.floor(Math.random() * contours.size());  // Randomize choose sample of width in different places
         let cnt = contours.get(r);
@@ -1065,19 +1080,19 @@ function extractAllWords(im,blured_im){
     //let dst = new cv.Mat();
 
     // Apply Morph. to select lines in Context.
-    let M = new cv.Mat();
+    let M;
     let ksize = new cv.Size(horizentalCharSnitt*2, verticalCharSnitt*0.2);
     M = cv.getStructuringElement(cv.MORPH_RECT, ksize);
     cv.morphologyEx(blured_im, dst, cv.MORPH_GRADIENT, M);
 
     cv.imshow('pros-image', dst);
 
-    let MM = cv.Mat.ones(horizentalCharSnitt*0.36, verticalCharSnitt*0.3, cv.CV_8U);
-    let hsize = new cv.Size(1.3, 1);
-    MM = cv.getStructuringElement(cv.MORPH_CROSS, hsize);
-    let anchor = new cv.Point(-1, -1);
+    //let MM = cv.Mat.ones(horizentalCharSnitt*0.36, verticalCharSnitt*0.3, cv.CV_8U);
+    //let hsize = new cv.Size(1.3, 1);
+    //MM = cv.getStructuringElement(cv.MORPH_CROSS, hsize);
+    //let anchor = new cv.Point(-1, -1);
     //let MM = cv.Mat.ones(5, 5, cv.CV_8U);
-// You can try more different parameters
+
     //cv.dilate(dst, dst, MM, anchor, 1, cv.BORDER_CONSTANT, cv.morphologyDefaultBorderValue())
 
     cv.imshow('pros-image', dst);
@@ -1181,8 +1196,8 @@ function extractAllWords(im,blured_im){
                     // MaxCnt=cnt;
                     //minCntArea=cntArea;
                     let rect = cv.boundingRect(cnt);
-                    let point1 = new cv.Point(rect.x, rect.y);
-                    let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
+                    //let point1 = new cv.Point(rect.x, rect.y);
+                    //let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
                     //cv.rectangle(croped_rectIm, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
                     rectArrOrd.push(rect);
                     // cv.imshow('pros-image', croped_rectIm);
@@ -1308,6 +1323,7 @@ function addZoomButtons(){
 // ------------------ Extra Function to find Median characters Width and height --------------
 
 // pre Test to find out median width for characters in line
+/*
 function line_Medin_char_line(im){
     // Contours
     let contours = new cv.MatVector();
@@ -1328,11 +1344,11 @@ function line_Medin_char_line(im){
             // MaxCnt=cnt;
             //minCntArea=cntArea;
             let rect= cv.boundingRect(cnt);
-            /*
+
              let point1 = new cv.Point(rect.x, rect.y);
             let point2 = new cv.Point(rect.x + rect.width, rect.y + rect.height);
-            cv.rectangle(im, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
-            */
+            //cv.rectangle(im, point1, point2, rectangleColor, 1, cv.LINE_AA, 0);
+
             if(!charHorizentalDistanse.includes(rect.width)) {
                 charHorizentalDistanse.push(rect.width);
             }
@@ -1360,14 +1376,14 @@ function line_Medin_char_line(im){
     // let index = linesCntAngles.indexOf(medianAngle);
     // medianRect = rectArr.at(index)
     // distance between two characters
-    /*
-    rectArr.sort((a,b) => a.x - b.x)
+
+    //rectArr.sort((a,b) => a.x - b.x)
     for (let i = 1; i < rectArr.length; ++i) {
        let avstand = (rectArr[i - 1].x+rectArr[i - 1].width) - rectArr[i].x
-        horizentalDistanse.push(avstand);
+       // horizentalDistanse.push(avstand);
     }
 
-     */
+
     // NB: her kunne jeg finne tallet til det mest repeterende av bokstaverbreden, men det er tung prossess for optiamlisering.
     charHorizentalDistanse.sort((a,b) => a-b);
     let horizentalCharSnitt = charHorizentalDistanse.at(charHorizentalDistanse.length-1)/2;
@@ -1376,8 +1392,7 @@ function line_Medin_char_line(im){
 
     return {'charMedianWidth':horizentalCharSnitt, 'charMedianHeight':verticalCharSnitt};
 }
-
-
+*/
 
 // ---------------------- Modify and Select corner coordinates ------------------------------
 

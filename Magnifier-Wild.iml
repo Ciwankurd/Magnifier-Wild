@@ -12,6 +12,7 @@
     <orderEntry type="library" name="pdf.js" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="bootstrap-icons" level="application" />
-    <orderEntry type="library" name="Python 3.10 interpreter library" level="application" />
+    <orderEntry type="library" name="tesseract.js" level="application" />
+    <orderEntry type="library" name="@tensorflow/tfjs" level="application" />
   </component>
 </module>

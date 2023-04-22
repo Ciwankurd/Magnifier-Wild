@@ -4,22 +4,24 @@
     --border-space: 10%;
     position: relative;
     border: 6px solid green;
-    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
+    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
     height: 100%;
     overflow: hidden;
     width: 100%;
 }
-@media screen and (max-width: 580px){
+
+@media screen and (max-width: 580px) {
     .overlay {
 
 
     }
 }
-#canvas-output{
-/*
-    width: 675px;
-    height: 920px;
-*/
+
+#canvas-output {
+    /*
+        width: 675px;
+        height: 920px;
+    */
 }
 
 
@@ -29,7 +31,6 @@
     height: 8%;
     position: absolute;
 }
-
 
 
 .overlay .top-left {
@@ -60,17 +61,19 @@
     bottom: var(--border-space);
     right: var(--border-space);
 }
+
 .overlay .bottom-center {
     bottom: 20px;
     left: 45%;
 }
-#snap{
+
+#snap {
     height: 60px;
     width: 60px;
     border-radius: 50%;
     cursor: pointer;
     text-align: center;
-    background:red;
+    background: red;
     font-family: center;
     font-size: 0.8em;
 
@@ -101,74 +104,94 @@
     background: -webkit-gradient(linear, left top, right top, from(midnightblue), to(greenyellow));
 }
 
- #result:has(canvas[name="clipWord"]){
-     padding: 5px;
-     width:100%;
-     height: 720px;
+#result:has(canvas[name="clipWord"]) {
+    padding: 5px;
+    width: 100%;
+    height: 720px;
     border: 6px solid green;
-    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-     background: white;
+    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
+    background: white;
     overflow-x: auto;
     overflow-y: auto;
 }
 
-#result > canvas[name="clipWord"]{
+#result > canvas[name="clipWord"] {
     zoom: var(--scale-zoom);
-   margin: 5px;
+    margin: 5px;
 }
-#result > canvas[name="clipWord"]:hover{
+
+#result > canvas[name="clipWord"]:hover {
     transform: scale(1.5);
     border: 4px solid greenyellow;
 
 }
+
 {
-    --scale-zoom:1;
+    --scale-zoom: 1
+;
 }
-#zoomButtons:has(a){
+#zoomButtons:has(a) {
     display: inline-block;
-    width:100%;
+    width: 100%;
     margin-bottom: 1.5%;
     padding: 1%;
-    height:max-content;
+    height: max-content;
     border: 3px solid aquamarine;
-    box-shadow: 5px 5px 8px 5px black, 2px 2px 6px 4px red ;
+    box-shadow: 5px 5px 8px 5px black, 2px 2px 6px 4px red;
     background: darkslategray;
 }
-#zoomButtons > #zoom-inn-icon{
-font-size: 25px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
-    padding: 4px;  position:relative; margin-right: 5%;
+
+#zoomButtons > #zoom-inn-icon {
+    font-size: 25px;
+    border: 3px solid rgb(243, 156, 18);
+    border-radius: 28%;
+    padding: 4px;
+    position: relative;
+    margin-right: 5%;
     zoom: var(--scale-zoom);
 
 }
-#zoomButtons >  #zoom-out-icon{
-    font-size: 25px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
-    padding: 4px;  position: center; margin-right: 5%;
+
+#zoomButtons > #zoom-out-icon {
+    font-size: 25px;
+    border: 3px solid rgb(243, 156, 18);
+    border-radius: 28%;
+    padding: 4px;
+    position: center;
+    margin-right: 5%;
     zoom: var(--scale-zoom);
 
 }
-#zoomButtons >  #zoom-reset-icon{
-    font-size: 25px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
-    position: relative; padding: 4px;
+
+#zoomButtons > #zoom-reset-icon {
+    font-size: 25px;
+    border: 3px solid rgb(243, 156, 18);
+    border-radius: 28%;
+    position: relative;
+    padding: 4px;
     zoom: var(--scale-zoom);
 
 }
-#zoom-out-icon:hover,#zoom-reset-icon:hover,#zoom-inn-icon:hover {
+
+#zoom-out-icon:hover, #zoom-reset-icon:hover, #zoom-inn-icon:hover {
     background: #eef;
 }
 
-#canvasOutput, #LabcanvasOutput{
+#canvasOutput, #LabcanvasOutput {
     margin-left: 0;
     width: 95%;
     border: 6px solid green;
-    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
+    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
     background: white;
 }
-#video-input{
+
+#video-input {
     width: 100%;
     height: 100%;
 }
-.container-md{
-    background: linear-gradient(160deg,burlywood,cornflowerblue,burlywood,olivedrab);
+
+.container-md {
+    background: linear-gradient(160deg, burlywood, cornflowerblue, burlywood, olivedrab);
     align-items: center;
     justify-content: center;
     min-height: 60vh;
@@ -177,11 +200,11 @@ font-size: 25px; border: 3px solid rgb(243, 156, 18); border-radius: 28%;
     padding: 1%;
 }
 
-h1{
-    padding-top: 50px;
+h1 {
     font-family: "Lucida Handwriting";
     text-align: center;
 }
+
 /*
 #lastopp-im{
     width: 300px;
@@ -209,26 +232,27 @@ h1{
 }
 
  */
-body{
-    background-color: darkgoldenrod;
+body {
+    background-color: white;
 }
-#pros-image{
+
+#pros-image {
     padding: 5px;
-    width:95%;
+    width: 95%;
     border: 6px solid green;
-    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
+    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
     background: white;
 }
 
-#cap-image{
-    width:100%;
+#cap-image {
+    width: 100%;
     height: 100%;
     border: 6px solid green;
-    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red ;
-   /* background: white;
-    opacity: 0.5;
+    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
+    /* background: white;
+     opacity: 0.5;
 
-    */
+     */
 }
 
 /* https://codepen.io/codesuey/pen/EdEmoj */
@@ -243,27 +267,31 @@ form {
 .radiobtn {
     position: relative;
     display: block;
+    width: 175px;
 }
+
 .radiobtn label {
-    display: block;
+    display:block;
     background: #fee8c3;
     color: #444;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 5px;
     border: 2px solid #fdd591;
-    margin-bottom: 5px;
+    margin: 5px 0 5px 0;
     cursor: pointer;
 }
+
 .radiobtn label:after, .radiobtn label:before {
     content: "";
     position: absolute;
-    right: 11px;
+    right: 2px;
     top: 11px;
     width: 20px;
     height: 20px;
     border-radius: 3px;
     background: #fdcb77;
 }
+
 .radiobtn label:before {
     background: transparent;
     transition: 0.1s width cubic-bezier(0.075, 0.82, 0.165, 1) 0s, 0.3s, height cubic-bezier(0.075, 0.82, 0.165, 2) 0.1s;
@@ -276,6 +304,7 @@ form {
     height: 0;
     background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNS4zIDEzLjIiPiAgPHBhdGggZmlsbD0iI2ZmZiIgZD0iTTE0LjcuOGwtLjQtLjRhMS43IDEuNyAwIDAgMC0yLjMuMUw1LjIgOC4yIDMgNi40YTEuNyAxLjcgMCAwIDAtMi4zLjFMLjQgN2ExLjcgMS43IDAgMCAwIC4xIDIuM2wzLjggMy41YTEuNyAxLjcgMCAwIDAgMi40LS4xTDE1IDMuMWExLjcgMS43IDAgMCAwLS4yLTIuM3oiIGRhdGEtbmFtZT0iUGZhZCA0Ii8+PC9zdmc+);
 }
+
 .radiobtn input[type=radio] {
     display: none;
     position: absolute;
@@ -284,6 +313,7 @@ form {
     -moz-appearance: none;
     appearance: none;
 }
+
 .radiobtn input[type=radio]:checked + label {
     background: #fdcb77;
     -webkit-animation-name: blink;
@@ -292,9 +322,11 @@ form {
     animation-duration: 1s;
     border-color: #fcae2c;
 }
+
 .radiobtn input[type=radio]:checked + label:after {
     background: #fcae2c;
 }
+
 .radiobtn input[type=radio]:checked + label:before {
     width: 20px;
     height: 20px;
@@ -358,4 +390,56 @@ form {
     100% {
         background-color: #fdcb77;
     }
+}
+
+/* ----------------------- Menu Style -------------- */
+.mobile-container {
+    max-width: 480px;
+    margin: auto;
+    background-color: #555;
+    height: 500px;
+    color: white;
+    border-radius: 10px;
+}
+
+.topnav {
+    overflow: hidden;
+    position: relative;
+}
+
+.topnav #myLinks {
+    display: none;
+    right: 5%;
+    top: 30%;
+    height: max-content;
+}
+
+.topnav a {
+    color: black;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+    display: block;
+}
+
+.topnav a.icon {
+    background: transparent;
+    display: block;
+    position: absolute;
+    border-radius: 10%;
+    right: 0;
+    top: 0;
+}
+
+.topnav a:hover {
+    background-color: #fdcb77;
+    color: black;
+}
+
+.active {
+}
+
+.dropdown-menu {
+    background-color: darkslategray;
+
 }

@@ -24,7 +24,6 @@ let text_detection=document.getElementById('OCR');
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,tesseractImg,
     modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false;
 inputElement.addEventListener('change', async (e) => {
-
     origIm.src = URL.createObjectURL(e.target.files[0]);            // bildet som skal behandles
     imgElement.src = URL.createObjectURL(e.target.files[0]);        // bildet som skal vises til brukeren
 });
@@ -36,12 +35,27 @@ origIm.onload = function ImProcess(){
 async function openCvReady() {
     // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
     cv['onRuntimeInitialized']=() => {
-        document.getElementById('status').innerHTML = 'System is ready.';
+       // document.getElementById('status').innerHTML = 'System is ready.';
         document.getElementById('iconLoad').hidden = "hidden"
+        document.getElementById('status').hidden = true;
+        let succsessUploadSystem = document.getElementById('checkUpload')
+        new bootstrap.Toast(succsessUploadSystem).show()
     }
 }
+function myFunction() {
+    let x = document.getElementById("myLinks");
+    if (x.style.display === "block") {
+        x.style.display = "none";
+    } else {
+        x.style.display = "block";
+    }
+}
+
 let radioBtns = document.getElementsByName('projection')
 async function lagreRadioBtn(id){
+    //let myAlert = document.getElementById('errorMsg');
+    //let bsAlert = new bootstrap.Toast(myAlert);
+    //bsAlert.toast.show()
     localStorage.setItem('radiobtn',id)
     for(let rBtn of radioBtns){
         if(rBtn.checked){
@@ -684,6 +698,8 @@ function findContoursVertices (im) {
             }
 
         }
+        let errorNotFoundContour = document.getElementById('errorMsg')
+        new bootstrap.Toast(errorNotFoundContour).show()
     }
      contours.delete();
      im_gray.delete();

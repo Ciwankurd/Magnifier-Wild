@@ -73,7 +73,7 @@
     cursor: pointer;
     text-align: center;
     background: red;
-    font-family: center;
+    font-family: center,serif;
     font-size: 0.8em;
 }
 
@@ -206,14 +206,17 @@
 
 /* ------------ Main headers Styling --------- */
 h1 {
-    font-family: "Lucida Handwriting","Lucida Console", "Courier New", monospace;
+
+    font-family: "Lucida Handwriting", serif;
     text-align: center;
     margin-top: 3%;
 }
+
 h5, h2{
-    font-family: "Lucida Handwriting","Lucida Console", "Courier New", monospace;
+    font-family: "Lucida Handwriting", serif;
     text-align: center;
 }
+
 /*
 #lastopp-im{
     width: 300px;
@@ -258,7 +261,6 @@ body {
     padding: 5px;
     border: 5px solid lightskyblue;
     box-shadow: 3px 3px 8px 3px black;
-    background: white;
     background: transparent;
 }
 

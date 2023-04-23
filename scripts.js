@@ -35,12 +35,7 @@ origIm.onload = function ImProcess(){
 };
 
 async function userDevlopModee(){
-    if(!userDeveloperMode.checked){
-        developerMode.hidden = true;
-    }
-    else {
-        developerMode.hidden = false;
-    }
+    developerMode.hidden = !userDeveloperMode.checked;
 }
 // check if opencv loaded
 async function openCvReady() {
@@ -77,7 +72,7 @@ async function lagreRadioBtn(id){
 async function setCheckedBtn(){
     let userBtn = localStorage.getItem('checkedBtn')
     userBtn = document.getElementById(userBtn);
-    userBtn.checked = true
+    userBtn.checked
 }
 (async () => {
   // let devices = await navigator.mediaDevices.enumerateDevices();

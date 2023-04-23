@@ -24,7 +24,7 @@ let text_detection=document.getElementById('OCR');
 let userDeveloperMode = document.getElementById('flexSwitchCheckChecked')
 let developerMode = document.getElementById('DeveloperMode')
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,tesseractImg,
-    modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false;
+    modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false, succsessUploadSystem;
 inputElement.addEventListener('change', async (e) => {
     origIm.src = URL.createObjectURL(e.target.files[0]);            // bildet som skal behandles
     imgElement.src = URL.createObjectURL(e.target.files[0]);        // bildet som skal vises til brukeren
@@ -39,13 +39,13 @@ async function userDevlopModee(){
 }
 // check if opencv loaded
 async function openCvReady() {
-    // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitialized
+    // https://emscripten.org/docs/api_reference/module.html#Module.onRuntimeInitializ
     cv['onRuntimeInitialized']=() => {
        // document.getElementById('status').innerHTML = 'System is ready.';
         document.getElementById('iconLoad').hidden = "hidden"
         document.getElementById('status').hidden = true;
-        let succsessUploadSystem = document.getElementById('checkUpload')
-        new bootstrap.Toast(succsessUploadSystem).show()
+        succsessUploadSystem = document.getElementById('checkUpload')
+        new bootstrap.Toast(succsessUploadSystem).show();
     }
 }
 function myFunction() {

@@ -277,8 +277,6 @@ body {
 
 /* ----------------------- Menu Style -------------- */
 .mobile-container {
-    background-color: bisque;
-    border-radius: 10px;
 }
 
 .topnav {
@@ -289,7 +287,8 @@ body {
     display: none;
     position: absolute;
     right: 0;
-    top: 50px;
+    background-color: bisque;
+    border-radius: 10px;
 }
 
 .topnav a {
@@ -297,7 +296,7 @@ body {
     padding: 8px 8px;
     text-decoration: none;
     font-size: 17px;
-    display: grid;
+    display: block;
 }
 
 .topnav a.icon {

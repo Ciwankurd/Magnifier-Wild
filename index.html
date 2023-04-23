@@ -5,19 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Magnifier-Wild</title>
+    <link rel="icon" type="image/x-icon" href="./images/favicon%20.ico">
     <!--
     <script async src="tesseract.min.js"></script>
     -->
+    <!--------- Tesseract Cdn ------->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/4.0.3/tesseract.min.js"
             integrity="sha512-M/rKTC2VnONMzV3AvdKTsZS9QOJ+dgwNJtAtmMGidldoqRySYqpgdAAzqQLeyyKVl6FNcuUUnwKJWzF8uszQ/w=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!--------- Bootstrap Cdn ------->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--------- Bootstrap Styling/Notification Cdn ------->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!--
     <add name="Access-Control-Allow-Headers" value="*"></add>
     -->
+    <!------------ CSS Styling ---------->
     <link rel="stylesheet" type="text/css" href="style.css"/>
+    <!------------ Bootstrap Icons ---------->
     <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css'>
 </head>
 <body>
@@ -31,14 +37,14 @@
                        id="flexSwitchCheckChecked">
                 <label class="form-check-label" for="flexSwitchCheckChecked">USER/DEVLOPER</label>
             </div></a>
+            <a href="#issue">Issue</a>
             <a href="#contact">Contact</a>
             <a href="#about">About</a>
             <div class="drop dropstart text-left">
                 <button class="btn dropdown-toggle" data-bs-toggle="dropdown">
                     Options
                 </button>
-                <ul class="dropdown-menu" style="height: max-content" aria-labelledby="dropdownMenuButton">
-                    <li>
+                <form class="dropdown-menu" style="height: max-content" aria-labelledby="dropdownMenuButton">
                         <a class="dropdown-item" href="#">
                         <div class="form-check form-check-block">
                             <input class="form-check-input" onchange='lagreRadioBtn("Frode-projection")' type="radio" id="Frode-projection" name="projection"
@@ -48,8 +54,6 @@
                             </label>
                         </div>
                         </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" href="#">
                         <div class="form-check form-check-block">
                             <input class="form-check-input" style="background-color: orange"
@@ -59,9 +63,6 @@
                             </label>
                         </div>
                         </a>
-                    </li>
-
-                    <li>
                         <a class="dropdown-item" href="#">
                         <div class="form-check form-check-block">
                             <input class="form-check-input" type="checkbox" id="negative"
@@ -71,8 +72,6 @@
                             </label>
                         </div>
                         </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" href="#">
                         <div class="form-check form-check-block">
                             <input onchange="lagreRadioBtn('OpenCV-projection')" type="radio" id="OpenCV-projection" name="projection"
@@ -82,8 +81,6 @@
                             </label>
                         </div>
                         </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" href="#">
                         <div class="form-check form-check-block">
                             <input onchange="lagreRadioBtn('OCR')" type="radio" id="OCR" name="projection"
@@ -93,8 +90,6 @@
                             </label>
                         </div>
                         </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" href="#">
                         <div class="form-check form-check-block">
                             <input type="radio" id="doc" name="scanning"
@@ -104,8 +99,6 @@
                             </label>
                         </div>
                         </a>
-                    </li>
-                    <li>
                         <a class="dropdown-item" href="#">
                         <div class="form-check form-check-block">
                             <input class="form-check-input" type="radio" id="tavle" name="scanning" value="tavle"
@@ -115,50 +108,35 @@
                             </label>
                         </div>
                         </a>
-                    </li>
-                </ul>
+                </form>
             </div>
         </div>
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <a class="icon"  onclick="myFunction()">
             <i class="fa fa-bars"></i>
         </a>
     </div>
-    <br><br>
+    <br>
     <div id="checkUpload" class="alert alert-success alert-dismissible bg-transparent fade in" data-bs-delay="700">
         <a href="#" class="close" data-dismiss="alert"  aria-label="close"></a>
         <strong>Success!</strong> SYSTEM IS UPLOADED
     </div>
     <div id="iconLoad" class="spinner-border text-primary" role="status">
     </div>
-    <br>
     <p id="status">OpenCV.js is loading...</p>
-    <div>
+
         <div>
             <!--
             <span id="boot-icon" class="bi bi-image" style="font-size: 200px; color: rgb(59, 154, 201); opacity: 0.8; -webkit-text-stroke-width: 0px; text-shadow: rgb(4, 43, 62) 8.2px -4.2px 2.9px;"></span>
             -->
-            <br><label>Input Image</label> <br><br>
-            <img id="imageSrc" class="img-fluid" alt="No Image" width="500" height="500"/>
-
+            <h5>Input Image</h5> <br>
+            <img id="imageSrc" src="images/images.svg" class="img-fluid" alt="No Image" width="400" height="100"/>
             <br><br><br>
-            <div class="col-sm-6 mx-auto shadow p-3 mb-5 bg-body rounded">
-                <label for="fileInput" class="form-label">Velg Bilde fra Camera eller Studio</label>
-                <input class="form-control" type="file" id="fileInput" name="file" accept='image/*,.png,.jpg'
+            <div class="col-sm-6 mx-auto shadow p-3 mb-4 rounded" style="background-color: #fdcb77; border: solid black">
+                <label for="fileInput"  class="form-label">Velg Bilde fra Camera eller Studio</label>
+                <input style="background-color: orange" class="form-control" type="file" id="fileInput" name="file" accept='image/*,.png,.jpg'
                        capture="environment">
             </div>
-
-
         </div>
-        <br>
-        <div>
-            <canvas class="img-fluid" id="LabcanvasOutput"></canvas>
-            <br><br>
-            <canvas class="img-fluid" id="canvasOutput"></canvas>
-        </div>
-    </div>
-
-    <br>
-    <br>
 
     <div class="toast-container position-absolute start-50 translate-middle-x">
         <div class="toast" id="errorMsg">
@@ -172,8 +150,9 @@
         </div>
     </div>
     <br>
+
     <div class="image-viewer-container">
-        <h1>Result</h1><br>
+        <h2>Result</h2><br>
         <div id="zoomButtons"></div>
         <div id="result"></div>
     </div>
@@ -199,18 +178,25 @@
     <canvas id="ImProcess" alt="Show Image Prossess" class="img-fluid"></canvas>
     -->
     <br><br>
-    <label>Captured Image</label><br><br>
+    <div id="DeveloperMode">
+    <label><h5>Captured Image</h5></label><br><br>
     <canvas id="cap-image" class="img-fluid"></canvas>
-    <br>
+        <br><br>
+        <label><h5>Blured Image</h5></label><br><br>
+        <canvas class="img-fluid" id="LabcanvasOutput"></canvas>
+        <br><br>
+        <label><h5>Transformed Image</h5></label><br><br>
+        <canvas class="img-fluid" id="canvasOutput"></canvas>
     <br><br>
-    <label>Image-Processing</label><br><br>
+    <label><h5>Image-Processing</h5></label><br><br>
     <canvas id="pros-image" class="img-fluid"></canvas>
+    </div>
     <br><br>
     <form>
         <h1>Magnifier-Wild</h1>
         <p>View (scanned) Image with magnification and reflow.</p>
 
-        <p>By , Group 51, Frode Eika Sandnes, Oslo Metropolitan University, April, 2023.</p>
+        <p>@ By , Group 51, Frode Eika Sandnes, Oslo Metropolitan University, April, 2023.</p>
 
     </form>
 </div>

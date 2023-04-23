@@ -1,4 +1,4 @@
-
+/* -------------------- Camera Overlay -------- */
 .overlay {
     --border-style: 4px solid yellow;
     --border-space: 10%;
@@ -66,7 +66,6 @@
     bottom: 20px;
     left: 45%;
 }
-
 #snap {
     height: 60px;
     width: 60px;
@@ -76,10 +75,9 @@
     background: red;
     font-family: center;
     font-size: 0.8em;
-
-
 }
 
+/* ------- Scroll sidebar Styling ------ */
 
 /* width */
 ::-webkit-scrollbar {
@@ -103,6 +101,8 @@
 ::-webkit-scrollbar-thumb:hover {
     background: -webkit-gradient(linear, left top, right top, from(midnightblue), to(greenyellow));
 }
+
+/* ------------- Result Canvas Styling ------- */
 
 #result:has(canvas[name="clipWord"]) {
     padding: 5px;
@@ -130,6 +130,7 @@
     --scale-zoom: 1
 ;
 }
+/* ----------- Zoom Div Styling ------- */
 #zoomButtons:has(a) {
     display: inline-block;
     width: 100%;
@@ -177,6 +178,7 @@
     background: #eef;
 }
 
+/* ------------------ Lab Canvas Styling --------- */
 #canvasOutput, #LabcanvasOutput {
     margin-left: 0;
     width: 95%;
@@ -185,11 +187,13 @@
     background: white;
 }
 
+
 #video-input {
     width: 100%;
     height: 100%;
 }
 
+/* ---------------- Main Container Styling -------- */
 .container-md {
     background: linear-gradient(160deg, burlywood, cornflowerblue, burlywood, olivedrab);
     align-items: center;
@@ -200,11 +204,16 @@
     padding: 1%;
 }
 
+/* ------------ Main headers Styling --------- */
 h1 {
     font-family: "Lucida Handwriting";
     text-align: center;
+    margin-top: 3%;
 }
-
+h5, h2{
+    font-family: "Lucida Handwriting";
+    text-align: center;
+}
 /*
 #lastopp-im{
     width: 300px;
@@ -236,12 +245,21 @@ body {
     background-color: white;
 }
 
+/* ---------------- Styling Canvas til images ---------- */
+
 #pros-image {
     padding: 5px;
     width: 95%;
     border: 6px solid green;
     box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
     background: white;
+}
+#imageSrc {
+    padding: 5px;
+    border: 5px solid lightskyblue;
+    box-shadow: 3px 3px 8px 3px black;
+    background: white;
+    background: transparent;
 }
 
 #cap-image {
@@ -267,7 +285,8 @@ body {
 
 .topnav #myLinks {
     display: none;
-    float: right;
+    position: absolute;
+    right: 0;
 }
 
 .topnav a {

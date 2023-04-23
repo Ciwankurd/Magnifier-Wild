@@ -21,7 +21,8 @@ let OpenCV_projection=document.getElementById('OpenCV-projection');
 // let docum=document.getElementById('doc');
 let tavle=document.getElementById('tavle');
 let text_detection=document.getElementById('OCR');
-let userDevlopMode = document.getElementById('flexSwitchCheckChecked')
+let userDeveloperMode = document.getElementById('flexSwitchCheckChecked')
+let developerMode = document.getElementById('DeveloperMode')
 let imtof , max_width,lineAngle,linewidth,lineheight, max_height, ratio, modifyTall_v,tesseractImg,
     modifyTall_h,Im_Ratio, min_width,min_height, webCamIm=false;
 inputElement.addEventListener('change', async (e) => {
@@ -34,17 +35,11 @@ origIm.onload = function ImProcess(){
 };
 
 async function userDevlopModee(){
-    if(!userDevlopMode.checked){
-        cap_image.hidden = true;
-        pros_image.hidden=true;
-        imtofrode.hidden=true;
-        labCanvas.hidden = true;
+    if(!userDeveloperMode.checked){
+        developerMode.hidden = true;
     }
     else {
-        cap_image.hidden = false;
-        pros_image.hidden=false;
-        imtofrode.hidden=false;
-        labCanvas.hidden = false;
+        developerMode.hidden = false;
     }
 }
 // check if opencv loaded

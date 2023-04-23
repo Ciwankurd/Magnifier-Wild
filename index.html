@@ -25,9 +25,10 @@
     <!-- Top Navigation Menu -->
     <div class="topnav">
         <h1>Magnifier-Wild</h1>
-        <div id="myLinks">
+        <div class="mobile-container" id="myLinks">
             <a href="#news"> <div class="form-check form-check-inline form-switch">
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                <input class="form-check-input" type="checkbox" role="switch" onchange="userDevlopModee()"
+                       id="flexSwitchCheckChecked">
                 <label class="form-check-label" for="flexSwitchCheckChecked">USER/DEVLOPER</label>
             </div></a>
             <a href="#contact">Contact</a>
@@ -36,56 +37,86 @@
                 <button class="btn dropdown-toggle" data-bs-toggle="dropdown">
                     Options
                 </button>
-                <div class="dropdown-menu" style="height: max-content">
-                    <form>
-                        <div class="radiobtn">
-                            <input onchange='lagreRadioBtn("Frode-projection")' type="radio" id="Frode-projection" name="projection"
-                                   value="Frode-projection" checked>
-                            <label for="Frode-projection">
+                <ul class="dropdown-menu" style="height: max-content" aria-labelledby="dropdownMenuButton">
+                    <li>
+                        <a class="dropdown-item" href="#">
+                        <div class="form-check form-check-block">
+                            <input class="form-check-input" onchange='lagreRadioBtn("Frode-projection")' type="radio" id="Frode-projection" name="projection"
+                                   value="Frode-projection" style="background-color: orange" checked>
+                            <label class="form-check-label" for="Frode-projection">
                                 Frode-projection
                             </label>
                         </div>
-                        <div class="form-check form-check-block" style="background-color: #fdcb77">
-                            <input class="form-check-input" type="checkbox" id="contrast" name="contrast" value="contrast">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                        <div class="form-check form-check-block">
+                            <input class="form-check-input" style="background-color: orange"
+                                   type="checkbox" id="contrast" name="contrast" value="contrast">
                             <label class="form-check-label" for="contrast">
                                 Stronger contrast
                             </label>
                         </div>
+                        </a>
+                    </li>
 
-                        <div class="form-check form-check-block" style="background-color: #fdcb77">
-                            <input class="form-check-input" type="checkbox" id="negative" name="negative" value="negative">
+                    <li>
+                        <a class="dropdown-item" href="#">
+                        <div class="form-check form-check-block">
+                            <input class="form-check-input" type="checkbox" id="negative"
+                                   style="background-color: orange" name="negative" value="negative">
                             <label class="form-check-label" for="negative">
                                 Negative
                             </label>
                         </div>
-
-                        <div class="radiobtn">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                        <div class="form-check form-check-block">
                             <input onchange="lagreRadioBtn('OpenCV-projection')" type="radio" id="OpenCV-projection" name="projection"
-                                   value="OpenCV-projection">
-                            <label for="OpenCV-projection">
+                                   class="form-check-input" style="background-color: orange"  value="OpenCV-projection">
+                            <label class="form-check-label" for="OpenCV-projection">
                                 OpenCV-projection
                             </label>
                         </div>
-                        <div class="radiobtn">
-                            <input onchange="lagreRadioBtn('OCR')" type="radio" id="OCR" name="projection" value="TesseractOcr">
-                            <label for="OCR">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                        <div class="form-check form-check-block">
+                            <input onchange="lagreRadioBtn('OCR')" type="radio" id="OCR" name="projection"
+                                   class="form-check-input"   style="background-color: orange" value="TesseractOcr">
+                            <label class="form-check-label" for="OCR">
                                 Text-Detection(OCR)
                             </label>
                         </div>
-                        <div class="radiobtn">
-                            <input type="radio" id="doc" name="scanning" value="document" checked>
-                            <label for="doc">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                        <div class="form-check form-check-block">
+                            <input type="radio" id="doc" name="scanning"
+                                   class="form-check-input" style="background-color: orange"  value="document" checked>
+                            <label class="form-check-label" for="doc">
                                 Document
                             </label>
                         </div>
-                        <div class="radiobtn">
-                            <input type="radio" id="tavle" name="scanning" value="tavle">
-                            <label for="tavle">
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                        <div class="form-check form-check-block">
+                            <input class="form-check-input" type="radio" id="tavle" name="scanning" value="tavle"
+                                   style="background-color: orange">
+                            <label class="form-check-label" for="tavle">
                                 Tavle
                             </label>
                         </div>
-                    </form>
-                </div>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -101,12 +132,6 @@
     </div>
     <br>
     <p id="status">OpenCV.js is loading...</p>
-    <br><br>
-    <h2>Options</h2> <br>
-
-
-
-    <br><br>
     <div>
         <div>
             <!--
@@ -124,7 +149,7 @@
 
 
         </div>
-        <br><br><br><br>
+        <br>
         <div>
             <canvas class="img-fluid" id="LabcanvasOutput"></canvas>
             <br><br>
@@ -154,9 +179,6 @@
     </div>
     <br>
     <br>
-
-    <label>Input CAM</label><br>
-    <label>Output OpenCV</label><br><br>
     <div class="overlay">
         <div class="overlay-element top-left"></div>
         <div class="overlay-element top-right"></div>
@@ -169,7 +191,6 @@
         </div>
 
     </div>
-    <br><br>
     <!--
         <video id="Original-video-input" class="img-fluid" ></video>
 
@@ -184,7 +205,7 @@
     <br><br>
     <label>Image-Processing</label><br><br>
     <canvas id="pros-image" class="img-fluid"></canvas>
-    <br>
+    <br><br>
     <form>
         <h1>Magnifier-Wild</h1>
         <p>View (scanned) Image with magnification and reflow.</p>

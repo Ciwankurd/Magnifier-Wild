@@ -75,8 +75,8 @@ async function lagreRadioBtn(id){
     }
 }
 async function setCheckedBtn(){
-    userBtn = localStorage.getItem('checkedBtn')
-    let userBtn = document.getElementById(userBtn);
+    let userBtn = localStorage.getItem('checkedBtn')
+    userBtn = document.getElementById(userBtn);
     userBtn.checked = true
 }
 (async () => {

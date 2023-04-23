@@ -206,12 +206,12 @@
 
 /* ------------ Main headers Styling --------- */
 h1 {
-    font-family: "Lucida Handwriting";
+    font-family: "Lucida Handwriting","Lucida Console", "Courier New", monospace;
     text-align: center;
     margin-top: 3%;
 }
 h5, h2{
-    font-family: "Lucida Handwriting";
+    font-family: "Lucida Handwriting","Lucida Console", "Courier New", monospace;
     text-align: center;
 }
 /*
@@ -287,6 +287,7 @@ body {
     display: none;
     position: absolute;
     right: 0;
+    top: 50px;
 }
 
 .topnav a {

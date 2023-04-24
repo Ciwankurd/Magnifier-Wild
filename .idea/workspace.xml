@@ -9,17 +9,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="updataing">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/azure-webapps-node.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/jekyll-docker.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/jekyll-gh-pages.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/main.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/npm-publish-github-packages.yml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.github/workflows/static.yml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frode.js" beforeDir="false" afterPath="$PROJECT_DIR$/frode.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -174,14 +164,7 @@
       <workItem from="1681771451815" duration="486000" />
       <workItem from="1681896548642" duration="12201000" />
       <workItem from="1682003458446" duration="106316000" />
-      <workItem from="1682285733703" duration="40818000" />
-    </task>
-    <task id="LOCAL-00032" summary="camera resize">
-      <created>1679102638464</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1679102638464</updated>
+      <workItem from="1682285733703" duration="41721000" />
     </task>
     <task id="LOCAL-00033" summary="update Vertical projection, camera, substraction of background add two types of projection Document or board.">
       <created>1679594351943</created>
@@ -519,7 +502,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682332023815</updated>
     </task>
-    <option name="localTasksCounter" value="81" />
+    <task id="LOCAL-00081" summary="updataing">
+      <created>1682367204092</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1682367204092</updated>
+    </task>
+    <option name="localTasksCounter" value="82" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

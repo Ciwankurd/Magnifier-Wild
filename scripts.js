@@ -71,8 +71,8 @@ async function lagreRadioBtn(id){
 }
 async function setCheckedBtn(){
     let userBtn = localStorage.getItem('checkedBtn')
-    userBtn = document.getElementById(userBtn);
-    userBtn.checked = true;
+    let velgtBtn = document.getElementById(userBtn);
+    velgtBtn.checked = true;
 }
 (async () => {
   // let devices = await navigator.mediaDevices.enumerateDevices();

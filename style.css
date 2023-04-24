@@ -207,13 +207,13 @@
 /* ------------ Main headers Styling --------- */
 h1 {
 
-    font-family: "Lucida Handwriting", serif;
+    font-family: "Lucida Handwriting", cursive;
     text-align: center;
     margin-top: 3%;
 }
 
 h5, h2{
-    font-family: "Lucida Handwriting", serif;
+    font-family: "Lucida Handwriting", cursive;
     text-align: center;
 }
 
@@ -296,7 +296,7 @@ body {
     color: black;
     padding: 8px 8px;
     text-decoration: none;
-    font-size: 17px;
+    font-size: 20px;
     display: block;
 }
 

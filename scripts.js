@@ -7,7 +7,7 @@ const cap_image = document.getElementById("cap-image");
 const pros_image = document.getElementById("pros-image");
 //const CanvasLab = document.getElementById("ImProcess");
 const snap = document.getElementById("snap");
-const labCanvas = document.getElementById("LabcanvasOutput");
+//const labCanvas = document.getElementById("LabcanvasOutput");
 const imtofrode = document.getElementById("canvasOutput");
 let imgElement = document.getElementById('imageSrc');
 let inputElement = document.getElementById('fileInput');
@@ -72,12 +72,12 @@ async function lagreRadioBtn(id){
 async function setCheckedBtn(){
     let userBtn = localStorage.getItem('checkedBtn')
     userBtn = document.getElementById(userBtn);
-    userBtn.checked
+    userBtn.checked = true;
 }
 (async () => {
   // let devices = await navigator.mediaDevices.enumerateDevices();
-    setCheckedBtn()
     userDevlopModee()
+    setCheckedBtn()
     const constraints = {
         audio: false,
         video: {

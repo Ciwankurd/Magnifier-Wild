@@ -208,16 +208,16 @@
 
 h1 {
 
-    font-family: "Lucida Handwriting";
+    font-family: "Lucida Handwriting", serif;
     text-align: center;
     margin-top: 3%;
 }
-/*
+
 h5, h2{
-    font-family: "Lucida Handwriting";
+    font-family: "Lucida Handwriting", serif;
     text-align: center;
 }
- */
+
 /*
 #lastopp-im{
     width: 300px;

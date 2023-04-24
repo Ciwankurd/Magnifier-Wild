@@ -287,6 +287,7 @@ body {
     display: none;
     position: absolute;
     right: 0;
+    top: 10px;
     background-color: bisque;
     border-radius: 10px;
 }

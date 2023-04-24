@@ -205,18 +205,19 @@
 }
 
 /* ------------ Main headers Styling --------- */
+
 h1 {
 
-    font-family: "Lucida Handwriting", cursive;
+    font-family: "Lucida Handwriting";
     text-align: center;
     margin-top: 3%;
 }
-
+/*
 h5, h2{
-    font-family: "Lucida Handwriting", cursive;
+    font-family: "Lucida Handwriting";
     text-align: center;
 }
-
+ */
 /*
 #lastopp-im{
     width: 300px;

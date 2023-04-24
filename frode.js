@@ -17,7 +17,7 @@ let allPixels = (c,f,param) =>
 {
     const ctx = c.getContext("2d");
     const imageData = ctx.getImageData(0,0,c.width,c.height);
-    for (var i=0; i < imageData.data.length; i+=bytesPerPixel)
+    for (let i=0; i < imageData.data.length; i+=bytesPerPixel)
     {
         const d = imageData.data;
         const p = f(d[i], d[i+1], d[i+2], d[i+3],param);
@@ -112,22 +112,22 @@ let readOnlyDiagonalPixels = (imageData,w,h,f,offset,params) =>
     const end = Math.min(bytesPerPixel*((h-offset)*w),
         bytesPerPixel*((w-offset)*w));
     const step = bytesPerPixel*w+bytesPerPixel;
-    for (var i=start; i < end; i+=step)
+    for (let i=start; i < end; i+=step)
     {
         const d = imageData.data;
-        const p = f(d[i], d[i+1], d[i+2], d[i+3],params);
+        //const p = f(d[i], d[i+1], d[i+2], d[i+3],params);
     }
 }
 // sample a central third diagonal of the image to find the foreground and background pixels
 let findForegroundBackgroundColours = (imageData,w,h) =>
 {
     // initialise global varables
-    var minCol = {r: 255, g:255, b:255};    // setting to the opposite end of the scale
-    var maxCol = {r: 0, g:0, b:0};
+    const minCol = {r: 255, g: 255, b: 255};    // setting to the opposite end of the scale
+    const maxCol = {r: 0, g: 0, b: 0};
     const params = {minCol: minCol, maxCol:maxCol, minColFreq: 0, maxColFreq: 0};
     readOnlyDiagonalPixels(imageData,w,h,sampleColour,w/2.5,params);
     readOnlyDiagonalPixels(imageData,w,h,countColour,w/2.5,params);
-    var result;
+    let result;
     if (params.maxColFreq > params.minColFreq)
     {
         result = {
@@ -182,21 +182,23 @@ let verticalProjection = (imageData, w, h, params) =>
 // Get vertical projection of canvas
 function verticalProjection(imageData, w, h, params)
 {
+    let i;
     const result = [];
     const d = imageData.data;
     const end = w * bytesPerPixel;
     const step = bytesPerPixel;
-    let threshold = w/10; // projection area must we wider than this number of pixels to trigger
+    let threshold = w/10; // projection area must be wider than this number of pixels to trigger
     let scalingFactor = 4;  // strength of bias against left-most pixels
-    for (var y = 0; y < h; y++)
+    for (let y = 0; y < h; y++)
     {
-        // find max region covered by set pixels
+        let x;
+// find max region covered by set pixels
         let projectionStarts = 0;
         let pixelFound = false;
         let projectionEnds = 0;
-        for (var x = 0; x < end; x += step)
+        for (x = 0; x < end; x += step)
         {
-            var i = y * end + x;
+            i = y * end + x;
             if (isPixelSet(d[i], d[i + 1], d[i + 2], params))
             {
                 projectionStarts = x;
@@ -207,9 +209,9 @@ function verticalProjection(imageData, w, h, params)
 
         if (pixelFound)   // only go backwards if set pixel is found
         {
-            for (var x = end-step; x > projectionStarts; x -= step)
+            for (x = end-step; x > projectionStarts; x -= step)
             {
-                var i = y * end + x;
+                i = y * end + x;
                 if (isPixelSet(d[i], d[i + 1], d[i + 2], params))
                 {
                     projectionEnds = x;
@@ -256,11 +258,10 @@ let horisontalProjection = (imageData, w, h, y0, y1, params) =>
     const result = [];
     const d = imageData.data;
     const end = w * bytesPerPixel;
-    const step = bytesPerPixel;
-    for (var x = 0; x < end; x += step) {
-        var lineSet = false;
-        for (var y = y0; y < y1; y++) {
-            var i = y * end + x;
+    for (let x = 0; x < end; x += bytesPerPixel) {
+        let lineSet = false;
+        for (let y = y0; y < y1; y++) {
+            const i = y * end + x;
             if (isPixelSet(d[i], d[i + 1], d[i + 2], params)) {
                 lineSet = true;
                 break;
@@ -279,10 +280,10 @@ let midLineVerticalProjection = (imageData,w,h,x,params) =>
     const result = [];
     const d = imageData.data;
     const end = w*bytesPerPixel;
-    for (var y=0; y < h; y++)
+    for (let y=0; y < h; y++)
     {
-        var lineSet = false;
-        var i = y*end + x*bytesPerPixel;
+        let lineSet = false;
+        const i = y * end + x * bytesPerPixel;
         if (isPixelSet(d[i], d[i+1], d[i+2],params))
         {
             lineSet = true;
@@ -304,11 +305,11 @@ let midLineVerticalProjection = (imageData,w,h,x,params) =>
 let findActiveRegionsInProjection = (projection,threshold) =>
 {
     const regions = [];
-    var prev = false;
-    var start = 0;
-    var end = 0;
+    let prev = false;
+    let start = 0;
+    let end = 0;
     // Traverse projection and find bounds of lines
-    for (var i = 0;i< projection.length;i++)
+    for (let i = 0; i< projection.length; i++)
     {
         if (projection[i] && !prev)
         {
@@ -343,7 +344,7 @@ let findLines = (imageData,w,h,params) =>
     const projection = verticalProjection(imageData,w,h,params);
     const regions = findActiveRegionsInProjection(projection,threshold);
     // put into suitable format
-    for (var p of regions)
+    for (let p of regions)
     {
         result.push({y0:p.start, y1:p.end});
     }
@@ -354,10 +355,10 @@ let findLines = (imageData,w,h,params) =>
 let concatenateLettersToWords = (letters) =>
 {
     // find all horizontal spacings
-    var horizontalSpacings = letters.slice(1).map((v, i) => v.x0 - letters[i].x1);
-    var maxHorizontalSpacing = Math.max(...horizontalSpacings);
+    const horizontalSpacings = letters.slice(1).map((v, i) => v.x0 - letters[i].x1);
+    const maxHorizontalSpacing = Math.max(...horizontalSpacings);
     // set spacing threshold to half the maximum
-    var threshold = maxHorizontalSpacing/2;
+    let threshold = maxHorizontalSpacing / 2;
     // just check that the threshold is within reasonable limits - if not set it to magic no of 3.
     if (threshold > 9 || threshold < 0)
     {
@@ -365,8 +366,8 @@ let concatenateLettersToWords = (letters) =>
     }
 
     const concatenated = [];
-    var word = letters[0];
-    for (var i=1;i<letters.length;i++)
+    let word = letters[0];
+    for (let i=1; i<letters.length; i++)
     {
         const word2 = letters[i];
         if (word2.x0 - word.x1 < threshold)  // space too small
@@ -390,7 +391,7 @@ let findWordsForLine = (imageData,w,h,y0,y1,params) =>
     const result = [];
     const projection = horisontalProjection(imageData,w,h,y0,y1,params);
     const regions = findActiveRegionsInProjection(projection,0);
-    for (var p of regions)
+    for (let p of regions)
     {
         result.push({x0:p.start, x1:p.end, y0:y0, y1:y1});
     }
@@ -403,7 +404,7 @@ let findWords = (imageData,w,h,params) =>
 {
     const allWords = [];
     const lines = findLines(imageData,w,h,params);
-    for (var l of lines)
+    for (let l of lines)
     {
         const words = findWordsForLine(imageData,w,h,l.y0, l.y1,params);
         allWords.push(...words);    // concatenate the arrays.
@@ -412,34 +413,22 @@ let findWords = (imageData,w,h,params) =>
 }
 
 // for debugging - drawing red box around the words on the canvas
-let outlineWords = (canvas, allWords) =>
-{
-    const ctx = canvas.getContext("2d");
-    for (var p of allWords)
-    {
-        ctx.strokeStyle = "rgb(255,0,0)";
-        ctx.lineWidth = 1;
-        ctx.rect(p.x0, p.y0, p.x1-p.x0, p.y1-p.y0);
-        ctx.stroke();
-    }
-}
-
 // analysing a specific region on the page
 let analyseRegion = ({canvasContext:canvasContext,x:x,y:y,w:w,h:h,params:params}) =>
 {
     // check if there is anything to analyse, if not, return empty array
-    if (w==0 || h==0)
+    if (w===0 || h===0)
     {
         return [];
     }
     // access the region
     const imageData = canvasContext.getImageData(x,y,w,h);
     // extract the words in the region
-    var allWords = findWords(imageData,w,h,params);
+    let allWords = findWords(imageData, w, h, params);
     // remove all undefined elements
     allWords = allWords.filter(x => x !== undefined);
     // add the global offsets
-    for (var p of allWords)
+    for (let p of allWords)
     {
         p.x0 += x;
         p.x1 += x;
@@ -455,14 +444,15 @@ let paragraphMarker = {x0:0,x1:1,y0:0,y1:1};
 // find paragraph marks and space in text and insert breaks in text to create space
 let transferSpace = (allWords) =>
 {
-    // find the text margin by searching for the smalles x position for a word
+    let i;
+// find the text margin by searching for the smalles x position for a word
     const margin = Math.min(...allWords.map(item => item.x0));
     const indent = Math.min(...allWords.map(item => item.y1 - item.y0));
 
     // find typical line-height - two passes
     // pass one - first fine all line heights
     const lineHeights = [];
-    for (var i = 0;i < allWords.length;i++)
+    for (i = 0; i < allWords.length; i++)
     {
         const word = allWords[i];
         // if we still have a succeeding word
@@ -481,7 +471,7 @@ let transferSpace = (allWords) =>
     const typicalLineHeight = lineHeights[Math.floor(lineHeights.length/2)];
 
     const result = [];
-    for (var i = 0;i < allWords.length;i++)
+    for (i = 0; i < allWords.length; i++)
     {
         const word = allWords[i];
         result.push(word);
@@ -516,7 +506,7 @@ let detectSingleColumnRegions = (projection) =>
     // get midline projection
     const singleColumnRegions = findActiveRegionsInProjection(projection,0);
     // put into right format
-    for (var r of singleColumnRegions)
+    for (let r of singleColumnRegions)
     {
         crossingMidline.push({y0:r.start, y1:r.end});
     }
@@ -524,10 +514,10 @@ let detectSingleColumnRegions = (projection) =>
     const threshold = projection.length/minPortionTwoColumns; // at least a fifth of the page must be clear.
     if (crossingMidline.length > 0)
     {
-        var line = crossingMidline[0];
-        for (var i=1;i<crossingMidline.length;i++)
+        let line = crossingMidline[0];
+        for (let i=1; i<crossingMidline.length; i++)
         {
-            var line2 = crossingMidline[i];
+            const line2 = crossingMidline[i];
             if (line2.y0 - line.y1 < threshold)  // space too small
             {
                 line.y1 = line2.y1; // combine the lines
@@ -548,10 +538,11 @@ let detectSingleColumnRegions = (projection) =>
 // we therefore trace the full vertical projection above and below until blank line.
 let adjustSIngleColumnRegion = (regions,projection) =>
 {
-    for (var r of regions)
+    for (const r of regions)
     {
-        // trace backward
-        for (var i = r.y0; i >= 0;i--)
+        let i;
+// trace backward
+        for (i = r.y0; i >= 0; i--)
         {
             if (!projection[i])
             {
@@ -560,7 +551,7 @@ let adjustSIngleColumnRegion = (regions,projection) =>
             }
         }
         // trace forward
-        for (var i = r.y1; i < projection.length; i++)
+        for (i = r.y1; i < projection.length; i++)
         {
             if (!projection[i])
             {
@@ -575,18 +566,18 @@ let adjustSIngleColumnRegion = (regions,projection) =>
 // finds the most probable location for the two column divide
 let findTwoColumnDivide = (imageData,w,h,params) =>
 {
-    var columnDivide = Math.round(w/2);
-    var globalMax = 0;
+    let columnDivide = Math.round(w / 2);
+    let globalMax = 0;
     const lower = Math.round(2*w/5);
     const upper = Math.round(3*w/5);
     // scan the inner third
-    for (var x = lower; x < upper; x++)
+    for (let x = lower; x < upper; x++)
     {
         const midlineProjection = midLineVerticalProjection(imageData,w,h,x,params);
-        var count = 0;
-        var max = 0;
+        let count = 0;
+        let max = 0;
         // count max  sequence of consecutive unset pixels
-        for (var pixel of midlineProjection)
+        for (const pixel of midlineProjection)
         {
             if (count > max)
             {
@@ -613,14 +604,14 @@ let findTwoColumnDivide = (imageData,w,h,params) =>
 }
 
 // analyse a page to see which parts are divided across two columns and which parts span both columns
-// outputs a list of sub regions that subsequently can be analysed as single column.
+// outputs a list of subregions that subsequently can be analysed as single column.
 // regions insered top-to-bottom and left-to-right.
 let twoColumnAnalysis = (imageData,w,h,params) =>
 {
     // array of detected regions
     const regions = [];
     // search for most probable center line
-    var columnDivide = findTwoColumnDivide(imageData,w,h,params);
+    const columnDivide = findTwoColumnDivide(imageData, w, h, params);
     //  performing vertical projection of the center line
     const midlineProjection = midLineVerticalProjection(imageData,w,h,columnDivide,params);
     // get full vertical Projection
@@ -632,8 +623,8 @@ let twoColumnAnalysis = (imageData,w,h,params) =>
     const singleColumnRegions = adjustSIngleColumnRegion(rawSingleColumnRegions,vProjection);
 
     // go through the regions border - if there are two column make two regions
-    var lastRegion = {y0: 0, y1:0};
-    for (var p of singleColumnRegions)
+    let lastRegion = {y0: 0, y1: 0};
+    for (const p of singleColumnRegions)
     {
         // assume that the last region was two columns since it was not single column, add these
         regions.push({y0:lastRegion.y1, y1: p.y0, x0:0, x1:columnDivide});
@@ -655,9 +646,9 @@ let regionMarker = {x0:0,x1:2,y0:0,y1:2};
 let analysePage = async ({canvas:canvas,enhanceContrast:enhanceContrast,negateImage:negateImage}) =>
 {
     const ctx = canvas.getContext("2d");
-    var imageData = ctx.getImageData(0,0,canvas.width,canvas.height);
+    let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     // find foreground and background colours in globals
-    var params = findForegroundBackgroundColours(imageData,canvas.width,canvas.height);
+    let params = findForegroundBackgroundColours(imageData, canvas.width, canvas.height);
     if (enhanceContrast)
     {
         // expand the dynamic range on the view for more contrast
@@ -671,14 +662,21 @@ let analysePage = async ({canvas:canvas,enhanceContrast:enhanceContrast,negateIm
         params = findForegroundBackgroundColours(imageData,canvas.width,canvas.height);
     }
 
-    var allWords = [];
+    const allWords = [];
 
     // first find potential regions
-    var regions = twoColumnAnalysis(imageData,canvas.width,canvas.height,params)
+    const regions = twoColumnAnalysis(imageData, canvas.width, canvas.height, params);
     // traverse the regions and extract words from each region
-    for (var region of regions)
+    for (const region of regions)
     {
-        var wordsInRegion = analyseRegion({ canvasContext: ctx, x: region.x0, y: region.y0, w: region.x1 - region.x0, h: region.y1 - region.y0, params: params });
+        const wordsInRegion = analyseRegion({
+            canvasContext: ctx,
+            x: region.x0,
+            y: region.y0,
+            w: region.x1 - region.x0,
+            h: region.y1 - region.y0,
+            params: params
+        });
         allWords.push(...wordsInRegion);
         // add region marker if WordsInRegion has more than zero elements AND it is not the last region
         if (wordsInRegion.length > 0)
@@ -687,7 +685,7 @@ let analysePage = async ({canvas:canvas,enhanceContrast:enhanceContrast,negateIm
         }
     }
     // remove last item if it is a region marker
-    if (allWords.length > 0 && allWords[allWords.length-1] == regionMarker)
+    if (allWords.length > 0 && allWords[allWords.length-1] === regionMarker)
     {
         allWords.pop();
     }
@@ -704,12 +702,6 @@ let analysePage = async ({canvas:canvas,enhanceContrast:enhanceContrast,negateIm
 // By Frode Eika Sandnes, April 2022 - Oslo Metropolitan University
 
 
-// globals
-var progressIndicator;
-var leftToRightMapping = new Map();
-var rightToLeftMapping = new Map();
-// the coordinate system of the original document
-var pageDimensions = new Map();     // allow pages in doc to be of different dimensions
 let result = document.getElementById('result');
 // Bootstrapping: The following code is called on startup.
 
@@ -729,8 +721,8 @@ let processPageCallback = async (canvas) =>
     const enhanceContrast = document.getElementById("contrast").checked;
     const negateImage = document.getElementById("negative").checked;
 
-    var allWords = "";
-    var background;
+    let allWords;
+    let background;
     ({allWords, background} = await analysePage({canvas:canvas, enhanceContrast:enhanceContrast, negateImage:negateImage}));
 
     addWords({canvas:canvas,allWords:allWords,background:background});
@@ -751,8 +743,7 @@ let addWords = ({canvas:canvas,allWords:allWords,background:background}) =>
 
     const ctx = canvas.getContext("2d");
     // traverese all the words and store the contents
-    var wordImages = [];
-    for (var word of allWords)
+    for (const word of allWords)
     {
         const x = word.x0;
         const y = word.y0;

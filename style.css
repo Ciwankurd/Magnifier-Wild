@@ -10,21 +10,6 @@
     width: 100%;
 }
 
-@media screen and (max-width: 580px) {
-    .overlay {
-
-
-    }
-}
-
-#canvas-output {
-    /*
-        width: 675px;
-        height: 920px;
-    */
-}
-
-
 .overlay-element {
     padding: 10px;
     width: 8%;

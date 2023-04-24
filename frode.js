@@ -115,7 +115,7 @@ let readOnlyDiagonalPixels = (imageData,w,h,f,offset,params) =>
     for (let i=start; i < end; i+=step)
     {
         const d = imageData.data;
-        //const p = f(d[i], d[i+1], d[i+2], d[i+3],params);
+        const p = f(d[i], d[i+1], d[i+2], d[i+3],params);
     }
 }
 // sample a central third diagonal of the image to find the foreground and background pixels

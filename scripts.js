@@ -49,7 +49,7 @@ async function openCvReady() {
         new bootstrap.Toast(succsessUploadSystem).show();
     }
 }
-
+// display and hidde menu
 function myFunction() {
     let x = document.getElementById("myLinks");
     succsessUploadSystem.hidden = true;
@@ -60,6 +60,7 @@ function myFunction() {
     }
 }
 
+// Check which bottom selected and save its ID local storge
 let radioBtns = document.getElementsByName('projection')
 
 async function lagreRadioBtn(id) {
@@ -73,7 +74,7 @@ async function lagreRadioBtn(id) {
         }
     }
 }
-
+// Hent ID from local storage
 async function setCheckedBtn() {
     let userBtn = localStorage.getItem('checkedBtn')
     let velgtBtn = document.getElementById(userBtn);

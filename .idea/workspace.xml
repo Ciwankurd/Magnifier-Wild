@@ -8,11 +8,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="updataing">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="update22">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frode.js" beforeDir="false" afterPath="$PROJECT_DIR$/frode.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -168,14 +166,8 @@
       <workItem from="1681771451815" duration="486000" />
       <workItem from="1681896548642" duration="12201000" />
       <workItem from="1682003458446" duration="106316000" />
-      <workItem from="1682285733703" duration="42662000" />
-    </task>
-    <task id="LOCAL-00034" summary="modify corner">
-      <created>1679605456967</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1679605456967</updated>
+      <workItem from="1682285733703" duration="42868000" />
+      <workItem from="1682417169523" duration="1653000" />
     </task>
     <task id="LOCAL-00035" summary="fix ratio problem">
       <created>1679659425553</created>
@@ -513,7 +505,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682370222683</updated>
     </task>
-    <option name="localTasksCounter" value="83" />
+    <task id="LOCAL-00083" summary="update22">
+      <created>1682371116398</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1682371116398</updated>
+    </task>
+    <option name="localTasksCounter" value="84" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -549,7 +548,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="image Width resizing new" />
     <MESSAGE value="camera resizing and compress image" />
     <MESSAGE value="camera resize" />
     <MESSAGE value="update Vertical projection, camera, substraction of background add two types of projection Document or board." />
@@ -574,7 +572,8 @@
     <MESSAGE value="change capture image size" />
     <MESSAGE value="change call zoom buttons" />
     <MESSAGE value="updataing" />
-    <option name="LAST_COMMIT_MESSAGE" value="updataing" />
+    <MESSAGE value="update22" />
+    <option name="LAST_COMMIT_MESSAGE" value="update22" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

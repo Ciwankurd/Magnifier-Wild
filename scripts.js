@@ -68,12 +68,7 @@ async function lagreRadioBtn(id) {
     //let myAlert = document.getElementById('errorMsg');
     //let bsAlert = new bootstrap.Toast(myAlert);
     //bsAlert.toast.show()
-    localStorage.setItem('radiobtn', id)
-    for (let rBtn of radioBtns) {
-        if (rBtn.checked) {
-            localStorage.setItem('checkedBtn', rBtn.id)
-        }
-    }
+    localStorage.setItem('checkedBtn', id)
 }
 // Hent ID from local storage
 async function setCheckedBtn() {

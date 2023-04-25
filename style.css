@@ -259,7 +259,20 @@ body {
     background: lightskyblue;
     border-radius: 10px;
 }
-
+/* The horizontal line on the top of the device */
+.topnav:before{
+    content: '';
+    display: block;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    top:10px;
+    left: 10px;
+    transform: translate(10%, 10%);
+    background: black;
+    border-radius: 50%;
+    border: white solid 2px;
+}
 /* The circle on the bottom of the device */
 .smartphone:after {
     content: '';

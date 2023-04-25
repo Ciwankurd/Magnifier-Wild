@@ -8,9 +8,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="update22">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="update25">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -167,14 +166,7 @@
       <workItem from="1681896548642" duration="12201000" />
       <workItem from="1682003458446" duration="106316000" />
       <workItem from="1682285733703" duration="42868000" />
-      <workItem from="1682417169523" duration="1653000" />
-    </task>
-    <task id="LOCAL-00035" summary="fix ratio problem">
-      <created>1679659425553</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1679659425553</updated>
+      <workItem from="1682417169523" duration="5153000" />
     </task>
     <task id="LOCAL-00036" summary="fix ratio problems">
       <created>1679696052986</created>
@@ -512,7 +504,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682371116398</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="update25">
+      <created>1682418862280</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1682418862280</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -548,7 +547,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="camera resizing and compress image" />
     <MESSAGE value="camera resize" />
     <MESSAGE value="update Vertical projection, camera, substraction of background add two types of projection Document or board." />
     <MESSAGE value="modify corner" />
@@ -573,7 +571,8 @@
     <MESSAGE value="change call zoom buttons" />
     <MESSAGE value="updataing" />
     <MESSAGE value="update22" />
-    <option name="LAST_COMMIT_MESSAGE" value="update22" />
+    <MESSAGE value="update25" />
+    <option name="LAST_COMMIT_MESSAGE" value="update25" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

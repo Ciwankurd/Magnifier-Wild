@@ -48,7 +48,7 @@ async function openCvReady() {
         succsessUploadSystem = document.getElementById('checkUpload')
         new bootstrap.Toast(succsessUploadSystem).show();
         // Hide notification div
-
+        setTimeout(() => {  succsessUploadSystem.hidden = true; }, 1000);
     }
 }
 // display and hidde menu

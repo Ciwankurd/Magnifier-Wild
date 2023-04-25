@@ -4,7 +4,7 @@
     --border-space: 10%;
     position: relative;
     border: 6px solid green;
-    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
+    box-shadow: 3px 4px 4px 3px black, 2px 3px 6px 6px red;
     height: 100%;
     overflow: hidden;
     width: 100%;
@@ -237,8 +237,8 @@ body {
 /* The device with borders */
 .smartphone {
     position: relative;
-    width:95%;
-    height: 100%;
+    width:99%;
+    height:100%;
     margin: auto;
     border: 12px black solid;
     border-top-width: 50px;
@@ -272,6 +272,7 @@ body {
     background: black;
     border-radius: 50%;
     border: white solid 2px;
+    box-shadow: 1px 1px 2px 2px lightskyblue, 1px 1px 2px 2px black;
 }
 /* The circle on the bottom of the device */
 .smartphone:after {
@@ -285,6 +286,8 @@ body {
     transform: translate(-50%, -50%);
     background: lightskyblue;
     border-radius: 50%;
+    border: white solid 2px;
+    box-shadow: 1px 1px 2px 2px brown, 1px 1px 2px 2px black;
 }
 
 /* ---------------- Styling Canvas til images ---------- */

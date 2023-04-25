@@ -34,6 +34,7 @@ origIm.onload = function ImProcess() {
     transform(origIm).then(r => console.log(r))
 };
 
+// Switch between USER / Developer Mode,  "Default UserMode"
 async function userDevlopModee() {
     developerMode.hidden = !userDeveloperMode.checked;
 }
@@ -70,13 +71,13 @@ async function lagreRadioBtn(id) {
     //bsAlert.toast.show()
     localStorage.setItem('checkedBtn', id)
 }
-// Hent ID from local storage
+// Get ID from local storage
 async function setCheckedBtn() {
     let userBtn = localStorage.getItem('checkedBtn')
     let velgtBtn = document.getElementById(userBtn);
     velgtBtn.checked = true;
 }
-
+// On Page loaded open Camera and get user preferences from local Storge
 (async () => {
     // let devices = await navigator.mediaDevices.enumerateDevices();
     const constraints = {
@@ -294,8 +295,8 @@ async function setCheckedBtn() {
        setTimeout(processVideo, 0);
 */
     //textRecognition ()
-    await userDevlopModee()
-    await setCheckedBtn()
+    await userDevlopModee()     // Switch between USER / Developer Mode,  "Default UserMode"
+    await setCheckedBtn()       // Get Last time user preferences from local storge
 })();
 
 

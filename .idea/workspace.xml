@@ -10,6 +10,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="update25">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -166,14 +167,7 @@
       <workItem from="1681896548642" duration="12201000" />
       <workItem from="1682003458446" duration="106316000" />
       <workItem from="1682285733703" duration="42868000" />
-      <workItem from="1682417169523" duration="12810000" />
-    </task>
-    <task id="LOCAL-00042" summary="fix web camera resolution">
-      <created>1679956946737</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1679956946737</updated>
+      <workItem from="1682417169523" duration="14592000" />
     </task>
     <task id="LOCAL-00043" summary="Add more comments and live link">
       <created>1679967424803</created>
@@ -511,7 +505,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682435619968</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="update25">
+      <created>1682436744942</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1682436744942</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -579,147 +580,147 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1409</line>
+          <line>1410</line>
           <option name="timeStamp" value="149" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1354</line>
+          <line>1355</line>
           <option name="timeStamp" value="150" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1388</line>
+          <line>1389</line>
           <option name="timeStamp" value="151" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>515</line>
+          <line>516</line>
           <option name="timeStamp" value="193" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>719</line>
+          <line>720</line>
           <option name="timeStamp" value="212" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>631</line>
+          <line>632</line>
           <option name="timeStamp" value="214" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1117</line>
+          <line>1118</line>
           <option name="timeStamp" value="219" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1107</line>
+          <line>1108</line>
           <option name="timeStamp" value="220" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1092</line>
+          <line>1093</line>
           <option name="timeStamp" value="222" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1000</line>
+          <line>1001</line>
           <option name="timeStamp" value="224" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1019</line>
+          <line>1020</line>
           <option name="timeStamp" value="232" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1017</line>
+          <line>1018</line>
           <option name="timeStamp" value="234" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>871</line>
+          <line>872</line>
           <option name="timeStamp" value="236" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>739</line>
+          <line>740</line>
           <option name="timeStamp" value="250" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>836</line>
+          <line>837</line>
           <option name="timeStamp" value="251" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>923</line>
+          <line>924</line>
           <option name="timeStamp" value="252" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>468</line>
+          <line>469</line>
           <option name="timeStamp" value="256" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>393</line>
+          <line>394</line>
           <option name="timeStamp" value="257" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>401</line>
+          <line>402</line>
           <option name="timeStamp" value="258" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>455</line>
+          <line>456</line>
           <option name="timeStamp" value="259" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>657</line>
+          <line>658</line>
           <option name="timeStamp" value="263" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>691</line>
+          <line>692</line>
           <option name="timeStamp" value="264" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>921</line>
+          <line>922</line>
           <option name="timeStamp" value="268" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>787</line>
+          <line>788</line>
           <option name="timeStamp" value="273" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>800</line>
+          <line>801</line>
           <option name="timeStamp" value="276" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>302</line>
+          <line>303</line>
           <option name="timeStamp" value="282" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>320</line>
+          <line>321</line>
           <option name="timeStamp" value="284" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>1300</line>
+          <line>1301</line>
           <option name="timeStamp" value="285" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/scripts.js</url>
-          <line>74</line>
+          <line>75</line>
           <option name="timeStamp" value="289" />
         </line-breakpoint>
       </breakpoints>

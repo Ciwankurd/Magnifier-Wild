@@ -128,7 +128,7 @@
     </div>
     <p id="status">OpenCV.js is loading...</p>
 
-    <!-- ---------- uploading image----- -->
+    <!------------------ uploading image ------------------>
     <div>
         <!--
         <span id="boot-icon" class="bi bi-image" style="font-size: 200px; color: rgb(59, 154, 201); opacity: 0.8; -webkit-text-stroke-width: 0px; text-shadow: rgb(4, 43, 62) 8.2px -4.2px 2.9px;"></span>
@@ -156,7 +156,7 @@
         </div>
     </div>
     <br>
-
+    <!----------------------- Result -------------------------->
     <div class="image-viewer-container">
         <h2>Result</h2><br>
         <div id="zoomButtons"></div>
@@ -164,6 +164,7 @@
     </div>
     <br>
     <br>
+    <!---------------------- Camera and Overlay -------------------------->
     <div class="overlay">
         <div class="overlay-element top-left"></div>
         <div class="overlay-element top-right"></div>
@@ -184,6 +185,7 @@
     <canvas id="ImProcess" alt="Show Image Prossess" class="img-fluid"></canvas>
     -->
     <br><br>
+    <!--------------------- Developer Mode Section -------------------------->
     <div id="DeveloperMode">
         <h5>Captured Image</h5><br><br>
         <canvas id="cap-image" class="img-fluid"></canvas>
@@ -198,6 +200,7 @@
         <canvas id="pros-image" class="img-fluid"></canvas>
     </div>
     <br><br>
+    <!--------------------- Footer -------------------------->
     <form>
         <h1>Magnifier-Wild</h1>
         <p>View (scanned) Image with magnification and reflow.</p>
@@ -206,7 +209,10 @@
 
     </form>
 </div>
+<!----------- Original Image set in processing ----------->
 <img alt="original image" hidden="hidden" id="oIm" src=""/>
+
+<!----------------- Scripts -------------------------->
 <script src="frode.js" defer></script>
 <script src="scripts.js" defer></script>
 <script async src="opencv.js" type="text/javascript" defer onload="openCvReady()"></script>

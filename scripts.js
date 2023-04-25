@@ -47,12 +47,13 @@ async function openCvReady() {
         document.getElementById('status').hidden = true;
         succsessUploadSystem = document.getElementById('checkUpload')
         new bootstrap.Toast(succsessUploadSystem).show();
+        // Hide notification div
+        setTimeout(() => {  succsessUploadSystem.hidden = true; }, 1000);
     }
 }
 // display and hidde menu
-function myFunction() {
+function showHideMenu() {
     let x = document.getElementById("myLinks");
-    succsessUploadSystem.hidden = true;
     if (x.style.display === "block") {
         x.style.display = "none";
     } else {

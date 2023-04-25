@@ -84,8 +84,6 @@ async function setCheckedBtn() {
 
 (async () => {
     // let devices = await navigator.mediaDevices.enumerateDevices();
-    await userDevlopModee()
-    await setCheckedBtn()
     const constraints = {
         audio: false,
         video: {
@@ -301,6 +299,8 @@ async function setCheckedBtn() {
        setTimeout(processVideo, 0);
 */
     //textRecognition ()
+    await userDevlopModee()
+    await setCheckedBtn()
 })();
 
 

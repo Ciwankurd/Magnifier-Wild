@@ -87,7 +87,7 @@ async function setCheckedBtn() {
             //resizeMode: 'none',
             //width: {ideal: 1280},
             //height: {ideal: 720},
-            //advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
+            advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
             //focusMode: true,
             zoom: 1.5,
             //tilt: true,
@@ -117,23 +117,23 @@ async function setCheckedBtn() {
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
-            let [track] = stream.getVideoTracks();
-            let {width, height, aspectRatio} = track.getSettings();
+            //let [track] = stream.getVideoTracks();
+            //let {width, height, aspectRatio} = track.getSettings();
             // console.log("Got stream with constraints:", constraints);
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-            if (width < height) {
-                [width, height] = [height, width];
-                aspectRatio = 1 / aspectRatio;
-            }
+            //if (width < height) {
+              //  [width, height] = [height, width];
+               // aspectRatio = 1 / aspectRatio;
+            //}
 
 
             // let x = (video.width -video.offsetWidth)/2+"px";
             //let y = (video.height -video.offsetHeight)/2+"px";
             //let ratio = video.offsetWidth/video.width;
             //console.log(x,y,ratio)
-            video.style.width = width;
-            video.style.height = height;
+            //video.style.width = width;
+            //video.style.height = height;
             //video.style.transform = `translate(${x},${y}) scale(${ratio})`;
             // cap_image.style.transform = `scale(${ratio})`;
             // original_Video.srcObject = stream;

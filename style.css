@@ -177,7 +177,6 @@
 #video-input {
     width: 100%;
     transform: scale(1.5);
-    aspect-ratio: 16/9;
     height: 100%;
 }
 

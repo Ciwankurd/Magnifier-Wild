@@ -53,14 +53,14 @@
 }
 
 #snap {
-    height: 60px;
-    width: 60px;
+    height: 80px;
+    width: 80px;
     border-radius: 50%;
     cursor: pointer;
     text-align: center;
     background: red;
     font-family: center, serif;
-    font-size: 0.8em;
+    font-size: 1em;
 }
 
 /* ------- Scroll sidebar Styling ------ */

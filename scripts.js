@@ -89,7 +89,7 @@ async function setCheckedBtn() {
             //height: {ideal: 720},
             //advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
             //focusMode: true,
-            //zoom: 1.5,
+            zoom: 1.5,
             //tilt: true,
             //frameRate: 40,
             //pan: true,

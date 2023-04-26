@@ -85,77 +85,12 @@ async function setCheckedBtn() {
 // On Page loaded open Camera and get user preferences from local Storge
 (async () => {
     // let devices = await navigator.mediaDevices.enumerateDevices();
-    const constraints = {
-        audio: false,
-        video: {
-            facingMode: "environment",
-            //resizeMode: 'none',
-            //width: {ideal: 1280},
-            //height: {ideal: 720},
-            advanced: [{ width: 1920, height: 1280 },{zoom: 1.8}],
-            //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
-            //focusMode: true,
-            zoom: 1.8,
-            //tilt: true,
-            //frameRate: 40,
-            //pan: true,
-            //scale: true,
-            aspectRatio: 16 / 9,
-            //deviceId:  devices[2].deviceId
-        }
-        /*
-             video: {
-                 facingMode: {
-                     exact: "environment"
-                             }
-                     }
-     */
-    };
-    /*
-        // check if browser support som camera properties
-        const supports = navigator.mediaDevices.getSupportedConstraints();
-        if (supports.pan && supports.tilt && supports.zoom) {
-            console.log("Browser supports camera ")
-        }
-        */
-        await navigator.mediaDevices.getUserMedia({
-            audio:false,
-            video: {
-                facingMode: "environment"
-            }
-
-        })
-        .then(stream => {
-            // Granted. Store deviceIds for next time
-            //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
-            //await new Promise(resolve => setTimeout(resolve, 2000));
-            //let videocopy = video.copy();
-            //let [track] = stream.getVideoTracks();
-            //let {width, height, aspectRatio} = track.getSettings();
-            // console.log("Got stream with constraints:", constraints);
-            // console.log(`Using video device: ${track.getSettings.deviceId}`);
-            // Constraints are in landscape, while settings may be rotated (portrait)
-            //if (width < height) {
-            //  [width, height] = [height, width];
-            // aspectRatio = 1 / aspectRatio;
-            //}
-            //track.applyConstraints(constraints)
-
-
-            // let x = (video.width -video.offsetWidth)/2+"px";
-            //let y = (video.height -video.offsetHeight)/2+"px";
-            //let ratio = video.offsetWidth/video.width;
-            //console.log(x,y,ratio)
-            //video.style.width = width;
-            //video.style.height = height;
-            //video.style.transform = `translate(${x},${y}) scale(${ratio})`;
-            // cap_image.style.transform = `scale(${ratio})`;
-            // original_Video.srcObject = stream;
+    navigator.mediaDevices.getUserMedia({ video: true, audio: false })
+        .then(function(stream) {
             video.srcObject = stream;
-            //original_Video.play();
-                video.play();
+            video.play();
         })
-        .catch((err) => {
+        .catch(function(err) {
             console.log("An error occurred! " + err);
         });
 

@@ -55,6 +55,7 @@
 #snap {
     height: 60px;
     width: 60px;
+    position: absolute;
     border-radius: 50%;
     cursor: pointer;
     text-align: center;

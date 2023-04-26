@@ -95,7 +95,7 @@ async function setCheckedBtn() {
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.5}, { aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
             //focusMode: true,
-            zoom: 1.8,
+            zoom: 2,
             //tilt: true,
             //frameRate: 40,
             //pan: true,
@@ -124,7 +124,7 @@ async function setCheckedBtn() {
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
-            //let [track] = stream.getVideoTracks();
+            let [track] = stream.getVideoTracks();
             //let {width, height, aspectRatio} = track.getSettings();
             // console.log("Got stream with constraints:", constraints);
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
@@ -133,6 +133,7 @@ async function setCheckedBtn() {
             //  [width, height] = [height, width];
             // aspectRatio = 1 / aspectRatio;
             //}
+            track.applyConstraints(constraints)
 
 
             // let x = (video.width -video.offsetWidth)/2+"px";

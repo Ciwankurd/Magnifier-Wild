@@ -118,7 +118,7 @@ async function setCheckedBtn() {
             console.log("Browser supports camera ")
         }
         */
-    await navigator.mediaDevices.getUserMedia(constraints)
+         navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
             // Granted. Store deviceIds for next time
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;

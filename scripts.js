@@ -49,9 +49,12 @@ async function openCvReady() {
         succsessUploadSystem = document.getElementById('checkUpload')
         new bootstrap.Toast(succsessUploadSystem).show();
         // Hide notification div
-        setTimeout(() => {  succsessUploadSystem.hidden = true; }, 1000);
+        setTimeout(() => {
+            succsessUploadSystem.hidden = true;
+        }, 1000);
     }
 }
+
 // display and hidde menu
 function showHideMenu() {
     let x = document.getElementById("myLinks");
@@ -71,12 +74,14 @@ async function lagreRadioBtn(id) {
     //bsAlert.toast.show()
     localStorage.setItem('checkedBtn', id)
 }
+
 // Get ID from local storage
 async function setCheckedBtn() {
     let userBtn = localStorage.getItem('checkedBtn')
     let velgtBtn = document.getElementById(userBtn);
     velgtBtn.checked = true;
 }
+
 // On Page loaded open Camera and get user preferences from local Storge
 (async () => {
     // let devices = await navigator.mediaDevices.enumerateDevices();
@@ -106,13 +111,13 @@ async function setCheckedBtn() {
                      }
      */
     };
-/*
-    // check if browser support som camera properties
-    const supports = navigator.mediaDevices.getSupportedConstraints();
-    if (supports.pan && supports.tilt && supports.zoom) {
-        console.log("Browser supports camera ")
-    }
-    */
+    /*
+        // check if browser support som camera properties
+        const supports = navigator.mediaDevices.getSupportedConstraints();
+        if (supports.pan && supports.tilt && supports.zoom) {
+            console.log("Browser supports camera ")
+        }
+        */
     await navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
             // Granted. Store deviceIds for next time
@@ -125,8 +130,8 @@ async function setCheckedBtn() {
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
             //if (width < height) {
-              //  [width, height] = [height, width];
-               // aspectRatio = 1 / aspectRatio;
+            //  [width, height] = [height, width];
+            // aspectRatio = 1 / aspectRatio;
             //}
 
 
@@ -392,7 +397,7 @@ async function transform(src) {
                     cv.resize(transformedIm, transformedIm, dsize, 0, 0, cv.INTER_AREA);
                 }
         */
-        // Crop Image and resizing
+        // Crop extra edges for transformed Image and resizing
         let cropIm;
         if (transformedIm.cols > 1280 || transformedIm.rows > 1280) {
             //resizing(transformedIm,920);
@@ -433,7 +438,7 @@ async function transform(src) {
 
         //cv.imshow('canvasOutput', blur_im);
         if (Frode_projection.checked) {
-           await processPageCallback(imtofrode);             // Call Frode Projection
+            await processPageCallback(imtofrode);             // Call Frode Projection
         }
         if (OpenCV_projection.checked) {
             extractAllWords(cropIm, blur_im)             // Call Opencv projection

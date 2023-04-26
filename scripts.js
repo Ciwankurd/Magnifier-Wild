@@ -150,19 +150,7 @@ async function setCheckedBtn() {
                 video.play();
         })
         .catch((err) => {
-            // always check for errors at the end.
-            console.error(`${err.name}: ${err.message}`);
-            if (error.name === "ConstraintNotSatisfiedError") {
-                console.error(
-                    `The resolution ${constraints.video.width.exact} x ${constraints.video.height.exact} px is not supported by your device.`
-                );
-            } else if (error.name === "PermissionDeniedError") {
-                console.error(
-                    "You need to grant this page permission to access your camera and microphone."
-                );
-            } else {
-                console.error(`getUserMedia error: ${error.name}`, error);
-            }
+            console.log("An error occurred! " + err);
         });
 
 

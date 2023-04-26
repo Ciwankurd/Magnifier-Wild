@@ -23,6 +23,7 @@
     border-top: var(--border-style);
     top: var(--border-space);
     left: var(--border-space);
+    position: absolute;
 
 }
 
@@ -31,6 +32,7 @@
     border-top: var(--border-style);
     top: var(--border-space);
     right: var(--border-space);
+    position: relative;
 }
 
 .overlay .bottom-left {
@@ -38,6 +40,7 @@
     border-bottom: var(--border-style);
     bottom: var(--border-space);
     left: var(--border-space);
+    position: relative;
 }
 
 .overlay .bottom-right {
@@ -45,11 +48,13 @@
     border-bottom: var(--border-style);
     bottom: var(--border-space);
     right: var(--border-space);
+    position: absolute;
 }
 
 .overlay .bottom-center {
     bottom: 20px;
     left: 45%;
+    position: absolute;
 }
 
 #snap {

@@ -95,7 +95,7 @@ async function setCheckedBtn() {
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1}, { aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
             //focusMode: true,
-            zoom: 5,
+            zoom: 1.5,
             //tilt: true,
             //frameRate: 40,
             //pan: true,
@@ -146,9 +146,7 @@ async function setCheckedBtn() {
             // original_Video.srcObject = stream;
             video.srcObject = stream;
             //original_Video.play();
-            video.onloadedmetadata = () => {
                 video.play();
-            };
 
             // create canvas element to draw image from camera inn
             let canvas = document.createElement('canvas');

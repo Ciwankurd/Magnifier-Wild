@@ -95,12 +95,12 @@ async function setCheckedBtn() {
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.5}, { aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
             //focusMode: true,
-            zoom: 5,
+            zoom: 4,
             //tilt: true,
             //frameRate: 40,
             //pan: true,
             //scale: true,
-            aspectRatio: 16 / 9,
+            aspectRatio: 9 / 16,
             //deviceId:  devices[2].deviceId
         }
         /*

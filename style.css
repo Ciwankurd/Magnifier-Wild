@@ -176,7 +176,7 @@
 
 #video-input {
     width: 100%;
-    transform: scale(1.5);
+    zoom: 1.5;
     height: 100%;
 }
 

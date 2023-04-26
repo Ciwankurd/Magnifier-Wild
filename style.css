@@ -175,7 +175,8 @@
 
 
 #video-input {
-
+    width: 150%;
+    height: 100%;
 }
 
 /* ---------------- Main Container Styling -------- */

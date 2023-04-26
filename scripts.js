@@ -19,7 +19,7 @@ let OpenCV_projection = document.getElementById('OpenCV-projection');
 // let Stronger_contrast=document.getElementById('contrast');
 // let Negative=document.getElementById('negative');
 // let docum=document.getElementById('doc');
-let tavle = document.getElementById('tavle');
+let FocusMode = document.getElementById('tavle');
 let text_detection = document.getElementById('OCR');
 let userDeveloperMode = document.getElementById('flexSwitchCheckChecked')
 let developerMode = document.getElementById('DeveloperMode')
@@ -85,16 +85,16 @@ async function setCheckedBtn() {
         video: {
             facingMode: "environment",
             //resizeMode: 'none',
-            width: {ideal: 1280},
-            height: {ideal: 720},
+            //width: {ideal: 1280},
+            //height: {ideal: 720},
             //advanced: [{ width: 1920, height: 1280 },{zoom: 2}, { aspectRatio: 1.333 }],
-            focusMode: true,
-            zoom: 1.5,
-            tilt: true,
-            frameRate: 40,
-            pan: true,
-            scale: true,
-            aspectRatio: 16 / 9,
+            //focusMode: true,
+            //zoom: 1.5,
+            //tilt: true,
+            //frameRate: 40,
+            //pan: true,
+            //scale: true,
+            //aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -323,7 +323,7 @@ async function transform(src) {
     // Resize image dimensions if it's too big
     // when Tavle chooses av user subtraction
     // F.ground and B.ground use too much of memory therefor resize vi before
-    if ((im.cols >= 1280 || im.rows >= 1280) && tavle.checked) {
+    if ((im.cols >= 1280 || im.rows >= 1280) && FocusMode.checked) {
         resizing(im, 1280);
     }
     if ((im.cols >= 1500 || im.rows >= 1500)) {
@@ -486,7 +486,7 @@ function resizing(im, max_size) {
 // -------------- Get vertices of founded rectangle (contour) ------------
 function findContoursVertices(im) {
     // Subtraction foreground og background in Selected zone (Center)
-    if (tavle.checked) {
+    if (FocusMode.checked) {
         let rect = new cv.Rect(100, 100, im.cols * 0.85, im.rows * 0.8);   // Dimension of Selected Zone
         //rect = new cv.Rect(50,50, im.cols*0.95, im.rows*0.8);
 
@@ -575,7 +575,7 @@ function findContoursVertices(im) {
 
     // console.log(maxCntArea)
 
-    // if Number of Vertices more than 4 Bounded Minimum rectangle and take vertices of rectangle.
+    // if Number of Vertices more than 4 then we Bounded Minimum rectangle and take vertices of rectangle.
     if (approx.size().height !== 4) {
         let minRecrt = cv.minAreaRect(maxCnt)       // OpenCV Function Minimum Bounding Rectangle
         vertices = cv.RotatedRect.points(minRecrt);
@@ -710,7 +710,7 @@ function findMaxCnt(im) {
 
         }
         let errorNotFoundContour = document.getElementById('errorMsg')
-        new bootstrap.Toast(errorNotFoundContour).show()
+        new bootstrap.Toast(errorNotFoundContour).show()    // Notification To inform User that method couldn't find Max contour
     }
     contours.delete();
     im_gray.delete();
@@ -1187,14 +1187,8 @@ function extractAllWords(im, blured_im) {
          */
         let dst = new cv.Mat();
         let M = new cv.Mat();
-        let ksize;
-
-        // Apply Minimal Morph. for Image From Web because Camera resolution is less than main Camera
-        if (tavle.checked && webCamIm) {
-            ksize = new cv.Size(horizentalCharSnitt * 0.1, verticalCharSnitt * 0.1);
-        } else {
-            ksize = new cv.Size(horizentalCharSnitt * 0.32, verticalCharSnitt * 0.2);
-        }
+        // Apply morphological on words in line based on median width and height to char we founded in text
+        let ksize = new cv.Size(horizentalCharSnitt * 0.32, verticalCharSnitt * 0.2);
         M = cv.getStructuringElement(cv.MORPH_CROSS, ksize);
         cv.morphologyEx(croped_rectIm, dst, cv.MORPH_GRADIENT, M);
         cv.imshow('pros-image', dst);
@@ -1467,7 +1461,7 @@ function modifyCorners(pts) {
 
         pts.data32F[i] = rect[i];
     }
-    console.log(Im_Ratio, rect, pts.data32F)
+    console.log(rect, pts.data32F)
     // Crop Max-Contour by shrinking vertices to inside
     if (ratio < 1) {
         pts.data32F[0] += modifyTall_h;

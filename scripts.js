@@ -92,15 +92,15 @@ async function setCheckedBtn() {
             //resizeMode: 'none',
             //width: {ideal: 1280},
             //height: {ideal: 720},
-            advanced: [{ width: 1920, height: 1280 },{zoom: 20}, { aspectRatio: 1.333 }],
+            advanced: [{ width: 1920, height: 1280 },{zoom: 1.8}],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
             //focusMode: true,
-            zoom: 20,
+            zoom: 1.8,
             //tilt: true,
             //frameRate: 40,
             //pan: true,
             //scale: true,
-            //aspectRatio: 16 / 9,
+            aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -118,7 +118,7 @@ async function setCheckedBtn() {
             console.log("Browser supports camera ")
         }
         */
-         navigator.mediaDevices.getUserMedia(constraints)
+        await navigator.mediaDevices.getUserMedia({video:true,audio:false})
         .then(stream => {
             // Granted. Store deviceIds for next time
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;

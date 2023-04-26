@@ -5,7 +5,7 @@
     position: relative;
     border: 6px solid green;
     box-shadow: 3px 4px 4px 3px black, 2px 3px 6px 6px red;
-    height: 100%;
+    height:100%;
     overflow: hidden;
     width: 100%;
 }
@@ -176,6 +176,8 @@
 
 #video-input {
     width: 100%;
+    transform: scale(1.5);
+    aspect-ratio: 16/9;
     height: 100%;
 }
 

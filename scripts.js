@@ -92,7 +92,7 @@ async function setCheckedBtn() {
             //resizeMode: 'none',
             //width: {ideal: 1280},
             //height: {ideal: 720},
-            //advanced: [{ width: 1920, height: 1280 },{zoom: 1}, { aspectRatio: 1.333 }],
+            advanced: [{ width: 1920, height: 1280 },{zoom: 1.5}, { aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
             //focusMode: true,
             zoom: 1.5,
@@ -147,50 +147,6 @@ async function setCheckedBtn() {
             video.srcObject = stream;
             //original_Video.play();
                 video.play();
-
-            // create canvas element to draw image from camera inn
-            let canvas = document.createElement('canvas');
-            let context = canvas.getContext('2d');
-            // Capture image from video and draw image in canvas.
-            snap.addEventListener("click", function () {
-                // check screen orientation
-                switch (screen.orientation.type) {
-                    case "landscape-primary":
-                        canvas.width = 1280;
-                        canvas.height = 720;
-                        break;
-                    case "portrait-primary":
-                        canvas.width = 720;
-                        canvas.height = 1280;
-                        break;
-                    default:
-                        console.log("The orientation API isn't supported in this browser :(");
-                        canvas.width = 1280;
-                        canvas.height = 720;
-                }
-                context.drawImage(video, 0, 0, canvas.width, canvas.height);
-                let dataUrl = canvas.toDataURL('image/jpeg');
-                webCamIm = true; // variable will be used to check if image source from web camera
-                origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
-                imgElement.src = dataUrl;      // to show image to user
-                cap_image.width = 300;
-                cap_image.height = 400;
-                // show capture image under Web camera canvas
-                cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
-                //transform(cap_image);
-                /*
-                let cap = new cv.VideoCapture(video);
-                video.height = video.videoHeight;
-                video.width = video.videoWidth;
-                console.log(height, width);
-
-                let src = new cv.Mat(height, width, cv.CV_8UC4);
-                cap.read(src);
-                cv.imshow('original_cap-image',src);
-
-                 */
-                // transform(cap_image);
-            });
         })
         .catch((err) => {
             // always check for errors at the end.
@@ -207,6 +163,51 @@ async function setCheckedBtn() {
                 console.error(`getUserMedia error: ${error.name}`, error);
             }
         });
+
+
+    // create canvas element to draw image from camera inn
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d');
+    // Capture image from video and draw image in canvas.
+    snap.addEventListener("click", function () {
+        // check screen orientation
+        switch (screen.orientation.type) {
+            case "landscape-primary":
+                canvas.width = 1280;
+                canvas.height = 720;
+                break;
+            case "portrait-primary":
+                canvas.width = 720;
+                canvas.height = 1280;
+                break;
+            default:
+                console.log("The orientation API isn't supported in this browser :(");
+                canvas.width = 1280;
+                canvas.height = 720;
+        }
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        let dataUrl = canvas.toDataURL('image/jpeg');
+        webCamIm = true; // variable will be used to check if image source from web camera
+        origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
+        imgElement.src = dataUrl;      // to show image to user
+        cap_image.width = 300;
+        cap_image.height = 400;
+        // show capture image under Web camera canvas
+        cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
+        //transform(cap_image);
+        /*
+        let cap = new cv.VideoCapture(video);
+        video.height = video.videoHeight;
+        video.width = video.videoWidth;
+        console.log(height, width);
+
+        let src = new cv.Mat(height, width, cv.CV_8UC4);
+        cap.read(src);
+        cv.imshow('original_cap-image',src);
+
+         */
+        // transform(cap_image);
+    });
 
 // Here an extra code to for video processing to find out auto-detection of max-contour in the video
     // it has been commented because it effects performance of project and cost a lot of memory

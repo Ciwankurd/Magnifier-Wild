@@ -32,7 +32,7 @@
     border-top: var(--border-style);
     top: var(--border-space);
     right: var(--border-space);
-    position: relative;
+    position: absolute;
 }
 
 .overlay .bottom-left {
@@ -40,7 +40,7 @@
     border-bottom: var(--border-style);
     bottom: var(--border-space);
     left: var(--border-space);
-    position: relative;
+    position: absolute;
 }
 
 .overlay .bottom-right {
@@ -119,7 +119,6 @@
 
 {
     --scale-zoom: 1
-;
 }
 /* ----------- Zoom Div Styling ------- */
 #zoomButtons:has(a) {

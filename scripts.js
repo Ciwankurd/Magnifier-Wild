@@ -269,11 +269,10 @@ async function setCheckedBtn() {
     await setCheckedBtn()       // Get Last time user preferences from local storge
 })();
 
-snapp.setAttribute('onclick', 'snap()');
-let canvas = document.createElement('canvas');
-let context = canvas.getContext('2d');
 // Capture image from video and draw image in canvas.
 function snap(){
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d');
     // check screen orientation
     switch (screen.orientation.type) {
         case "landscape-primary":

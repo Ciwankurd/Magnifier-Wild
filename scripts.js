@@ -6,7 +6,7 @@ const video = document.getElementById("video-input");
 const cap_image = document.getElementById("cap-image");
 const pros_image = document.getElementById("pros-image");
 //const CanvasLab = document.getElementById("ImProcess");
-//const snap = document.getElementById("snap");
+const snapp = document.getElementById("snap");
 //const labCanvas = document.getElementById("LabcanvasOutput");
 const imtofrode = document.getElementById("canvasOutput");
 let imgElement = document.getElementById('imageSrc');
@@ -269,7 +269,7 @@ async function setCheckedBtn() {
     await setCheckedBtn()       // Get Last time user preferences from local storge
 })();
 
-
+snapp.setAttribute('onclick', 'snap()');
 let canvas = document.createElement('canvas');
 let context = canvas.getContext('2d');
 // Capture image from video and draw image in canvas.

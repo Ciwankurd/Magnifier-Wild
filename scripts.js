@@ -160,7 +160,24 @@ async function setCheckedBtn() {
             let context = canvas.getContext('2d');
             // Capture image from video and draw image in canvas.
            snapp.addEventListener("click", function () {
-                context.drawImage(video, 0, 0, width,height);
+               /*
+                // check screen orientation
+                switch (screen.orientation.type) {
+                    case "landscape-primary":
+                        canvas.width = 1280;
+                        canvas.height = 720;
+                        break;
+                    case "portrait-primary":
+                        canvas.width = 720;
+                        canvas.height = 1280;
+                        break;
+                    default:
+                        console.log("The orientation API isn't supported in this browser :(");
+                        canvas.width = 1280;
+                        canvas.height = 720;
+                }
+                */
+                context.drawImage(video, 0, 0, 1280,720);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 webCamIm = true; // variable will be used to check if image source from web camera
                 origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process

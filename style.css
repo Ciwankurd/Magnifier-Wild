@@ -4,7 +4,7 @@
     --border-space: 10%;
     position: relative;
     border: 6px solid green;
-    box-shadow: 3px 4px 4px 3px black, 2px 3px 6px 6px red;
+    box-shadow: 5px 5px 8px 5px black, 3px 3px 6px 8px red;
     height: 100%;
     overflow: hidden;
     width: 100%;
@@ -23,7 +23,6 @@
     border-top: var(--border-style);
     top: var(--border-space);
     left: var(--border-space);
-    position: absolute;
 
 }
 
@@ -32,7 +31,6 @@
     border-top: var(--border-style);
     top: var(--border-space);
     right: var(--border-space);
-    position: absolute;
 }
 
 .overlay .bottom-left {
@@ -40,7 +38,6 @@
     border-bottom: var(--border-style);
     bottom: var(--border-space);
     left: var(--border-space);
-    position: absolute;
 }
 
 .overlay .bottom-right {
@@ -48,26 +45,22 @@
     border-bottom: var(--border-style);
     bottom: var(--border-space);
     right: var(--border-space);
-    position: absolute;
 }
 
 .overlay .bottom-center {
-    bottom: 50px;
-    left: 40%;
-    position: absolute;
+    bottom: 20px;
+    left: 45%;
 }
 
 #snap {
-    height: 70px;
-    width: 70px;
+    height: 60px;
+    width: 60px;
     border-radius: 50%;
     cursor: pointer;
     text-align: center;
     background: red;
     font-family: center, serif;
-    font-size: 0.9em;
-    z-index: 1;
-    position: absolute;
+    font-size: 0.8em;
 }
 
 /* ------- Scroll sidebar Styling ------ */

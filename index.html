@@ -166,12 +166,15 @@
     <br>
     <!---------------------- Camera and Overlay -------------------------->
     <div class="overlay">
-        <video  id="video-input"></video>
         <div class="overlay-element top-left"></div>
         <div class="overlay-element top-right"></div>
         <div class="overlay-element bottom-left"></div>
         <div class="overlay-element bottom-right"></div>
-        <div class="overlay-element bottom-center"><button onclick="snap()" id="snap">Capture</button></div>
+        <video id="video-input" class="img-fluid"></video>
+
+        <div>
+            <button class="overlay-element bottom-center" id="snap">Capture</button>
+        </div>
 
     </div>
 

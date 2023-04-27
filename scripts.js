@@ -270,7 +270,7 @@ async function setCheckedBtn() {
 })();
 
 // Capture image from video and draw image in canvas.
-function snap(){
+async function snap(){
     let canvas = document.createElement('canvas');
     let context = canvas.getContext('2d');
     // check screen orientation

@@ -128,15 +128,15 @@ async function setCheckedBtn() {
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
-            //let [track] = stream.getVideoTracks();
-            //let {width, height, aspectRatio} = track.getSettings();
+            let [track] = stream.getVideoTracks();
+            let {width, height, aspectRatio} = track.getSettings();
             // console.log("Got stream with constraints:", constraints);
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-            //if (width < height) {
-            //  [width, height] = [height, width];
-            // aspectRatio = 1 / aspectRatio;
-            //}
+            if (width < height) {
+              [width, height] = [height, width];
+             aspectRatio = 1 / aspectRatio;
+            }
             //track.applyConstraints(constraints)
 
 
@@ -154,6 +154,53 @@ async function setCheckedBtn() {
             video.onloadedmetadata = () => {
                 video.play();
             }
+
+            // create canvas element to draw image from camera inn
+            let canvas = document.createElement('canvas');
+            let context = canvas.getContext('2d');
+            // Capture image from video and draw image in canvas.
+            snapp.addEventListener("click", function () {
+                // check screen orientation
+                switch (screen.orientation.type) {
+                    case "landscape-primary":
+                        canvas.width = 1280;
+                        canvas.height = 720;
+                        break;
+                    case "portrait-primary":
+                        canvas.width = 720;
+                        canvas.height = 1280;
+                        break;
+                    default:
+                        console.log("The orientation API isn't supported in this browser :(");
+                        canvas.width = 1280;
+                        canvas.height = 720;
+                }
+                context.drawImage(video, 0, 0, width,height);
+                let dataUrl = canvas.toDataURL('image/jpeg');
+                webCamIm = true; // variable will be used to check if image source from web camera
+                origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
+                cap_image.width = 400;
+                cap_image.height = 350;
+                // show capture image under Web camera canvas
+                cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
+                let showIm = cap_image.toDataURL('image/jpeg')
+                imgElement.src = showIm;      // to show image to user
+                //transform(cap_image);
+                /*
+                let cap = new cv.VideoCapture(video);
+                video.height = video.videoHeight;
+                video.width = video.videoWidth;
+                console.log(height, width);
+
+                let src = new cv.Mat(height, width, cv.CV_8UC4);
+                cap.read(src);
+                cv.imshow('original_cap-image',src);
+
+                 */
+                // transform(cap_image);
+
+            });
+
         })
         .catch((err) => {
             // always check for errors at the end.
@@ -170,6 +217,7 @@ async function setCheckedBtn() {
                 console.error(`getUserMedia error: ${err.name}`, err);
             }
         });
+
 
 
 
@@ -269,49 +317,7 @@ async function setCheckedBtn() {
     await userDevlopModee()     // Switch between USER / Developer Mode,  "Default UserMode"
     await setCheckedBtn()       // Get Last time user preferences from local storge
 })();
-async function snap(){
-    // create canvas element to draw image from camera inn
-    let canvas = document.createElement('canvas');
-    let context = canvas.getContext('2d');
-    // Capture image from video and draw image in canvas.
-        // check screen orientation
-        switch (screen.orientation.type) {
-            case "landscape-primary":
-                canvas.width = 1280;
-                canvas.height = 720;
-                break;
-            case "portrait-primary":
-                canvas.width = 720;
-                canvas.height = 1280;
-                break;
-            default:
-                console.log("The orientation API isn't supported in this browser :(");
-                canvas.width = 1280;
-                canvas.height = 720;
-        }
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        let dataUrl = canvas.toDataURL('image/jpeg');
-        webCamIm = true; // variable will be used to check if image source from web camera
-        origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
-        cap_image.width = 400;
-        cap_image.height = 350;
-        // show capture image under Web camera canvas
-        cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
-        let showIm = cap_image.toDataURL('image/jpeg')
-        imgElement.src = showIm;      // to show image to user
-        //transform(cap_image);
-        /*
-        let cap = new cv.VideoCapture(video);
-        video.height = video.videoHeight;
-        video.width = video.videoWidth;
-        console.log(height, width);
-
-        let src = new cv.Mat(height, width, cv.CV_8UC4);
-        cap.read(src);
-        cv.imshow('original_cap-image',src);
-
-         */
-        // transform(cap_image);
+ function snapd(){
 }
 
 // Use Tesseract OCR to detect text in image and words coordinates

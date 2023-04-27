@@ -152,6 +152,7 @@ async function setCheckedBtn() {
             //original_Video.play();
             video.onloadedmetadata = () => {
                 video.play();
+                snap()
             }
         })
         .catch((err) => {

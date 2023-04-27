@@ -52,7 +52,9 @@
 }
 
 .overlay .bottom-center {
-
+    bottom: 50px;
+    left: 40%;
+    position: absolute;
 }
 
 #snap {
@@ -64,8 +66,6 @@
     background: red;
     font-family: center, serif;
     font-size: 0.9em;
-    bottom: 20px;
-    left: 45%;
     z-index: 1;
     position: absolute;
 }

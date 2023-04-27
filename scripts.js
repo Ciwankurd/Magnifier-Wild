@@ -88,49 +88,88 @@ async function setCheckedBtn() {
     video.setAttribute('autoplay', '');
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
-    var imageCapture;
+    snapp.setAttribute('type','button')
+    const constraints = {
+        audio: false,
+        video: {
+            facingMode: "environment",
+            //resizeMode: 'none',
+            //width: {ideal: 1280},
+            //height: {ideal: 720},
+            //advanced: [{ width: 1920, height: 1280 },{zoom: 1.8}],
+            //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
+            //focusMode: true,
+            zoom: 1.5,
+            //tilt: true,
+            //frameRate: 40,
+            //pan: true,
+            //scale: true,
+            //aspectRatio: 16 / 9,
+            //deviceId:  devices[2].deviceId
+        }
+        /*
+             video: {
+                 facingMode: {
+                     exact: "environment"
+                             }
+                     }
+     */
+    };
+    /*
+        // check if browser support som camera properties
+        const supports = navigator.mediaDevices.getSupportedConstraints();
+        if (supports.pan && supports.tilt && supports.zoom) {
+            console.log("Browser supports camera ")
+        }
+        */
+        await navigator.mediaDevices.getUserMedia(constraints)
+        .then(stream => {
+            // Granted. Store deviceIds for next time
+            //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
+            //await new Promise(resolve => setTimeout(resolve, 2000));
+            //let videocopy = video.copy();
+            //let [track] = stream.getVideoTracks();
+            //let {width, height, aspectRatio} = track.getSettings();
+            // console.log("Got stream with constraints:", constraints);
+            // console.log(`Using video device: ${track.getSettings.deviceId}`);
+            // Constraints are in landscape, while settings may be rotated (portrait)
+            //if (width < height) {
+            //  [width, height] = [height, width];
+            // aspectRatio = 1 / aspectRatio;
+            //}
+            //track.applyConstraints(constraints)
 
-        navigator.mediaDevices.getUserMedia({video: true})
-            .then(mediaStream => {
-                document.querySelector('video').srcObject = mediaStream;
 
-                const track = mediaStream.getVideoTracks()[0];
-                imageCapture = new ImageCapture(track);
-            })
-            .catch(error => ChromeSamples.log(error));
-
-
-    function onGrabFrameButtonClick() {
-        imageCapture.grabFrame()
-            .then(imageBitmap => {
-                const canvas = document.querySelector('#grabFrameCanvas');
-                drawCanvas(canvas, imageBitmap);
-            })
-            .catch(error => ChromeSamples.log(error));
-    }
-
-    snapp.addEventListener("click", function () {
-        imageCapture.takePhoto()
-            .then(blob => createImageBitmap(blob))
-            .then(imageBitmap => {
-                const canvas = document.querySelector('#takePhotoCanvas');
-                drawCanvas(canvas, imageBitmap);
-            })
-            .catch(error => ChromeSamples.log(error));
-    });
-
-    /* Utils */
-
-    function drawCanvas(canvas, img) {
-        canvas.width = 1280;
-        canvas.height = 720;
-        let ratio  = Math.min(canvas.width / img.width, canvas.height / img.height);
-        let x = (canvas.width - img.width * ratio) / 2;
-        let y = (canvas.height - img.height * ratio) / 2;
-        canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
-        canvas.getContext('2d').drawImage(img, 0, 0, img.width, img.height,
-            x, y, img.width * ratio, img.height * ratio);
-    }
+            // let x = (video.width -video.offsetWidth)/2+"px";
+            //let y = (video.height -video.offsetHeight)/2+"px";
+            //let ratio = video.offsetWidth/video.width;
+            //console.log(x,y,ratio)
+            //video.style.width = width;
+            //video.style.height = height;
+            //video.style.transform = `translate(${x},${y}) scale(${ratio})`;
+            // cap_image.style.transform = `scale(${ratio})`;
+            // original_Video.srcObject = stream;
+            video.srcObject = stream;
+            //original_Video.play();
+            video.onloadedmetadata = () => {
+                video.play();
+            }
+        })
+        .catch((err) => {
+            // always check for errors at the end.
+            console.error(`${err.name}: ${err.message}`);
+            if (err.name === "ConstraintNotSatisfiedError") {
+                console.error(
+                    `The resolution ${constraints.video.width.exact} x ${constraints.video.height.exact} px is not supported by your device.`
+                );
+            } else if (err.name === "PermissionDeniedError") {
+                console.error(
+                    "You need to grant this page permission to access your camera and microphone."
+                );
+            } else {
+                console.error(`getUserMedia error: ${err.name}`, err);
+            }
+        });
 
 
 
@@ -230,6 +269,50 @@ async function setCheckedBtn() {
     await userDevlopModee()     // Switch between USER / Developer Mode,  "Default UserMode"
     await setCheckedBtn()       // Get Last time user preferences from local storge
 })();
+async function snap(){
+    // create canvas element to draw image from camera inn
+    let canvas = document.createElement('canvas');
+    let context = canvas.getContext('2d');
+    // Capture image from video and draw image in canvas.
+        // check screen orientation
+        switch (screen.orientation.type) {
+            case "landscape-primary":
+                canvas.width = 1280;
+                canvas.height = 720;
+                break;
+            case "portrait-primary":
+                canvas.width = 720;
+                canvas.height = 1280;
+                break;
+            default:
+                console.log("The orientation API isn't supported in this browser :(");
+                canvas.width = 1280;
+                canvas.height = 720;
+        }
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        let dataUrl = canvas.toDataURL('image/jpeg');
+        webCamIm = true; // variable will be used to check if image source from web camera
+        origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
+        cap_image.width = 400;
+        cap_image.height = 350;
+        // show capture image under Web camera canvas
+        cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
+        let showIm = cap_image.toDataURL('image/jpeg')
+        imgElement.src = showIm;      // to show image to user
+        //transform(cap_image);
+        /*
+        let cap = new cv.VideoCapture(video);
+        video.height = video.videoHeight;
+        video.width = video.videoWidth;
+        console.log(height, width);
+
+        let src = new cv.Mat(height, width, cv.CV_8UC4);
+        cap.read(src);
+        cv.imshow('original_cap-image',src);
+
+         */
+        // transform(cap_image);
+}
 
 // Use Tesseract OCR to detect text in image and words coordinates
 function textRecognition(im) {

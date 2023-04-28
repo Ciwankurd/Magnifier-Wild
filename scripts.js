@@ -103,8 +103,8 @@ async function setCheckedBtn() {
             //tilt: true,
             //frameRate: 40,
             //pan: true,
-            //scale: true,
-            //aspectRatio: 16 / 9,
+            scale: true,
+            aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
         /*

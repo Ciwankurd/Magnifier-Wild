@@ -103,8 +103,8 @@ async function setCheckedBtn() {
             //tilt: true,
             //frameRate: 40,
             //pan: true,
-            //scale: true,
-            //aspectRatio: 16 / 9,
+            scale: true,
+            aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -128,15 +128,15 @@ async function setCheckedBtn() {
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
-            let [track] = stream.getVideoTracks();
-            let {width, height, aspectRatio} = track.getSettings();
+            //let [track] = stream.getVideoTracks();
+            //let {width, height, aspectRatio} = track.getSettings();
             // console.log("Got stream with constraints:", constraints);
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-            if (width < height) {
-              [width, height] = [height, width];
-             aspectRatio = 1 / aspectRatio;
-            }
+            //if (width < height) {
+              //[width, height] = [height, width];
+            // aspectRatio = 1 / aspectRatio;
+            //}
             //track.applyConstraints(constraints)
 
 
@@ -160,7 +160,6 @@ async function setCheckedBtn() {
             let context = canvas.getContext('2d');
             // Capture image from video and draw image in canvas.
            snapp.addEventListener("click", function () {
-               /*
                 // check screen orientation
                 switch (screen.orientation.type) {
                     case "landscape-primary":
@@ -173,11 +172,8 @@ async function setCheckedBtn() {
                         break;
                     default:
                         console.log("The orientation API isn't supported in this browser :(");
-                        canvas.width = 1280;
-                        canvas.height = 720;
                 }
-                */
-                context.drawImage(video, 0, 0, width,height);
+                context.drawImage(video, 0, 0, canvas.width,canvas.height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 webCamIm = true; // variable will be used to check if image source from web camera
                 origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
@@ -186,7 +182,7 @@ async function setCheckedBtn() {
                 // show capture image under Web camera canvas
                 cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
                 let showIm = cap_image.toDataURL('image/jpeg')
-                imgElement.src = showIm;      // to show image to user
+                imgElement.src =showIm;      // to show image to user
                 //transform(cap_image);
                 /*
                 let cap = new cv.VideoCapture(video);

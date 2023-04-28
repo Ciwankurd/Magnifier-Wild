@@ -94,8 +94,8 @@ async function setCheckedBtn() {
         video: {
             facingMode: "environment",
             //resizeMode: 'none',
-            width: {ideal: 1280},
-            height: {ideal: 720},
+            //width: {ideal: 1280},
+            //height: {ideal: 720},
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.8}],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
             //focusMode: true,
@@ -177,7 +177,7 @@ async function setCheckedBtn() {
                         canvas.height = 720;
                 }
                 */
-                context.drawImage(video, 0, 0, 1280,720);
+                context.drawImage(video, 0, 0, width,height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 webCamIm = true; // variable will be used to check if image source from web camera
                 origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process

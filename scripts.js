@@ -97,7 +97,7 @@ async function setCheckedBtn() {
             //width: {ideal: 1280},
             //height: {ideal: 720},
             width: { ideal: 1920 },
-            height: { ideal: 1700 },
+            height: { ideal: 1080 },
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.5},{ aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1.5}, { aspectRatio: 1.333 }],
             //focusMode: true,
@@ -106,7 +106,7 @@ async function setCheckedBtn() {
             //frameRate: 40,
             //pan: true,
             //scale: true,
-            aspectRatio: 4 / 3,
+            aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -136,12 +136,24 @@ async function setCheckedBtn() {
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
             console.log(width,height,aspectRatio)
-            if (width < height) {
-              [width, height] = [height, width];
-             aspectRatio = 1 / aspectRatio;
+            //if (width < height) {
+             // [width, height] = [height, width];
+             //aspectRatio = 1 / aspectRatio;
+            //}
+            //track.applyConstraints(constraints)
+            //console.log(width,height,aspectRatio)
+            // check screen orientation
+            switch (screen.orientation.type) {
+                case "landscape-primary":
+                    [width, height] = [width, height];
+                    break;
+                case "portrait-primary":
+                    [width, height] = [height, width];
+                    break;
+                default:
+                    console.log("The orientation API isn't supported in this browser :(");
+                    [width, height] = [width, height];
             }
-            track.applyConstraints(constraints)
-            console.log(width,height,aspectRatio)
 
             // let x = (video.width -video.offsetWidth)/2+"px";
             //let y = (video.height -video.offsetHeight)/2+"px";

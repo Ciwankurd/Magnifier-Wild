@@ -143,17 +143,6 @@ async function setCheckedBtn() {
             //track.applyConstraints(constraints)
             //console.log(width,height,aspectRatio)
             // check screen orientation
-            switch (screen.orientation.type) {
-                case "landscape-primary":
-                    [width, height] = [width, height];
-                    break;
-                case "portrait-primary":
-                    [width, height] = [height, width];
-                    break;
-                default:
-                    console.log("The orientation API isn't supported in this browser :(");
-                    [width, height] = [width, height];
-            }
 
             // let x = (video.width -video.offsetWidth)/2+"px";
             //let y = (video.height -video.offsetHeight)/2+"px";

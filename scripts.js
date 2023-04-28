@@ -96,15 +96,17 @@ async function setCheckedBtn() {
             //resizeMode: 'none',
             //width: {ideal: 1280},
             //height: {ideal: 720},
-            //advanced: [{ width: 1920, height: 1280 },{zoom: 1.8}],
-            //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
+            width: { ideal: 4096 },
+            height: { ideal: 2160 },
+            //advanced: [{ width: 1920, height: 1280 },{zoom: 1.5},{ aspectRatio: 1.333 }],
+            //advanced: [{ width: 1280, height: 720 },{zoom: 1.5}, { aspectRatio: 1.333 }],
             //focusMode: true,
             zoom: 1.5,
             //tilt: true,
             //frameRate: 40,
             //pan: true,
-            scale: true,
-            //aspectRatio: 16 / 9,
+            //scale: true,
+            aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -133,12 +135,13 @@ async function setCheckedBtn() {
             // console.log("Got stream with constraints:", constraints);
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
+            console.log(width,height,aspectRatio)
             if (width < height) {
-             // [width, height] = [height, width];
-             //aspectRatio = 1 / aspectRatio;
+              [width, height] = [height, width];
+             aspectRatio = 1 / aspectRatio;
             }
-            //track.applyConstraints(constraints)
-
+            track.applyConstraints(constraints)
+            console.log(width,height,aspectRatio)
 
             // let x = (video.width -video.offsetWidth)/2+"px";
             //let y = (video.height -video.offsetHeight)/2+"px";
@@ -178,7 +181,7 @@ async function setCheckedBtn() {
                 }
                 */
                canvas.width = width;
-               canvas.height = height;
+               canvas.height =height;
                 context.drawImage(video, 0, 0, width,height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 webCamIm = true; // variable will be used to check if image source from web camera

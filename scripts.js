@@ -97,7 +97,7 @@ async function setCheckedBtn() {
             //width: {ideal: 1280},
             //height: {ideal: 720},
             width: { ideal: 1920 },
-            height: { ideal: 1500 },
+            height: { ideal: 1700 },
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.5},{ aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1.5}, { aspectRatio: 1.333 }],
             //focusMode: true,
@@ -106,7 +106,7 @@ async function setCheckedBtn() {
             //frameRate: 40,
             //pan: true,
             //scale: true,
-            aspectRatio: 16 / 9,
+            aspectRatio: 4 / 3,
             //deviceId:  devices[2].deviceId
         }
         /*

@@ -104,7 +104,7 @@ async function setCheckedBtn() {
             //frameRate: 40,
             //pan: true,
             scale: true,
-            aspectRatio: 16 / 9,
+            //aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -134,8 +134,8 @@ async function setCheckedBtn() {
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
             if (width < height) {
-              [width, height] = [height, width];
-             aspectRatio = 1 / aspectRatio;
+             // [width, height] = [height, width];
+             //aspectRatio = 1 / aspectRatio;
             }
             //track.applyConstraints(constraints)
 

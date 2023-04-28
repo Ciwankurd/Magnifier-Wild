@@ -94,8 +94,8 @@ async function setCheckedBtn() {
         video: {
             facingMode: "environment",
             //resizeMode: 'none',
-            //width: {ideal: 1280},
-            //height: {ideal: 720},
+            width: {ideal: 1280},
+            height: {ideal: 720},
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.8}],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1}, { aspectRatio: 1.333 }],
             //focusMode: true,
@@ -103,7 +103,7 @@ async function setCheckedBtn() {
             //tilt: true,
             //frameRate: 40,
             //pan: true,
-            scale: true,
+            //scale: true,
             aspectRatio: 16 / 9,
             //deviceId:  devices[2].deviceId
         }
@@ -128,15 +128,15 @@ async function setCheckedBtn() {
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
             //await new Promise(resolve => setTimeout(resolve, 2000));
             //let videocopy = video.copy();
-            //let [track] = stream.getVideoTracks();
-            //let {width, height, aspectRatio} = track.getSettings();
+            let [track] = stream.getVideoTracks();
+            let {width, height, aspectRatio} = track.getSettings();
             // console.log("Got stream with constraints:", constraints);
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-            //if (width < height) {
-              //[width, height] = [height, width];
-            // aspectRatio = 1 / aspectRatio;
-            //}
+            if (width < height) {
+              [width, height] = [height, width];
+             aspectRatio = 1 / aspectRatio;
+            }
             //track.applyConstraints(constraints)
 
 
@@ -160,6 +160,7 @@ async function setCheckedBtn() {
             let context = canvas.getContext('2d');
             // Capture image from video and draw image in canvas.
            snapp.addEventListener("click", function () {
+               /*
                 // check screen orientation
                 switch (screen.orientation.type) {
                     case "landscape-primary":
@@ -172,8 +173,13 @@ async function setCheckedBtn() {
                         break;
                     default:
                         console.log("The orientation API isn't supported in this browser :(");
+                        canvas.width = 1280;
+                        canvas.height = 720;
                 }
-                context.drawImage(video, 0, 0, canvas.width,canvas.height);
+                */
+               canvas.width = width;
+               canvas.height = height;
+                context.drawImage(video, 0, 0, width,height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 webCamIm = true; // variable will be used to check if image source from web camera
                 origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process

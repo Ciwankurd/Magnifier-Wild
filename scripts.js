@@ -96,7 +96,7 @@ async function setCheckedBtn() {
             //resizeMode: 'none',
             //width: {ideal: 1280},
             //height: {ideal: 720},
-            width: { ideal: 2048 },
+            width: { ideal: 1920 },
             height: { ideal: 1500 },
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.5},{ aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1.5}, { aspectRatio: 1.333 }],

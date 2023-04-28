@@ -8,7 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="update27">
+    <list default="true" id="ab362bd8-bbd4-4b92-b8d8-fc531dda48b0" name="Changes" comment="update28">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts.js" afterDir="false" />
     </list>
@@ -166,21 +166,7 @@
       <workItem from="1681896548642" duration="12201000" />
       <workItem from="1682003458446" duration="106316000" />
       <workItem from="1682285733703" duration="42868000" />
-      <workItem from="1682417169523" duration="98395000" />
-    </task>
-    <task id="LOCAL-00126" summary="update25">
-      <created>1682530163238</created>
-      <option name="number" value="00126" />
-      <option name="presentableId" value="LOCAL-00126" />
-      <option name="project" value="LOCAL" />
-      <updated>1682530163238</updated>
-    </task>
-    <task id="LOCAL-00127" summary="update25">
-      <created>1682530234360</created>
-      <option name="number" value="00127" />
-      <option name="presentableId" value="LOCAL-00127" />
-      <option name="project" value="LOCAL" />
-      <updated>1682530234360</updated>
+      <workItem from="1682417169523" duration="99778000" />
     </task>
     <task id="LOCAL-00128" summary="update25">
       <created>1682530437573</created>
@@ -511,7 +497,21 @@
       <option name="project" value="LOCAL" />
       <updated>1682672151562</updated>
     </task>
-    <option name="localTasksCounter" value="175" />
+    <task id="LOCAL-00175" summary="update28">
+      <created>1682676032472</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1682676032472</updated>
+    </task>
+    <task id="LOCAL-00176" summary="update28">
+      <created>1682676515574</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1682676515574</updated>
+    </task>
+    <option name="localTasksCounter" value="177" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -547,7 +547,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="update Vertical projection, camera, substraction of background add two types of projection Document or board." />
     <MESSAGE value="modify corner" />
     <MESSAGE value="fix ratio problems" />
     <MESSAGE value="fix ratio problemss" />
@@ -572,7 +571,8 @@
     <MESSAGE value="update22" />
     <MESSAGE value="update25" />
     <MESSAGE value="update27" />
-    <option name="LAST_COMMIT_MESSAGE" value="update27" />
+    <MESSAGE value="update28" />
+    <option name="LAST_COMMIT_MESSAGE" value="update28" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

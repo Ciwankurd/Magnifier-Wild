@@ -53,6 +53,7 @@
 .overlay .bottom-center {
     bottom: 20px;
     left: 45%;
+    position: absolute;
 }
 
 #snap {

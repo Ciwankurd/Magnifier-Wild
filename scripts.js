@@ -325,11 +325,10 @@ async function setCheckedBtn() {
     await userDevlopModee()     // Switch between USER / Developer Mode,  "Default UserMode"
     await setCheckedBtn()       // Get Last time user preferences from local storge
 })();
- function snapd(){
-}
+
 
 // Use Tesseract OCR to detect text in image and words coordinates
-function textRecognition(im) {
+async function textRecognition(im) {
     //Tesseract.loadLanguage('eng');
     //esseract.initialize('eng');
     Tesseract.recognize(im)

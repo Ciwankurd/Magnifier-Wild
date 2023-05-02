@@ -137,7 +137,7 @@
     zoom: var(--scale-zoom);
 
 }
-
+#status{color: white}
 #zoomButtons > #zoom-out-icon {
     font-size: 25px;
     border: 3px solid rgb(243, 156, 18);

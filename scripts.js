@@ -9,7 +9,7 @@ const pros_image = document.getElementById("pros-image");
 const snapp = document.getElementById("snap");
 //const labCanvas = document.getElementById("LabcanvasOutput");
 const imtofrode = document.getElementById("canvasOutput");
-let imgElement = document.getElementById('imageSrc');
+let showImg = document.getElementById('imageSrc');
 let inputElement = document.getElementById('fileInput');
 let contour_scale = 20; // Minimum original image ratio
 let THRESHOLD = 128; // Monochrome threshold
@@ -27,11 +27,11 @@ let imtof, max_width, lineAngle, linewidth, lineheight, max_height, ratio, modif
     modifyTall_h, Im_Ratio, min_width, min_height, webCamIm = false, succsessUploadSystem;
 inputElement.addEventListener('change', async (e) => {
     origIm.src = URL.createObjectURL(e.target.files[0]);            // bildet som skal behandles
-    imgElement.src = URL.createObjectURL(e.target.files[0]);        // bildet som skal vises til brukeren
+    showImg.src = URL.createObjectURL(e.target.files[0]);        // bildet som skal vises til brukeren
 });
 
 origIm.onload = function ImProcess() {
-    transform(origIm).then(r => console.log(r))
+    transform(origIm)
 };
 
 // Switch between USER / Developer Mode,  "Default UserMode"
@@ -191,8 +191,7 @@ async function setCheckedBtn() {
                 cap_image.height = 350;
                 // show capture image under Web camera canvas
                 cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
-                let showIm = cap_image.toDataURL('image/jpeg')
-                imgElement.src =showIm;      // to show image to user
+               showImg.src =cap_image.toDataURL('image/jpeg');      // to show image to user
                 //transform(cap_image);
                 /*
                 let cap = new cv.VideoCapture(video);
@@ -333,7 +332,7 @@ async function textRecognition(im) {
     //esseract.initialize('eng');
     Tesseract.recognize(im)
         .then((output) => {
-            console.log(output.data.words);
+            console.log(output.data);
             if (output.data.words.length > 0) {
                 cropImage(output.data.words)
                 result.append(output.data.text)
@@ -1339,10 +1338,10 @@ function cropImage(wordCoordinates) {
     }
 }
 
-// ---------------- Add Zoom Buttons -------------------
+// ---------------- Creat and Add Zoom Buttons to div ZoomButtonsDiv -------------------
 function addZoomButtons() {
     const zoomInn = document.createElement("a");
-    zoomInn.setAttribute("class", "bi bi-zoom-in")
+    zoomInn.setAttribute("class", "bi bi-zoom-in") // Sett Attribute
     zoomInn.setAttribute("id", "zoom-inn-icon")
     zoomInn.setAttribute("type", "button")
     zoomButtonsDiv.appendChild(zoomInn)

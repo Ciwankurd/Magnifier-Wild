@@ -94,7 +94,7 @@ async function setCheckedBtn() {
         video: {
             facingMode: "environment",
             //resizeMode: 'none',
-            //width: {ideal: 1280},
+            //width: {ideal: 1280},A
             //height: {ideal: 720},
             width: { ideal: 1920 },
             height: { ideal: 1080 },
@@ -462,7 +462,7 @@ async function transform(src) {
         if (OpenCV_projection.checked) {
             extractAllWords(cropIm, blur_im)             // Call Opencv projection
         }
-        webCamIm = false;
+        webCamIm = false;                               // rest value
         transformedIm.delete();
         cropIm.delete();
         blur_im.delete();      // Free Memory
@@ -494,15 +494,12 @@ function imRotation(im, angle) {
 function resizing(im, max_size) {
     let width = im.cols, height = im.rows;
     if (width > height) {
-        if (width > max_size) {
             height *= (max_size / width);           // Ratio
             width = max_size;
-        }
-    } else {
-        if (height > max_size) {
+    }
+    else {
             width *= (max_size / height);
             height = max_size;
-        }
     }
 
     let dsize = new cv.Size(width, height);

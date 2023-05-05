@@ -101,6 +101,7 @@
     border: 5px solid cornflowerblue;
     overflow-x: auto;
     overflow-y: auto;
+    background-color: white;
 }
 
 #result > canvas[name="clipWord"] {

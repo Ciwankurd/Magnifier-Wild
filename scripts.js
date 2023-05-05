@@ -508,9 +508,19 @@ function resizing(im, max_size) {
 
 // -------------- Get vertices of founded rectangle (contour) ------------
 function findContoursVertices(im) {
+    // https://docs.opencv.org/3.4/dd/dfc/tutorial_js_grabcut.html
     // Subtraction foreground og background in Selected zone (Center)
     if (FocusMode.checked) {
-        let rect = new cv.Rect(100, 100, im.cols * 0.85, im.rows * 0.8);   // Dimension of Selected Zone
+        let rect;
+        if(im.cols > im.rows){
+           rect = new cv.Rect(100, 50, im.cols * 0.8, im.rows * 0.85);   // Dimension of Selected Zone
+
+        }
+        else{
+            rect = new cv.Rect(50, 100, im.cols * 0.85, im.rows * 0.8);   // Dimension of Selected Zone
+
+
+        }
         //rect = new cv.Rect(50,50, im.cols*0.95, im.rows*0.8);
 
         cv.cvtColor(im, im, cv.COLOR_RGBA2RGB, 0);      // Gray Scale
@@ -712,6 +722,7 @@ function findMaxCnt(im) {
         }
 
     }
+
     // in Case Couldn't find out max-Contour we us 'cv.RETR_CCOMP' To Take (children and parents)
     if (!maxCnt.size()) {
         cv.findContours(threshold_im, contours, hierarchy, cv.RETR_CCOMP, cv.CHAIN_APPROX_SIMPLE);

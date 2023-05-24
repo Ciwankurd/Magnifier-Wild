@@ -138,7 +138,11 @@
     zoom: var(--scale-zoom);
 
 }
-#status{color: white}
+
+#status {
+    color: white
+}
+
 #zoomButtons > #zoom-out-icon {
     font-size: 25px;
     border: 3px solid rgb(243, 156, 18);
@@ -164,7 +168,7 @@
 }
 
 /* ------------------ Lab Canvas Styling --------- */
-#canvasOutput, #LabcanvasOutput, #cap-image,#pros-image  {
+#canvasOutput, #LabcanvasOutput, #cap-image, #pros-image {
     margin-left: 0;
     width: 95%;
     border: 5px solid cornflowerblue;
@@ -234,11 +238,12 @@ h5, h2 {
  */
 body {
 }
+
 /* The device with borders */
 .smartphone {
     position: relative;
-    width:99%;
-    height:100%;
+    width: 99%;
+    height: 100%;
     margin: auto;
     border: 12px dimgray solid;
     border-top-width: 50px;
@@ -259,14 +264,15 @@ body {
     background: lightskyblue;
     border-radius: 10px;
 }
+
 /* The horizontal line on the top of the device */
-.topnav:before{
+.topnav:before {
     content: '';
     display: block;
     width: 22px;
     height: 22px;
     position: absolute;
-    top:10px;
+    top: 10px;
     left: 10px;
     transform: translate(10%, 10%);
     background: black;
@@ -274,6 +280,7 @@ body {
     border: white solid 2px;
     box-shadow: 1px 1px 2px 2px lightskyblue, 1px 1px 2px 2px black;
 }
+
 /* The circle on the bottom of the device */
 .smartphone:after {
     content: '';
@@ -341,7 +348,8 @@ body {
     font-size: 32px;
     right: 0;
 }
-label{
+
+label {
     color: white;
 }
 
@@ -360,8 +368,9 @@ label{
 .dropdown-menu {
     background-color: bisque;
 }
+
 /* ------------ Footer ---------- */
 
-footer{
+footer {
     color: white;
 }

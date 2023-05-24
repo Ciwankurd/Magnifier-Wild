@@ -88,7 +88,7 @@ async function setCheckedBtn() {
     video.setAttribute('autoplay', '');
     video.setAttribute('muted', '');
     video.setAttribute('playsinline', '');
-    snapp.setAttribute('type','button')
+    snapp.setAttribute('type', 'button')
     const constraints = {
         audio: false,
         video: {
@@ -96,8 +96,8 @@ async function setCheckedBtn() {
             //resizeMode: 'none',
             //width: {ideal: 1280},A
             //height: {ideal: 720},
-            width: { ideal: 1920 },
-            height: { ideal: 1080 },
+            width: {ideal: 1920},
+            height: {ideal: 1080},
             //advanced: [{ width: 1920, height: 1280 },{zoom: 1.5},{ aspectRatio: 1.333 }],
             //advanced: [{ width: 1280, height: 720 },{zoom: 1.5}, { aspectRatio: 1.333 }],
             //focusMode: true,
@@ -106,7 +106,7 @@ async function setCheckedBtn() {
             //frameRate: 40,
             //pan: true,
             //scale: true,
-            aspectRatio: 4/ 3,
+            aspectRatio: 4 / 3,
             //deviceId:  devices[2].deviceId
         }
         /*
@@ -124,7 +124,7 @@ async function setCheckedBtn() {
             console.log("Browser supports camera ")
         }
         */
-        await navigator.mediaDevices.getUserMedia(constraints)
+    await navigator.mediaDevices.getUserMedia(constraints)
         .then(stream => {
             // Granted. Store deviceIds for next time
             //localStorage.camId = stream.getVideoTracks()[0].getSettings().deviceId;
@@ -135,10 +135,10 @@ async function setCheckedBtn() {
             // console.log("Got stream with constraints:", constraints);
             // console.log(`Using video device: ${track.getSettings.deviceId}`);
             // Constraints are in landscape, while settings may be rotated (portrait)
-            console.log(width,height,aspectRatio)
+            console.log(width, height, aspectRatio)
             //if (width < height) {
-             // [width, height] = [height, width];
-             //aspectRatio = 1 / aspectRatio;
+            // [width, height] = [height, width];
+            //aspectRatio = 1 / aspectRatio;
             //}
             //track.applyConstraints(constraints)
             //console.log(width,height,aspectRatio)
@@ -163,27 +163,27 @@ async function setCheckedBtn() {
             let canvas = document.createElement('canvas');
             let context = canvas.getContext('2d');
             // Capture image from video and draw image in canvas.
-           snapp.addEventListener("click", function () {
-               /*
-                // check screen orientation
-                switch (screen.orientation.type) {
-                    case "landscape-primary":
-                        canvas.width = 1280;
-                        canvas.height = 720;
-                        break;
-                    case "portrait-primary":
-                        canvas.width = 720;
-                        canvas.height = 1280;
-                        break;
-                    default:
-                        console.log("The orientation API isn't supported in this browser :(");
-                        canvas.width = 1280;
-                        canvas.height = 720;
-                }
-                */
-               canvas.width = width;
-               canvas.height =height;
-                context.drawImage(video, 0, 0, width,height);
+            snapp.addEventListener("click", function () {
+                /*
+                 // check screen orientation
+                 switch (screen.orientation.type) {
+                     case "landscape-primary":
+                         canvas.width = 1280;
+                         canvas.height = 720;
+                         break;
+                     case "portrait-primary":
+                         canvas.width = 720;
+                         canvas.height = 1280;
+                         break;
+                     default:
+                         console.log("The orientation API isn't supported in this browser :(");
+                         canvas.width = 1280;
+                         canvas.height = 720;
+                 }
+                 */
+                canvas.width = width;
+                canvas.height = height;
+                context.drawImage(video, 0, 0, width, height);
                 let dataUrl = canvas.toDataURL('image/jpeg');
                 webCamIm = true; // variable will be used to check if image source from web camera
                 origIm.src = dataUrl;   // when it loaded transfer() calls see origIm.onload that image will go inn process
@@ -191,7 +191,7 @@ async function setCheckedBtn() {
                 cap_image.height = 350;
                 // show capture image under Web camera canvas
                 cap_image.getContext('2d').drawImage(video, 0, 0, cap_image.width, cap_image.height);
-               showImg.src =cap_image.toDataURL('image/jpeg');      // to show image to user
+                showImg.src = cap_image.toDataURL('image/jpeg');      // to show image to user
                 //transform(cap_image);
                 /*
                 let cap = new cv.VideoCapture(video);
@@ -224,9 +224,6 @@ async function setCheckedBtn() {
                 console.error(`getUserMedia error: ${err.name}`, err);
             }
         });
-
-
-
 
 
 // Here an extra code to for video processing to find out auto-detection of max-contour in the video
@@ -494,12 +491,11 @@ function imRotation(im, angle) {
 function resizing(im, max_size) {
     let width = im.cols, height = im.rows;
     if (width > height) {
-            height *= (max_size / width);           // Ratio
-            width = max_size;
-    }
-    else {
-            width *= (max_size / height);
-            height = max_size;
+        height *= (max_size / width);           // Ratio
+        width = max_size;
+    } else {
+        width *= (max_size / height);
+        height = max_size;
     }
 
     let dsize = new cv.Size(width, height);
@@ -512,11 +508,10 @@ function findContoursVertices(im) {
     // Subtraction foreground og background in Selected zone (Center)
     if (FocusMode.checked) {
         let rect;
-        if(im.cols > im.rows){
-           rect = new cv.Rect(100, 50, im.cols * 0.8, im.rows * 0.85);   // Dimension of Selected Zone
+        if (im.cols > im.rows) {
+            rect = new cv.Rect(100, 50, im.cols * 0.8, im.rows * 0.85);   // Dimension of Selected Zone
 
-        }
-        else{
+        } else {
             rect = new cv.Rect(50, 100, im.cols * 0.85, im.rows * 0.8);   // Dimension of Selected Zone
 
 
@@ -753,7 +748,6 @@ function findMaxCnt(im) {
     // threshold_im.delete();
     hierarchy.delete();
     return maxCnt;
-
 }
 
 function transformImage(im, fromPts) {
@@ -1310,14 +1304,14 @@ function cropImage(wordCoordinates) {
     }
     for (let word of wordCoordinates) {
         let x, y, h, w, wordImage
-        if (text_detection.checked) {
+        if (text_detection.checked) {           // coordinates from Tesseract OCR object
             x = word.bbox.x0;
             y = word.bbox.y0;
             w = word.bbox.x1 - x;
             h = word.bbox.y1 - y;
             // get the image of the current word
             wordImage = capCtx.getImageData(x, y, w, h);
-        } else {
+        } else {                              // coordinates from Opencv-Projection method ( from extractAllWords())
             x = word.x;
             y = word.y;
             w = word.width;
@@ -1341,7 +1335,7 @@ function cropImage(wordCoordinates) {
 
 
     }
-    if (!OpenCV_projection.checked) {
+    if (!OpenCV_projection.checked) {               // add zoom buttons if Tesseract OCR has been checked
         addZoomButtons();
     }
 }
